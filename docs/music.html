@@ -1,0 +1,139 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="theme-color" content="#5A5A5A">
+	<link rel="shortcut icon" type="image/png" href="images/icon-192x192.png">
+	<link rel="shortcut icon" sizes="192x192" href="images/icon-192x192.png">
+	<link rel="apple-touch-icon" href="images/apple-touch-icon-192x192.png">
+</head>
+
+<body>
+
+	<div id="g_unstarted_div">
+		<button id="g_click_to_start_button">click to start</button>
+	</div>
+
+	<div id="g_started_div">
+		<button id="g_play_music_button">play</button>
+		<button id="g_stop_music_button">stop</button>
+	</div>
+
+<script>
+(function() {
+	const g_unstarted_div         = document.getElementById("g_unstarted_div");
+	const g_started_div           = document.getElementById("g_started_div");
+	const g_click_to_start_button = document.getElementById("g_click_to_start_button");
+	const g_play_music_button     = document.getElementById("g_play_music_button");
+
+	g_started_div.style.display = 'none';
+
+	let audio_context = null;
+
+	g_click_to_start_button.addEventListener('click', () => {
+		audio_context = new (window.AudioContext || window.webkitAudioContext)();
+		g_unstarted_div.style.display = 'none';
+		g_started_div.style.display = 'block';
+	}, { capture: true, once: true });
+
+	g_play_music_button.addEventListener('click', () => {
+		play_music();
+	}, { capture: true, once: false });
+
+	function play_music() {
+		const audio = new Audio('robins_and_roses.mp3');
+		audio.addEventListener('error', e => {
+			console.log("audio error");
+			console.log(e);
+		});
+		audio.autoplay = true;
+		
+		const gain_node = audio_context.createGain();
+		gain_node.gain.setValueAtTime(.6, audio_context.currentTime);
+		gain_node.connect(audio_context.destination);
+		
+		const source = audio_context.createMediaElementSource(audio);
+		source.connect(gain_node);
+		gain_node.connect(audio_context.destination);
+	}
+
+	function g_set_music_volume(music_name, volume) {
+		if (!is_music_playing()) return;
+		if (music.music_name !== music_name) return;
+		g.music.gain_node.gain.linearRampToValueAtTime(volume, g.audio_context.currentTime + .5);
+	}
+
+function is_music_playing() {
+	if (g.music === null) return false;
+	if (g.music.audio.ended) {
+		g.music = null;
+		return false;
+	}
+	return true;
+}
+
+function stop_music() {
+	if (!g_is_music_playing()) return;
+	g.music.audio.pause();
+	g.music.audio.currentTime = 0;
+	g.music.gain_node.disconnect();
+	g.music.source.disconnect();
+	g.music = null;
+}
+
+
+	/*
+	function g_mousedown_once(e) {
+        audio_context.resume(); 
+        document.body.removeEventListener('touchstart', g_touchstart_once, false);
+    }
+
+    function g_touchstart_once(e) {
+        audio_context.resume(); 
+        document.body.removeEventListener('mousedown', g_mousedown_once, false);
+    }
+
+    document.body.addEventListener('mousedown' , g_mousedown_once , { capture: false, once: true });
+    document.body.addEventListener('touchstart', g_touchstart_once, { capture: false, once: true });
+*/
+
+/*
+// eslint-disable-next-line no-unused-vars
+function g_play_music(music_name, volume) {
+	g_stop_music();
+	g.music = new c_music(music_name, volume);
+}
+
+// eslint-disable-next-line no-unused-vars
+function g_set_music_volume(music_name, volume) {
+	if (!g_is_music_playing()) return;
+	if (g.music.music_name !== music_name) return;
+	g.music.gain_node.gain.linearRampToValueAtTime(volume, g.audio_context.currentTime + .5);
+}
+
+function g_is_music_playing() {
+	if (g.music === null) return false;
+	if (g.music.audio.ended) {
+		g.music = null;
+		return false;
+	}
+	return true;
+}
+
+function g_stop_music() {
+	if (!g_is_music_playing()) return;
+	g.music.audio.pause();
+	g.music.audio.currentTime = 0;
+	g.music.gain_node.disconnect();
+	g.music.source.disconnect();
+	g.music = null;
+}
+*/
+
+})();
+
+</script>
+
+</body>
+</html>
