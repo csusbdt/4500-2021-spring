@@ -1,0 +1,4 @@
+'/c/Program Files/Google/Chrome/Application/chrome.exe' \
+--user-data-dir=C:/Users/csusb/Desktop/temp/chrome \
+--ignore-certificate-errors \
+--unsafely-treat-insecure-origin-as-secure=https://127.0.0.1:8080

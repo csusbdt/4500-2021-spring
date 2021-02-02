@@ -1,0 +1,26 @@
+{
+  "name": "4500-2021-spring",
+  "version": "1.0.0",
+  "description": "pwa example",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csusbdt/4500-2021-spring.git"
+  },
+  "author": "David Turner",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/csusbdt/4500-2021-spring/issues"
+  },
+  "homepage": "https://github.com/csusbdt/4500-2021-spring#readme",
+  "dependencies": {
+    "http-server": "^0.12.3",
+    "standardized-audio-context": "^25.1.9"
+  }
+}

@@ -1,19 +1,12 @@
-__miscellaneous notes__
+This repo is my experimentation on creating a website as a progressive web app (PWA).
+
+This file is for my working notes.
+
+* [site through github pages](https://csusbdt.github.io/4500-2021-spring/)
 
 
-https://www.npmjs.com/package/standardized-audio-context
+__project dependencies__
 
-
-vscode: 
-* ctrl-K V preview this file
-* ctrl-W close the preview
-
-Inside git-bash in Windows 10:
-
-Create `~/.bashrc` with the following to start vscode with `code .`
-
-~~~
-alias code="/c/Users/turner/AppData/Local/Programs/Microsoft\ VS\ Code/Code.exe"
-PATH=$PATH:code
-~~~
-
+* github, vscode, node
+* [http-server](https://www.npmjs.com/package/http-server)
+* [standardized-audio-context](https://www.npmjs.com/package/standardized-audio-context)
