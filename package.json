@@ -19,8 +19,14 @@
     "url": "https://github.com/csusbdt/4500-2021-spring/issues"
   },
   "homepage": "https://github.com/csusbdt/4500-2021-spring#readme",
-  "dependencies": {
-    "http-server": "^0.12.3",
-    "standardized-audio-context": "^25.1.9"
-  }
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^7.19.0",
+    "eslint-plugin-compat": "^3.9.0",
+    "eslint-plugin-html": "^6.1.1",
+    "http-server": "^0.12.3"
+  },
+  "browserslist": [
+    "defaults"
+  ]
 }

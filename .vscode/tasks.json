@@ -1,10 +1,20 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "localhost web server",
-            "type": "shell",
-            "command": "bin/localhost"
-        }
-    ]
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "localhost web server",
+			"type": "shell",
+			"command": "bin/localhost"
+		},
+		{
+			"label": "win_chrome",
+			"type": "shell",
+			"command": "bin/win_chrome"
+		},
+		{
+			"label": "mac_chrome",
+			"type": "shell",
+			"command": "bin/mac_chrome"
+		}
+	]
 }

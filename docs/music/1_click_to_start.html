@@ -1,0 +1,104 @@
+<html>
+<head>
+	<link rel="shortcut icon" type="image/png" href="/images/icon-192x192.png">
+</head>
+<body>
+	<div id="g_unstarted_div">
+		<button id="g_click_to_start_button">click to start</button>
+	</div>
+	<div id="g_started_div">
+		<button id="g_play_music_button">play</button>
+		<button id="g_stop_music_button">stop</button>
+		<button id="g_louder_music_button">louder</button>
+		<button id="g_softer_music_button">softer</button>
+	</div>
+
+<script type="module">
+(function() {
+	const g_unstarted_div         = document.getElementById("g_unstarted_div");
+	const g_started_div           = document.getElementById("g_started_div");
+	const g_click_to_start_button = document.getElementById("g_click_to_start_button");
+	const g_play_music_button     = document.getElementById("g_play_music_button");
+	const g_stop_music_button     = document.getElementById("g_stop_music_button");
+	const g_louder_music_button   = document.getElementById("g_louder_music_button");
+	const g_softer_music_button   = document.getElementById("g_softer_music_button");
+
+	g_started_div.style.display = 'none';
+
+	let audio_context = null;
+	let audio = null;
+	let gain_node = null;
+	let source_node = null;
+
+	g_click_to_start_button.addEventListener('click', () => {
+		audio_context = new (window.AudioContext || window.webkitAudioContext)();
+		g_unstarted_div.style.display = 'none';
+		g_started_div.style.display = 'block';
+	}, { capture: true, once: true });
+
+	g_play_music_button.addEventListener('click', () => {
+		play_music();
+	}, { capture: true, once: false });
+
+	g_stop_music_button.addEventListener('click', () => {
+		stop_music();
+	}, { capture: true, once: false });
+
+	g_louder_music_button.addEventListener('click', () => {
+		set_music_volume(1);
+	}, { capture: true, once: false });
+
+	g_softer_music_button.addEventListener('click', () => {
+		set_music_volume(.3);
+	}, { capture: true, once: false });
+
+	function is_music_playing() {
+		if (audio === null) {
+			return false;
+		} else if (audio.ended) {
+			audio = null;
+			gain_node = null;
+			source_node = null;
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	function stop_music() {
+		if (is_music_playing()) {
+			audio.pause();
+			audio.currentTime = 0;
+			gain_node.disconnect();
+			source_node.disconnect();
+			audio = null;
+			gain_node = null;
+			source_node = null;
+		}
+	}
+
+	function play_music() {
+		audio = new Audio('robins_and_roses.mp3');
+		audio.addEventListener('error', e => {
+			console.log("audio error");
+			console.log(e);
+		});
+		audio.autoplay = true;
+		gain_node = audio_context.createGain();
+		gain_node.gain.setValueAtTime(.3, audio_context.currentTime);
+		gain_node.connect(audio_context.destination);		
+		source_node = audio_context.createMediaElementSource(audio);
+		source_node.connect(gain_node);
+		gain_node.connect(audio_context.destination);
+	}
+
+	function set_music_volume(volume) {
+		if (is_music_playing()) {
+			gain_node.gain.linearRampToValueAtTime(volume, audio_context.currentTime + 1.0);
+		}
+	}
+})();
+</script>
+
+</body>
+</html>
