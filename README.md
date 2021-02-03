@@ -5,7 +5,7 @@ This file is for my working notes.
 
 https://curtisrobinson.medium.com/how-to-auto-play-audio-in-safari-with-javascript-21d50b0a2765
 
-
+https://wesbos.com/arrow-functions
 
 
 * [site through github pages](https://csusbdt.github.io/4500-2021-spring/)
