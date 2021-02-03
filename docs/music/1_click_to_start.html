@@ -3,6 +3,9 @@
 	<link rel="shortcut icon" type="image/png" href="/images/icon-192x192.png">
 </head>
 <body>
+	<div>
+		Experiment 1: play music.
+	</div>
 	<div id="g_unstarted_div">
 		<button id="g_click_to_start_button">click to start</button>
 	</div>
@@ -11,20 +14,29 @@
 		<button id="g_stop_music_button">stop</button>
 		<button id="g_louder_music_button">louder</button>
 		<button id="g_softer_music_button">softer</button>
+		<button id="g_error_button">trigger error</button>
+	</div>
+	<div id="g_error_div">
 	</div>
 
 <script type="module">
 (function() {
 	const g_unstarted_div         = document.getElementById("g_unstarted_div");
 	const g_started_div           = document.getElementById("g_started_div");
+	const g_error_div             = document.getElementById("g_error_div");
+
+	g_unstarted_div.style.display = 'block';
+	g_started_div.style.display   = 'none';
+	g_error_div.style.display     = 'none';
+
 	const g_click_to_start_button = document.getElementById("g_click_to_start_button");
 	const g_play_music_button     = document.getElementById("g_play_music_button");
 	const g_stop_music_button     = document.getElementById("g_stop_music_button");
 	const g_louder_music_button   = document.getElementById("g_louder_music_button");
 	const g_softer_music_button   = document.getElementById("g_softer_music_button");
+	const g_error_button          = document.getElementById("g_error_button");
 
-	g_started_div.style.display = 'none';
-
+	let music_file = "robins_and_roses.mp3";
 	let audio_context = null;
 	let audio = null;
 	let gain_node = null;
@@ -52,6 +64,33 @@
 		set_music_volume(.3);
 	}, { capture: true, once: false });
 
+	g_error_button.addEventListener('click', () => {
+		stop_music();
+		music_file = "no_file.mp3";
+		play_music();
+	}, { capture: true, once: false });
+
+	function g_fatal(...messages) {
+		g_unstarted_div.style.display = 'none';
+		g_started_div.style.display   = 'none';
+		g_error_div.style.display     = 'block';
+		messages.forEach(message => g_error_div.innerHTML += "<h2>" + message + "</h2>");
+	}
+
+	window.addEventListener('error', function(e) {
+		// handler for uncaught exceptions 
+		g_fatal(e.message, e.filename, e.lineno);
+	});
+
+	window.addEventListener('unhandledrejection', function (e) {
+		// handler for uncaught exceptions thrown in promises
+		if (typeof(e.reason.stack) !== 'undefined') {
+			g_fatal(e.reason, e.reason.message, e.reason.stack);
+		} else {
+			g_fatal(e.reason, e.reason.message);
+		}
+	});
+
 	function is_music_playing() {
 		if (audio === null) {
 			return false;
@@ -78,9 +117,9 @@
 	}
 
 	function play_music() {
-		audio = new Audio('robins_and_roses.mp3');
+		audio = new Audio(music_file);
 		audio.addEventListener('error', e => {
-			console.log("audio error");
+			g_fatal("play_music", music_file);
 			console.log(e);
 		});
 		audio.autoplay = true;
