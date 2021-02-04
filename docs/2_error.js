@@ -10,9 +10,10 @@ export function set_error_div(div) {
 }
 
 export function fatal(...messages) {
+	messages.forEach(m => console.log(m));
 	hide_div.style.display  = 'none';
 	error_div.style.display = 'block';
-	messages.forEach(message => error_div.innerHTML += "<h2>" + message + "</h2>");
+	messages.forEach(m => error_div.innerHTML += "<h2>" + m + "</h2>");
 }
 
 window.addEventListener('error', function(e) {

@@ -2,8 +2,14 @@ This repo is my experimentation on creating a gamified website as a progressive 
 
 This file is for my working notes.
 
+https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement
+https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement
 
-https://curtisrobinson.medium.com/how-to-auto-play-audio-in-safari-with-javascript-21d50b0a2765
+http://joesul.li/van/tale-of-no-clocks/
+
+https://github.com/audiojs/web-audio-stream
+
+
 
 https://wesbos.com/arrow-functions
 

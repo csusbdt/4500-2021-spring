@@ -40,6 +40,9 @@
 		const g_softer_music_button   = document.getElementById("g_softer_music_button");
 		const g_error_button          = document.getElementById("g_error_button");
 
+		//const music_file = 'sfx/positive_click.mp3';
+		const music_file = 'music/robins_and_roses.mp3';
+
 		g_click_to_start_button.addEventListener('click', () => {
 			create_audio_context();
 			g_unstarted_div.style.display = 'none';
@@ -47,7 +50,7 @@
 		}, { capture: true, once: true });
 
 		g_play_music_button.addEventListener('click', () => {
-			play_music("music/robins_and_roses.mp3");
+			play_music(music_file);
 		}, { capture: true, once: false });
 
 		g_stop_music_button.addEventListener('click', () => {
@@ -55,11 +58,11 @@
 		}, { capture: true, once: false });
 
 		g_louder_music_button.addEventListener('click', () => {
-			set_music_volume("music/robins_and_roses.mp3", 1);
+			set_music_volume(music_file, 1);
 		}, { capture: true, once: false });
 
 		g_softer_music_button.addEventListener('click', () => {
-			set_music_volume("music/robins_and_roses.mp3", .3);
+			set_music_volume(music_file, .3);
 		}, { capture: true, once: false });
 
 		g_error_button.addEventListener('click', () => {
