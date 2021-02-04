@@ -8,20 +8,24 @@ let music_source_node = null;
 
 export function create_audio_context() {
 	audio_context = new (window.AudioContext || window.webkitAudioContext)();
-	audio_context.onstatechange = () => {
-		if (audio_context.state === 'suspended') {
-			document.body.addEventListener('mousedown', () => {
-				audio_context.resume();
-			}, { capture: false, once: true });
-			document.body.addEventListener('touchstart', () => {
-				audio_context.resume();
-			}, { capture: false, once: true });
-		}
-	};
+	// audio_context.onstatechange = () => {
+	// 	if (audio_context.state === 'suspended') {
+	// 		document.body.addEventListener('mousedown', () => {
+	// 			audio_context.resume();
+	// 		}, { capture: false, once: true });
+	// 		document.body.addEventListener('touchstart', () => {
+	// 			audio_context.resume();
+	// 		}, { capture: false, once: true });
+	// 	}
+	// };
 }
 
 export function suspend_audio_context() {
 	audio_context.suspend();
+}
+
+export function resume_audio_context() {
+	audio_context.resume();
 }
 
 function is_music_playing() {

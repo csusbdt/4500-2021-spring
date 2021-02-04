@@ -21,6 +21,7 @@
 		<button id="g_louder_music_button">louder</button><br>
 		<button id="g_softer_music_button">softer</button><br>
 		<button id="g_suspend_button">suspend audio_context</button><br>
+		<button id="g_resume_button">resume audio_context</button><br>
 		<button id="g_error_button">trigger error</button><br>
 	</div>
 	<div id="g_error_div">
@@ -31,7 +32,8 @@
 			play_music, 
 			stop_music, 
 			set_music_volume, 
-			suspend_audio_context 
+			suspend_audio_context, 
+			resume_audio_context 
 		} from './2_sound.js';
 		import { set_error_div, set_error_hide_div } from './2_error.js';
 
@@ -52,6 +54,7 @@
 		const g_louder_music_button   = document.getElementById("g_louder_music_button");
 		const g_softer_music_button   = document.getElementById("g_softer_music_button");
 		const g_suspend_button        = document.getElementById("g_suspend_button");
+		const g_resume_button         = document.getElementById("g_resume_button");
 		const g_error_button          = document.getElementById("g_error_button");
 
 		//const music_file = 'sfx/positive_click.mp3';
@@ -81,6 +84,10 @@
 
 		g_suspend_button.addEventListener('click', () => {
 			suspend_audio_context();
+		}, { capture: true, once: false });
+
+		g_resume_button.addEventListener('click', () => {
+			resume_audio_context();
 		}, { capture: true, once: false });
 
 		g_error_button.addEventListener('click', () => {
