@@ -8,6 +8,20 @@ let music_source_node = null;
 
 export function create_audio_context() {
 	audio_context = new (window.AudioContext || window.webkitAudioContext)();
+	audio_context.onstatechange = () => {
+		if (audio_context.state === 'suspended') {
+			document.body.addEventListener('mousedown', () => {
+				audio_context.resume();
+			}, { capture: false, once: true });
+			document.body.addEventListener('touchstart', () => {
+				audio_context.resume();
+			}, { capture: false, once: true });
+		}
+	};
+}
+
+export function suspend_audio_context() {
+	audio_context.suspend();
 }
 
 function is_music_playing() {
@@ -58,6 +72,6 @@ export function play_music(file) {
 
 export function set_music_volume(file, volume) {
 	if (is_music_playing() && music_file === file) {
-		music_gain_node.gain.linearRampToValueAtTime(volume, audio_context.currentTime + 0.5);
+		music_gain_node.gain.linearRampToValueAtTime(volume, audio_context.currentTime + 1.0);
 	}
 }

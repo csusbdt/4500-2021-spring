@@ -1,6 +1,12 @@
 <html>
 <head>
 	<link rel="shortcut icon" type="image/png" href="images/icon-192x192.png">
+	<style  type="text/css">
+	button {
+		font-size: 1.5em;
+		margin: 10px;
+	}
+	</style>
 </head>
 <body>
 	<div>
@@ -10,16 +16,23 @@
 		<button id="g_click_to_start_button">click to start</button>
 	</div>
 	<div id="g_started_div">
-		<button id="g_play_music_button">play</button>
-		<button id="g_stop_music_button">stop</button>
-		<button id="g_louder_music_button">louder</button>
-		<button id="g_softer_music_button">softer</button>
-		<button id="g_error_button">trigger error</button>
+		<button id="g_play_music_button">play</button><br>
+		<button id="g_stop_music_button">stop</button><br>
+		<button id="g_louder_music_button">louder</button><br>
+		<button id="g_softer_music_button">softer</button><br>
+		<button id="g_suspend_button">suspend audio_context</button><br>
+		<button id="g_error_button">trigger error</button><br>
 	</div>
 	<div id="g_error_div">
 	</div>
 	<script type="module">
-		import { create_audio_context, play_music, stop_music, set_music_volume } from './2_sound.js';
+		import { 
+			create_audio_context, 
+			play_music, 
+			stop_music, 
+			set_music_volume, 
+			suspend_audio_context 
+		} from './2_sound.js';
 		import { set_error_div, set_error_hide_div } from './2_error.js';
 
 		const g_unstarted_div         = document.getElementById("g_unstarted_div");
@@ -38,6 +51,7 @@
 		const g_stop_music_button     = document.getElementById("g_stop_music_button");
 		const g_louder_music_button   = document.getElementById("g_louder_music_button");
 		const g_softer_music_button   = document.getElementById("g_softer_music_button");
+		const g_suspend_button        = document.getElementById("g_suspend_button");
 		const g_error_button          = document.getElementById("g_error_button");
 
 		//const music_file = 'sfx/positive_click.mp3';
@@ -63,6 +77,10 @@
 
 		g_softer_music_button.addEventListener('click', () => {
 			set_music_volume(music_file, .3);
+		}, { capture: true, once: false });
+
+		g_suspend_button.addEventListener('click', () => {
+			suspend_audio_context();
 		}, { capture: true, once: false });
 
 		g_error_button.addEventListener('click', () => {
