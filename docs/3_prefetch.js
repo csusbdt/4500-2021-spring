@@ -17,7 +17,10 @@ export function fetch_audio_buffer(file) {
 		}
 	}).then(array_buffer => {
 		g_messages_div.innerHTML += "<br>fetch_audio_buffer got arrayBuffer";
-		return audio_context.decodeAudioData(array_buffer);
+		return new Promise((resolve, reject) => {
+			// promise-based decodeAudioData not supported in Safari
+			audio_context.decodeAudioData(array_buffer, buffer => resolve(buffer), e => reject(e));	
+		});
 	});
 }
 
