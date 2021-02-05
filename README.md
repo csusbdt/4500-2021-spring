@@ -2,12 +2,14 @@ This repo is my experimentation on creating a gamified website as a progressive 
 
 This file is for my working notes.
 
-https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement
-https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement
+https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API
+https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement ???
 
-http://joesul.li/van/tale-of-no-clocks/
+//https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement
 
-https://github.com/audiojs/web-audio-stream
+//http://joesul.li/van/tale-of-no-clocks/
+
+//https://github.com/audiojs/web-audio-stream
 
 
 
