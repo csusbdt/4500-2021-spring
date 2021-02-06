@@ -9,10 +9,9 @@ function create_audio_context() {
 
 export async function play_music(file) {
 	if (audio_context === null) create_audio_context();
-	await fetch_audio_buffer(file).then(buffer => {
-		g_messages_div.innerHTML += "<br>play_music got buffer";
-		audio_buffer = buffer;
-	});
+	const buffer = await fetch_audio_buffer(file);
+	g_messages_div.innerHTML += "<br>play_music got buffer";
+	audio_buffer = buffer;
 	play_audio_buffer(audio_buffer, 1);
 }
 
