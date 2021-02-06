@@ -1,4 +1,4 @@
-/* global g_messages_div */
+/* global g_message */
 
 let audio_context = null;
 
@@ -24,7 +24,7 @@ c_sound.prototype.fetch = function() {
 		if (response.ok) {
 			return response.arrayBuffer();
 		} else {
-			throw new Error(`c_sound.fetch<br>${file}<br>${response.status}`);
+			throw new Error(`c_sound.fetch<br>${this.file}<br>${response.status}`);
 		}
 	}).then(array_buffer => {
 		this.array_buffer = array_buffer;
@@ -33,6 +33,9 @@ c_sound.prototype.fetch = function() {
 
 // decode requires audioContext, which requires user interaction 
 c_sound.prototype.decode = function() {
+	if (audio_context === null) {
+		create_audio_context();
+	}
 	if (this.array_buffer === null) {
 		throw new Error("c_sound.decode<br>array_buffer not fetched");
 	}
@@ -45,6 +48,7 @@ c_sound.prototype.decode = function() {
 			this.array_buffer, 
 			audio_buffer => { 
 				this.audio_buffer = audio_buffer; 
+				g_message("c_sound.decode audio_buffer set");
 				resolve();
 			},
 			e => reject(e)
@@ -56,7 +60,7 @@ c_sound.prototype.play = function(volume) {
 	if (typeof(volume) !== 'undefined') {
 		this.volume = volume;
 	}
-	if (this.audio_buffer !== null) {
+	if (this.audio_buffer === null) {
 		throw new Error("c_sound.play not decoded");
 	}
 	this.buffer_source_node = audio_context.createBufferSource();

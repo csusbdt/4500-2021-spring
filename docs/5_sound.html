@@ -19,46 +19,51 @@
 		import './3_error.js';
 		import { c_sound } from './5_sound.js';
 
+		/*	global g_messages_div */
+		window.g_message = function(...messages) {
+			messages.forEach(m => g_messages_div.innerHTML += "<br>" + m);
+		}
+
 		/*	global g_fetch_button */
 		/*	global g_decode_button */
 		/*	global g_play_button */
 		/*	global g_increase_volume_button */
 		/*	global g_stop_button */
 		/*	global g_release_button */
-		/*	global g_messages_div */
+		/*	global g_message */
 
 		const sound = new c_sound('music/robins_and_roses.mp3');
 
 		g_fetch_button.addEventListener('click', () => {
 			sound.fetch().then(() => {
-				g_messages_div.innerHTML += "<br>fetched";
+				g_message("fetched");
 			});
 		}, { capture: true, once: false });
 
 		g_decode_button.addEventListener('click', () => {
 			sound.decode().then(() => {
-				g_messages_div.innerHTML += "<br>decoded";
+				g_message("decoded");
 			});
 		}, { capture: true, once: false });
 
 		g_play_button.addEventListener('click', () => {
 			sound.play(.6);
-			g_messages_div.innerHTML += "<br>play";
+			g_message("play");
 		}, { capture: true, once: false });
 
 		g_increase_volume_button.addEventListener('click', () => {
 			sound.set_volume(1);
-			g_messages_div.innerHTML += "<br>set_volume(1)";
+			g_message("set_volume(1)");
 		}, { capture: true, once: false });
 
 		g_stop_button.addEventListener('click', () => {
 			sound.stop();
-			g_messages_div.innerHTML += "<br>stop";
+			g_message("stop");
 		}, { capture: true, once: false });
 
 		g_release_button.addEventListener('click', () => {
 			sound.release_memory();
-			g_messages_div.innerHTML += "<br>release memory";
+			g_message("release memory");
 		}, { capture: true, once: false });
 	</script>
 </body>
