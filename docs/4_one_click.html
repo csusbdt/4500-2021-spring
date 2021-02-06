@@ -16,15 +16,9 @@
 
 		/* global g_play_music_button, g_messages_div */
 
-		//const music_file = 'sfx/positive_click.mp3';
-		const music_file = 'music/robins_and_roses.mp3';
-		//let music = null;
-
 		g_play_music_button.addEventListener('click', () => {
-			play_music(music_file).then(m => {
+			play_music('music/robins_and_roses.mp3').then(() => {
 				g_messages_div.innerHTML += "<br>g_play_music_button got music";
-				//music = m;
-				g_play_music_button.style.display = 'inline-block';			
 			});
 		}, { capture: true, once: false });
 	</script>

@@ -7,12 +7,14 @@ function create_audio_context() {
 	audio_context = new (window.AudioContext || window.webkitAudioContext)();
 }
 
-export async function play_music(file) {
+export function play_music(file) {
 	if (audio_context === null) create_audio_context();
-	const buffer = await fetch_audio_buffer(file);
-	g_messages_div.innerHTML += "<br>play_music got buffer";
-	audio_buffer = buffer;
-	play_audio_buffer(audio_buffer, 1);
+	return fetch_audio_buffer(file).then(buffer => {
+		g_messages_div.innerHTML += "<br>play_music got buffer";
+		audio_buffer = buffer;
+	}).then(() => {
+		play_audio_buffer(audio_buffer, 1);
+	});
 }
 
 function fetch_audio_buffer(file) {
