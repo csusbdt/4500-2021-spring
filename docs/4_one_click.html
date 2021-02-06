@@ -1,0 +1,32 @@
+<html>
+<head>
+	<link rel="shortcut icon" type="image/png" href="images/icon-192x192.png">
+</head>
+<body>
+	<div>
+		Experiment 4: one click playout of audio
+	</div>
+	<div>
+		<button id="g_play_music_button">play music</button><br>
+		<div id="g_messages_div"></div>
+	</div>
+	<script type="module">
+		import './3_error.js';
+		import { play_music } from './4_one_click.js';
+
+		/* global g_play_music_button, g_messages_div */
+
+		//const music_file = 'sfx/positive_click.mp3';
+		const music_file = 'music/robins_and_roses.mp3';
+		//let music = null;
+
+		g_play_music_button.addEventListener('click', () => {
+			play_music(music_file).then(m => {
+				g_messages_div.innerHTML += "<br>g_play_music_button got music";
+				//music = m;
+				g_play_music_button.style.display = 'inline-block';			
+			});
+		}, { capture: true, once: false });
+	</script>
+</body>
+</html>
