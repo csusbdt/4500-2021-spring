@@ -60,21 +60,29 @@ c_sound.prototype.play = function(volume) {
 	if (typeof(volume) !== 'undefined') {
 		this.volume = volume;
 	}
-	if (this.audio_buffer === null) {
-		throw new Error("c_sound.play not decoded");
-	}
-	this.buffer_source_node = audio_context.createBufferSource();
-	this.buffer_source_node.buffer = this.audio_buffer;
-	this.gain_node = audio_context.createGain();
-	this.buffer_source_node.connect(this.gain_node);
-	this.gain_node.connect(audio_context.destination);
-	this.gain_node.gain.setValueAtTime(this.volume, audio_context.currentTime);
-	this.buffer_source_node.onended = () => {
-		this.buffer_source_node.onended = null;
-		this.buffer_source_node = null;
-		this.gain_node = null;
-	};
-	this.buffer_source_node.start();
+	return new Promise((resolve, reject) => {
+		if (this.array_buffer === null) {
+			reject(new Error("c_sound.play array_buffer is null"));
+		}
+		if (this.audio_buffer === null) {
+			return this.decode();
+		} else {
+			resolve();
+		}
+	}).then(() => {
+		this.buffer_source_node = audio_context.createBufferSource();
+		this.buffer_source_node.buffer = this.audio_buffer;
+		this.gain_node = audio_context.createGain();
+		this.buffer_source_node.connect(this.gain_node);
+		this.gain_node.connect(audio_context.destination);
+		this.gain_node.gain.setValueAtTime(this.volume, audio_context.currentTime);
+		this.buffer_source_node.onended = () => {
+			this.buffer_source_node.onended = null;
+			this.buffer_source_node = null;
+			this.gain_node = null;
+		};
+		this.buffer_source_node.start();
+	});
 };
 
 c_sound.prototype.set_volume = function(volume) {
