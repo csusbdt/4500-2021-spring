@@ -48,22 +48,22 @@
 
 		g_play_button.addEventListener('click', () => {
 			sound.play(.6);
-			g_message("play");
+			g_message("played");
 		}, { capture: true, once: false });
 
 		g_increase_volume_button.addEventListener('click', () => {
 			sound.set_volume(1);
-			g_message("set_volume(1)");
+			g_message("volume set");
 		}, { capture: true, once: false });
 
 		g_stop_button.addEventListener('click', () => {
 			sound.stop();
-			g_message("stop");
+			g_message("stopped");
 		}, { capture: true, once: false });
 
 		g_release_button.addEventListener('click', () => {
 			sound.release_memory();
-			g_message("release memory");
+			g_message("memory released");
 		}, { capture: true, once: false });
 	</script>
 </body>

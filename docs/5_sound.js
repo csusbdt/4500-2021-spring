@@ -1,10 +1,4 @@
-/* global g_message */
-
 let audio_context = null;
-
-function create_audio_context() {
-	audio_context = new (window.AudioContext || window.webkitAudioContext)();
-}
 
 export function c_sound(file) {
 	this.file = file;
@@ -17,8 +11,11 @@ export function c_sound(file) {
 
 // fetch allowed before user interaction 
 c_sound.prototype.fetch = function() {
+	if (this.audio_buffer !== null) {
+		return Promise.resolve();
+	}
 	if (this.array_buffer !== null) {
-		throw new Error("c_sound.pre_fetch<br>already prefetched");
+		return Promise.reject("already fetched");
 	}
 	return fetch(this.file).then(response => {
 		if (response.ok) {
@@ -26,63 +23,60 @@ c_sound.prototype.fetch = function() {
 		} else {
 			throw new Error(`c_sound.fetch<br>${this.file}<br>${response.status}`);
 		}
-	}).then(array_buffer => {
+	})
+	.then(array_buffer => {
 		this.array_buffer = array_buffer;
+		return array_buffer;
 	});
 };
 
-// decode requires audioContext, which requires user interaction 
+// decode requires an audioContext, which requires user interaction 
 c_sound.prototype.decode = function() {
-	if (audio_context === null) {
-		create_audio_context();
-	}
-	if (this.array_buffer === null) {
-		throw new Error("c_sound.decode<br>array_buffer not fetched");
-	}
-	if (this.audio_buffer !== null) {
-		throw new Error("c_sound.decode<br>already decoded");
-	}
 	return new Promise((resolve, reject) => {
-		// promise-based decodeAudioData not supported in Safari
+		if (this.audio_buffer !== null) {
+			return resolve();
+		}
+		if (this.array_buffer === null) {
+			return resolve();
+		}
+		if (audio_context === null) {
+			audio_context = new (window.AudioContext || window.webkitAudioContext)();
+			if (audio_context.state === 'suspended') {
+				return reject("audio_context suspended");
+			}
+		}
 		audio_context.decodeAudioData(
-			this.array_buffer, 
-			audio_buffer => { 
-				this.audio_buffer = audio_buffer; 
-				g_message("c_sound.decode audio_buffer set");
+			this.array_buffer,
+			audio_buffer => {
+				this.array_buffer = null; // can only decode array_buffer once
+				this.audio_buffer = audio_buffer;
 				resolve();
 			},
 			e => reject(e)
-		);	
-	});
+		);
+	});	
 };
 
+// play will call fetch and decode if needed
 c_sound.prototype.play = function(volume) {
 	if (typeof(volume) !== 'undefined') {
 		this.volume = volume;
 	}
-	return new Promise((resolve, reject) => {
-		if (this.array_buffer === null) {
-			reject(new Error("c_sound.play array_buffer is null"));
-		}
-		if (this.audio_buffer === null) {
-			return this.decode();
-		} else {
-			resolve();
-		}
-	}).then(() => {
-		this.buffer_source_node = audio_context.createBufferSource();
-		this.buffer_source_node.buffer = this.audio_buffer;
-		this.gain_node = audio_context.createGain();
-		this.buffer_source_node.connect(this.gain_node);
-		this.gain_node.connect(audio_context.destination);
-		this.gain_node.gain.setValueAtTime(this.volume, audio_context.currentTime);
-		this.buffer_source_node.onended = () => {
-			this.buffer_source_node.onended = null;
-			this.buffer_source_node = null;
-			this.gain_node = null;
-		};
-		this.buffer_source_node.start();
-	});
+	return Promise.resolve()
+		.then(() => this.fetch())
+		.then(() => this.decode())
+		.then(() => {
+			if (this.buffer_source_node === null) {
+				this.buffer_source_node = audio_context.createBufferSource();
+				this.buffer_source_node.buffer = this.audio_buffer;
+				this.gain_node = audio_context.createGain();
+				this.buffer_source_node.connect(this.gain_node);
+				this.gain_node.connect(audio_context.destination);
+				this.gain_node.gain.setValueAtTime(this.volume, audio_context.currentTime);
+				this.buffer_source_node.onended = this.stop;
+				this.buffer_source_node.start();
+			}
+		});
 };
 
 c_sound.prototype.set_volume = function(volume) {
