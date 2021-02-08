@@ -86,7 +86,7 @@ c_sound.prototype.play = function(volume) {
 				this.buffer_source_node.connect(this.gain_node);
 				this.gain_node.connect(audio_context.destination);
 				this.gain_node.gain.setValueAtTime(this.volume, audio_context.currentTime);
-				this.buffer_source_node.onended = this.stop;
+				this.buffer_source_node.onended = () => { this.stop(); }
 				this.buffer_source_node.start();
 			}
 		})
