@@ -1,6 +1,6 @@
 /* eslint-env serviceworker */
 
-const version = "v4";
+const version = "v18";
 
 self.addEventListener('install', function(event) {
 	console.log("install " + version);
@@ -8,7 +8,7 @@ self.addEventListener('install', function(event) {
 	event.waitUntil(caches.open(version).then(cache => {
 		cache.addAll([
 			'/6_service_worker.html',
-			'/5_sound.js',
+			'/6_sound.js',
 			'/3_error.js',
 			'/sfx/click.mp3',
 			'/music/robins_and_roses.mp3'

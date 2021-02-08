@@ -4,7 +4,7 @@
 </head>
 <body>
 	<div>
-		Experiment 6: service worker support, V4
+		Experiment 6: service worker support, V18
 	</div>
 	<div>
 		<button id="g_fetch_button">fetch</button><br>
@@ -17,7 +17,7 @@
 	</div>
 	<script type="module">
 		import './3_error.js';
-		import { c_sound } from './5_sound.js';
+		import { c_sound } from './6_sound.js';
 
 		/*	global g_fetch_button */
 		/*	global g_decode_button */
@@ -37,63 +37,65 @@
 
 		window.g_start = function() {
 			g_message("started");
-			const sound = new c_sound('music/robins_and_roses.mp3');
+			const music = new c_sound('music/robins_and_roses.mp3', .5);
+			const click = new c_sound('sfx/click.mp3', 1);
 
 			g_fetch_button.addEventListener('click', () => {
-				sound.fetch().then(() => {
+				click.fast_play();
+				music.fetch().then(() => {
 					g_message("fetched");
 				});
 			}, { capture: true, once: false });
 
 			g_decode_button.addEventListener('click', () => {
-				sound.decode().then(() => {
+				click.fast_play();
+				music.decode().then(() => {
 					g_message("decoded");
 				});
 			}, { capture: true, once: false });
 
 			g_play_button.addEventListener('click', () => {
-				sound.play(.6);
+				click.fast_play();
+				music.play(.6);
 				g_message("played");
 			}, { capture: true, once: false });
 
 			g_increase_volume_button.addEventListener('click', () => {
-				sound.set_volume(1);
+				click.fast_play();
+				music.set_volume(1);
 				g_message("volume set");
 			}, { capture: true, once: false });
 
 			g_stop_button.addEventListener('click', () => {
-				sound.stop();
+				click.fast_play();
+				music.stop();
 				g_message("stopped");
 			}, { capture: true, once: false });
 
 			g_release_button.addEventListener('click', () => {
-				sound.release_memory();
+				click.fast_play();
+				music.release_memory();
 				g_message("memory released");
 			}, { capture: true, once: false });
 		}
 
-		function on_register(registration) {
-			return new Promise(function(resolve, reject) {
-				if (registration.installing) {
-					g_message("new service worker installing")
-					registration.installing.addEventListener('statechange', e => {
-						if (e.target.state === 'installed') {
-							resolve();
-						} else if(e.target.state === 'redundant') {
-							reject();
-						}
-					});
-				} else {
-					g_message("no new service worker");
-					resolve();
-				}
+		function if_new_service_worker(registration) {
+			registration.addEventListener('updatefound', function() {
+				g_message("new service worker installing")
+				registration.installing.addEventListener('statechange', e => {
+					g_message("statechange to: " + e.target.state);
+					if(e.target.state === 'activated') {
+						g_message("will reload");
+						window.location.reload();
+					}
+				});
 			});
 		}
 
 		window.addEventListener('load', function() {
 			if ('serviceWorker' in navigator) {	
 				navigator.serviceWorker.register('sw.js')
-				.then(on_register)
+				.then(if_new_service_worker)
 				.then(navigator.serviceWorker.ready)
 				.then(window.g_start)
 				.catch(reason => { 
