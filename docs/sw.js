@@ -1,10 +1,11 @@
 /* eslint-env serviceworker */
 
-const cache_name = "v1";
+const version = "v4";
 
 self.addEventListener('install', function(event) {
-	console.log("install " + cache_name);
-	event.waitUntil(caches.open(cache_name).then(cache => {
+	console.log("install " + version);
+	self.skipWaiting();
+	event.waitUntil(caches.open(version).then(cache => {
 		cache.addAll([
 			'/6_service_worker.html',
 			'/5_sound.js',
@@ -16,9 +17,14 @@ self.addEventListener('install', function(event) {
 });
 
 self.addEventListener('activate', event => {
-	console.log("activate " + cache_name);
-	event.waitUntil(Promise.resolve().then(() => {
-		console.log("delete old stuff");
+	console.log("activate " + version);
+	event.waitUntil(clients.claim());
+	event.waitUntil(caches.keys().then(cache_names => {
+		return Promise.all(cache_names.map(cache_name => {
+			if (cache_name !== version) {
+				return caches.delete(cache_name);
+			}
+		}));
 	}));
 });
 
@@ -28,11 +34,11 @@ function fetch_request(request) {
 		if (response !== undefined) {
 			return response;
 		} else {
-			return fetch(request).then(response => {
+			return fetch(request.clone()).then(response => {
 				if (response.status !== 200 || response.type !== 'basic') {
 					throw new Error("bad request");
 				}
-				return caches.open(cache_name)
+				return caches.open(version)
 					.then(cache => {
 						return cache.put(request, response.clone());
 					})
