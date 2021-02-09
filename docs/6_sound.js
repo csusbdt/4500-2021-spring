@@ -3,8 +3,11 @@ let audio_context = null;
 function get_audio_context() {
 	if (audio_context === null) {
 		audio_context = new (window.AudioContext || window.webkitAudioContext)();
+	}
+	if (audio_context.state === 'suspended') {
+		audio_context.resume();
 		if (audio_context.state === 'suspended') {
-			audio_context = null;
+				return null;
 		}
 	}
 	return audio_context;
@@ -62,7 +65,8 @@ c_sound.prototype.decode = function() {
 		return this.fetch()
 		.then(array_buffer => {
 			return new Promise((resolve, reject) => {
-				if (get_audio_context() === null) {
+				const audio_context = get_audio_context();
+				if (audio_context === null) {
 					this.decoding = false;
 					return reject("no audio context");
 				}
@@ -86,6 +90,10 @@ c_sound.prototype.decode = function() {
 c_sound.prototype.fast_play = function() {
 	this.decode()
 	.then(audio_buffer => {
+		const audio_context = get_audio_context();
+		if (audio_context === null) {
+			return;
+		}
 		const buffer_source_node = audio_context.createBufferSource();
 		buffer_source_node.buffer = audio_buffer;
 		const gain_node = audio_context.createGain();
@@ -102,6 +110,10 @@ c_sound.prototype.play = function() {
 	.then(audio_buffer => {
 		// avoid race condition
 		if (this.buffer_source_node === null) {
+			const audio_context = get_audio_context();
+			if (audio_context === null) {
+				return;
+			}
 			this.buffer_source_node = audio_context.createBufferSource();
 			this.buffer_source_node.buffer = audio_buffer;
 			this.gain_node = audio_context.createGain();
