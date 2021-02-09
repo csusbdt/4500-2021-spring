@@ -1,6 +1,6 @@
 /* eslint-env serviceworker */
 
-const version = "v19";
+const version = "v20";
 
 self.addEventListener('install', function(event) {
 	console.log("install " + version);
