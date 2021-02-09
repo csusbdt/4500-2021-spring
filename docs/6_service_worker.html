@@ -4,7 +4,7 @@
 </head>
 <body>
 	<div>
-		Experiment 6: service worker support, V18
+		Experiment 6: service worker support, V19
 	</div>
 	<div>
 		<button id="g_fetch_button">fetch</button><br>
@@ -42,21 +42,21 @@
 
 			g_fetch_button.addEventListener('click', () => {
 				click.fast_play();
-				music.fetch().then(() => {
-					g_message("fetched");
-				});
+				music.fetch()
+				.then(() => g_message("fetched"))
+				.catch(() => {});
 			}, { capture: true, once: false });
 
 			g_decode_button.addEventListener('click', () => {
 				click.fast_play();
-				music.decode().then(() => {
-					g_message("decoded");
-				});
+				music.decode()
+				.then(() => g_message("decoded"))
+				.catch(() => {});
 			}, { capture: true, once: false });
 
 			g_play_button.addEventListener('click', () => {
 				click.fast_play();
-				music.play(.6);
+				music.play();
 				g_message("played");
 			}, { capture: true, once: false });
 
