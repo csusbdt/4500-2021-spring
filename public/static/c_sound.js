@@ -142,6 +142,10 @@ c_sound.prototype.set_volume = function(volume) {
 	}
 };
 
+c_sound.prototype.is_playing = function() {
+	return this.buffer_source_node !== null;
+};
+
 c_sound.prototype.release_memory = function() {
 	this.audio_buffer = null;
 	this.array_buffer = null;	

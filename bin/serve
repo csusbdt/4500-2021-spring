@@ -1,0 +1,2 @@
+node_modules/http-server/bin/http-server $1 --port 8080 -c-1 --ssl --cert bin/cert.pem --key bin/key.pem 
+

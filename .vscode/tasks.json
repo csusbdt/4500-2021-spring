@@ -2,19 +2,38 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "localhost web server",
+			"label": "build docs",
 			"type": "shell",
-			"command": "bin/localhost"
+			"command": "bin/build.sh",
+			"problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "serve public",
+			"type": "shell",
+			"command": "bin/serve public",
+			"problemMatcher": []
+		},
+		{
+			"label": "serve docs",
+			"type": "shell",
+			"command": "bin/serve docs",
+			"problemMatcher": []
 		},
 		{
 			"label": "win_chrome",
 			"type": "shell",
-			"command": "bin/win_chrome"
+			"command": "bin/win_chrome",
+			"problemMatcher": []
 		},
 		{
 			"label": "mac_chrome",
 			"type": "shell",
-			"command": "bin/mac_chrome"
+			"command": "bin/mac_chrome",
+			"problemMatcher": []
 		}
 	]
 }

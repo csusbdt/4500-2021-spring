@@ -1,0 +1,22 @@
+{
+  "name": "csusbdt web game",
+  "short_name": "csusbdt",
+  "description": "a web game by csusbdt@gmail.com",
+  "icons": [
+    {
+      "src": "/images/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/images/icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#FFFFFF",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#5A5A5A"
+}

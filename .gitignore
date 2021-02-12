@@ -1,2 +1,6 @@
+debug.log
+.DS_Store
+/t
+*.swp
 /node_modules
 
