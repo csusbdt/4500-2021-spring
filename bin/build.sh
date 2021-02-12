@@ -1,23 +1,26 @@
-rm -rf docs/*
+a=public/4500-2021-spring
+b=docs/4500-2021-spring
 
-mkdir -p docs/static
-mkdir -p docs/dynamic
-mkdir -p docs/images
-mkdir -p docs/sfx
-mkdir -p docs/music
+rm -rf $b/*
 
-npx terser public/dynamic/r_red_white_box.js  -m -c -o docs/dynamic/r_red_white_box.js
+mkdir -p $b/static
+mkdir -p $b/dynamic
+mkdir -p $b/images
+mkdir -p $b/sfx
+mkdir -p $b/music
 
-cp public/images/*                            docs/images/
-cp public/music/*                             docs/music/
-cp public/sfx/*                               docs/sfx/
+npx terser $a/dynamic/r_red_white_box.js  -m -c -o $b/dynamic/r_red_white_box.js
 
-npx terser public/static/c_sound.js           -m -c -o docs/static/c_sound.js
-npx terser public/static/core.js              -m -c -o docs/static/core.js
-npx terser public/static/index.js             -m -c -o docs/static/index.js
-npx terser public/static/utils.js             -m -c -o docs/static/utils.js
+cp $a/images/*                            $b/images/
+cp $a/music/*                             $b/music/
+cp $a/sfx/*                               $b/sfx/
 
-cp public/index.html                          docs/
-cp public/manifest.webmanifest                docs/
+npx terser $a/static/c_sound.js           -m -c -o $b/static/c_sound.js
+npx terser $a/static/core.js              -m -c -o $b/static/core.js
+npx terser $a/static/index.js             -m -c -o $b/static/index.js
+npx terser $a/static/utils.js             -m -c -o $b/static/utils.js
 
-npx terser public/sw.js                       -m -c -o docs/sw.js
+cp $a/index.html                          $b/
+cp $a/manifest.webmanifest                $b/
+
+npx terser $a/sw.js                       -m -c -o $b/sw.js

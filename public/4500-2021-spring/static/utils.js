@@ -18,7 +18,7 @@ export function message(...messages) {
 
 export function register_service_worker() {
 	if ('serviceWorker' in navigator) {	
-		return navigator.serviceWorker.register('sw.js')
+		return navigator.serviceWorker.register('/4500-2021-spring/sw.js')
 		.then(registration => {
 			registration.addEventListener('updatefound', e => {
 				registration.installing.addEventListener('statechange', e => {

@@ -2,7 +2,7 @@
   "name": "4500-2021-spring",
   "version": "1.0.0",
   "description": "pwa example",
-  "main": "public/index.js",
+  "main": "public/4500-2021-spring/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/csusbdt/4500-2021-spring.git"

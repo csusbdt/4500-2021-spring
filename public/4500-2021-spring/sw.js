@@ -7,15 +7,15 @@ self.addEventListener('install', function(event) {
 	self.skipWaiting();
 	event.waitUntil(caches.open(version).then(cache => {
 		cache.addAll([
-			'/',
-			'/dynamic/r_red_white_box.js',
-			'/music/robins_and_roses.mp3',
-			'/sfx/click.mp3',
-			'/static/index.js',
-			'/static/core.js',
-			'/static/utils.js',
-			'/static/c_sound.js',
-			'/manifest.webmanifest'
+			'/4500-2021-spring/',
+			'/4500-2021-spring/dynamic/r_red_white_box.js',
+			'/4500-2021-spring/music/robins_and_roses.mp3',
+			'/4500-2021-spring/sfx/click.mp3',
+			'/4500-2021-spring/static/index.js',
+			'/4500-2021-spring/static/core.js',
+			'/4500-2021-spring/static/utils.js',
+			'/4500-2021-spring/static/c_sound.js',
+			'/4500-2021-spring/manifest.webmanifest'
 		]);
 	}));
 });

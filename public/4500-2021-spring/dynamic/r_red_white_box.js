@@ -1,8 +1,8 @@
-import { d_w, d_h, set_renderer, set_event_handler } from '/static/core.js';
-import { c_sound } from '/static/c_sound.js';
+import { d_w, d_h, set_renderer, set_event_handler } from '/4500-2021-spring/static/core.js';
+import { c_sound } from '/4500-2021-spring/static/c_sound.js';
 
-const music = new c_sound('/music/robins_and_roses.mp3', .5);
-const click = new c_sound('/sfx/click.mp3', 1);
+const music = new c_sound('/4500-2021-spring/music/robins_and_roses.mp3', .5);
+const click = new c_sound('/4500-2021-spring/sfx/click.mp3', 1);
 
 const white = '#FFFFFF';
 const red   = '#FF0000';

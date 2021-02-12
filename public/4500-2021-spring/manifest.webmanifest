@@ -4,19 +4,19 @@
   "description": "a web game by csusbdt@gmail.com",
   "icons": [
     {
-      "src": "/images/icon-192x192.png",
+      "src": "/4500-2021-spring/images/icon-192x192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/images/icon-512x512.png",
+      "src": "/4500-2021-spring/images/icon-512x512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": "/",
+  "start_url": "/4500-2021-spring/",
   "background_color": "#FFFFFF",
   "display": "standalone",
-  "scope": "/",
+  "scope": "/4500-2021-spring/",
   "theme_color": "#5A5A5A"
 }
