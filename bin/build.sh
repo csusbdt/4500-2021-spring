@@ -1,5 +1,5 @@
 a=public/4500-2021-spring
-b=docs/4500-2021-spring
+b=docs/
 
 rm -rf $b/*
 
