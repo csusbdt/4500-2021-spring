@@ -18,12 +18,6 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "serve docs",
-			"type": "shell",
-			"command": "bin/serve docs",
-			"problemMatcher": []
-		},
-		{
 			"label": "win_chrome",
 			"type": "shell",
 			"command": "bin/win_chrome",
