@@ -1,7 +1,7 @@
 import { d_w, d_h, set_renderer, set_event_handler } from '/4500-2021-spring/static/core.js';
 import { c_sound } from '/4500-2021-spring/static/c_sound.js';
 
-const music = new c_sound('/4500-2021-spring/music/robins_and_roses.mp3', .5);
+const music = new c_sound('/4500-2021-spring/music/say_it_isnt_so.mp3', .5);
 const click = new c_sound('/4500-2021-spring/sfx/click.mp3', 1);
 
 const white = '#FFFFFF';
