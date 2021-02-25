@@ -21,8 +21,5 @@ window.addEventListener('load', e => {
 }, { once: true });
 
 const load = () => {
-	load_script('/4500-2021-spring/dynamic/r_test_1.js').then(script => {
-		script.id = script.src;
-		//script.parentNode.removeChild(script);
-	});
+	get_room('test_1').create().load().start();
 };

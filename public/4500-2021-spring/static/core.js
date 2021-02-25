@@ -11,12 +11,12 @@ export function set_renderer(f) {
 	f_render = f;
 }
 
-export function set_event_handler(f) {
-	f_handle_event = f;
+export function set_on_touch(f) {
+	f_on_touch = f;
 }
 
 let f_render       = null;
-let f_handle_event = null;
+let f_on_touch     = null;
 let scale          = 1;
 let offset_x       = 0;
 let offset_y       = 0;
@@ -101,23 +101,23 @@ const room_coords = e => {
 };
 
 const mousedown = e => {
-	if (f_handle_event !== null) {
+	if (f_on_touch !== null) {
 		e.preventDefault();
-		f_handle_event(room_coords(e));
+		f_on_touch(room_coords(e));
 	}
 };
 
 const touchstart = e => {
-	if (f_handle_event !== null) {
+	if (f_on_touch !== null) {
 		e.preventDefault();
-		f_handle_event(room_coords(e.changedTouches[0]));
+		f_on_touch(room_coords(e.changedTouches[0]));
 	}
 };
 
 g_ui_div.addEventListener('mousedown' , mousedown, { capture: true, once: false });
 g_ui_div.addEventListener('touchstart', touchstart, { capture: true, once: false });
 
-	
+
 // export const draw = (ctx, img, sx, sy, sw, sh, dx, dy, dw, dh) => {
 //     ctx.drawImage(
 //         image,

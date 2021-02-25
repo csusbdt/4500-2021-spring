@@ -37,6 +37,11 @@ export function register_service_worker() {
 }
 
 export function load_script(src) {
+	for (let i = 0; i < document.scripts.length; ++i) {
+		if (document.scripts[i].src === src) {
+			return Promise.resolve(document.scripts[i]);
+		}
+	}
 	return new Promise(function(resolve, reject) {
 		const script = document.createElement('script');
 		script.type = "module";
@@ -59,4 +64,8 @@ export function load_image(url) {
             image.src = URL.createObjectURL(blob);
             return image;
         });
+}
+
+export function unload_image(image) {
+	URL.revokeObjectURL(image.src);
 }
