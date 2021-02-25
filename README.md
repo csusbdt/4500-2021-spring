@@ -3,11 +3,10 @@ This repo is my experimentation on creating a gamified website as a progressive 
 This file is for my working notes.
 
 Today's Plan:
-Turn docs into the build directory to host a running instance of this PWA through github.
 
-https://dmitripavlutin.com/javascript-modules-best-practices/
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
+Develop caching strategy for images.  Learn IndexedDB.
 
+Tomorrow's Plan:
 
 I might need to break music into segments if I want to play longer peices of music.
 https://github.com/audiojs/web-audio-stream

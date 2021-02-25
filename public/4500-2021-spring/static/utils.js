@@ -3,12 +3,14 @@
 // circular dependencies when importing this module. 
 
 export function message(...messages) {
-	g_canvas.style.display = 'none';
+	g_bg.style.display = 'none';
+	g_fg.style.display = 'none';
 	g_message_div.style.display = 'block';
 	g_message_div.onclick = e => {
 		e.preventDefault();
 		g_message_div.innerHTML = "";
-		g_canvas.style.display = 'block';
+		g_bg.style.display = 'block';
+		g_fg.style.display = 'block';
 		g_message_div.style.display = 'none';
 	};
 	messages.forEach(m => {
@@ -47,4 +49,14 @@ export function load_script(src) {
 		}
 		document.head.append(script);
 	});
+}
+
+export function load_image(url) {
+    return fetch(url)
+        .then(response => response.blob())
+        .then(function(blob) {
+            const image = new Image();
+            image.src = URL.createObjectURL(blob);
+            return image;
+        });
 }

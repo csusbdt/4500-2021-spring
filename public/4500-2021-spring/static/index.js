@@ -16,12 +16,13 @@ window.addEventListener('unhandledrejection', function (e) {
 
 window.addEventListener('load', e => {
 	register_service_worker()
-	.catch(reason => message(reason))
-	.then(load);
+	.then(load)
+	.catch(reason => message(reason));
 }, { once: true });
 
 const load = () => {
-	load_script('/4500-2021-spring/dynamic/r_red_white_box.js').then(script => {
-		script.parentNode.removeChild(script);
+	load_script('/4500-2021-spring/dynamic/r_test_1.js').then(script => {
+		script.id = script.src;
+		//script.parentNode.removeChild(script);
 	});
 };
