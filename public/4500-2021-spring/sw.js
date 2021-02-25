@@ -1,6 +1,6 @@
 /* eslint-env serviceworker */
 
-const version = "v2";
+const version = "v3";
 
 self.addEventListener('install', function(event) {
 	console.log("install " + version);
@@ -8,8 +8,7 @@ self.addEventListener('install', function(event) {
 	event.waitUntil(caches.open(version).then(cache => {
 		cache.addAll([
 			'/4500-2021-spring/',
-			'/4500-2021-spring/dynamic/r_red_white_box.js',
-			'/4500-2021-spring/music/say_it_isnt_so.mp3',
+			'/4500-2021-spring/dynamic/r_test_1.js',
 			'/4500-2021-spring/sfx/click.mp3',
 			'/4500-2021-spring/static/index.js',
 			'/4500-2021-spring/static/core.js',

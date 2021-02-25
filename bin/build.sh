@@ -3,14 +3,17 @@ b=docs/
 
 rm -rf $b/*
 
-mkdir -p $b/static
+mkdir -p $b/bg
 mkdir -p $b/dynamic
 mkdir -p $b/images
-mkdir -p $b/sfx
 mkdir -p $b/music
+mkdir -p $b/sfx
+mkdir -p $b/static
 
 npx terser $a/dynamic/r_red_white_box.js  -m -c -o $b/dynamic/r_red_white_box.js
+npx terser $a/dynamic/r_test_1.js         -m -c -o $b/dynamic/r_test_1.js
 
+cp $a/bg/*                                $b/bg/
 cp $a/images/*                            $b/images/
 cp $a/music/*                             $b/music/
 cp $a/sfx/*                               $b/sfx/
