@@ -48,13 +48,21 @@
 			padding:  1em;
 		}
 		body, #g_canvas { 
-			background-color: #5A5A5A; 
+			background-color: #5A5A5A;
+		}
+		#g_bg {
+			z-index: 1;
+		}
+		#g_fg {
+			z-index: 2;
+			display: none;
 		}
 	</style>
 </head>
 <body>
 	<div id="g_ui_div">
-		<canvas id="g_canvas"></canvas>
+		<canvas id="g_bg"></canvas>
+		<canvas id="g_fg"></canvas>
 		<div id="g_message_div"></div>
 	</div>
 	<script type="module">
