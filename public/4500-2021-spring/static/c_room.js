@@ -1,37 +1,28 @@
-import { load_image } from "./utils";
+import { load_script } from "./utils.js";
 
 const rooms = new Map();
+export const rooms_to_load = new Map();
 
 function c_room(name) {
-	this.name      = name;
-	this.load      = null;
-	this.start     = null;
+	this.name  = name;
+	this.start = null;
 }
 
 export const get_room = name => {
 	if (rooms.has(name)) {
-		return rooms.get(name);
+		return Promise.resolve(rooms.get(name));
+	} else if (rooms_to_load.has(name)) {
+		return Promise.reject(`${name} under construction`);
 	} else {
-		const r = new c_room(name);
-		rooms.set(name, r);
-		return r;
+		const room = new c_room(name);
+		rooms_to_load.set(name, room);
+		return load_script(`/4500-2021-spring/dynamic/r_${name}.js`)
+		.then(_ => {
+			rooms.set(name, room);
+			return room;
+		})
+		.finally(_ => {
+			rooms_to_load.delete(name);
+		});
 	}
 };
-
-c_room.prototype.create = function() {
-	return load_script('/4500-2021-spring/dynamic/r_' + next_room_name + '.js');
-};
-
-
-// c_room.prototype.goto = function(next_room_name) {
-// 	const next_room = get_room(next_room_name);
-// 	return next_room.create()
-// 	.then(_ => next_room.load())
-// 	.then(_ => this.stop())
-// 	.then(_ => next_room.start())
-// 	.then(() => {
-// 		next_room.status = 'started';
-// 		return next_room;
-// 	})
-// 	.then(_ => this.unload())
-// };

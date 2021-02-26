@@ -11,6 +11,10 @@ export function set_renderer(f) {
 	f_render = f;
 }
 
+export function get_renderer() {
+	return f_render;
+}
+
 export function set_on_touch(f) {
 	f_on_touch = f;
 }

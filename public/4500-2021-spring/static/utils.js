@@ -50,7 +50,7 @@ export function load_script(src) {
 			resolve(script);
 		}
 		script.onerror = () => {
-			reject(src);
+			reject(`${src} failed to load`);
 		}
 		document.head.append(script);
 	});

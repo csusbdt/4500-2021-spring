@@ -1,4 +1,6 @@
-import { message, register_service_worker, load_script } from '/4500-2021-spring/static/utils.js';
+import { message,
+		 register_service_worker } from '/4500-2021-spring/static/utils.js';
+import { get_room                } from '/4500-2021-spring/static/c_room.js';
 
 // global error handlers for uncaught exceptions
 
@@ -16,10 +18,7 @@ window.addEventListener('unhandledrejection', function (e) {
 
 window.addEventListener('load', e => {
 	register_service_worker()
-	.then(load)
-	.catch(reason => message(reason));
+	.then(_ => { return get_room('test_1'); })
+	.then(r => r.start())
+	.catch(e => message(`load event handler failed with ${e}`));
 }, { once: true });
-
-const load = () => {
-	get_room('test_1').create().load().start();
-};
