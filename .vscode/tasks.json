@@ -12,6 +12,12 @@
 			}
 		},
 		{
+			"label": "make sprite sheets",
+			"type": "shell",
+			"command": "bin/make_sprite_sheets.sh",
+			"problemMatcher": []
+		},
+		{
 			"label": "serve public",
 			"type": "shell",
 			"command": "bin/serve public",

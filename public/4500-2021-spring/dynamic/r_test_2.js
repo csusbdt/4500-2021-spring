@@ -67,7 +67,6 @@ r.on_touch = ([x, y]) => {
 	if ((223 - x) * (223 - x) + (593 - y) * (593 - y) < 100 * 100) {
 		if (r.music.is_playing()) r.music.stop(); else r.music.play();
 	} else {
-		r.music.stop();
 		r.test_1.start();
 	}
 };

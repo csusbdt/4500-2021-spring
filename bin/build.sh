@@ -8,6 +8,7 @@ mkdir -p $b/dynamic
 mkdir -p $b/images
 mkdir -p $b/music
 mkdir -p $b/sfx
+mkdir -p $b/sprites
 mkdir -p $b/static
 
 npx terser $a/dynamic/r_red_white_box.js  -m -c -o $b/dynamic/r_red_white_box.js
@@ -18,6 +19,7 @@ cp $a/bg/*                                $b/bg/
 cp $a/images/*                            $b/images/
 cp $a/music/*                             $b/music/
 cp $a/sfx/*                               $b/sfx/
+cp $a/sprites/*                           $b/sprites/
 
 npx terser $a/static/c_room.js            -m -c -o $b/static/c_room.js
 npx terser $a/static/c_sound.js           -m -c -o $b/static/c_sound.js

@@ -20,7 +20,9 @@ r.load = _ => {
 	});
 	r.click = new c_sound('/4500-2021-spring/sfx/click.mp3', 1);
 	r.click.fetch();
-	get_room('test_2').then(room => r.test_2 = room).catch(e => console.log(e));
+	get_room('test_2')
+		.then(room => r.test_2 = room)
+		.catch(e => console.log(e));
 };
 
 r.unload = _ => {
