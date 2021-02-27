@@ -28,6 +28,10 @@ export function c_sound(file, volume) {
 	this.decoding = false;
 }
 
+c_sound.prototype.load = function() {
+	return this.fetch();
+};
+
 // fetch allowed before user interaction 
 // use this function to prefetch audio before user interaction
 c_sound.prototype.fetch = function() {

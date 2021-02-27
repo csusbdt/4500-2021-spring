@@ -7,20 +7,25 @@ const spf = 1/8  ;  // seconds per frame
 const bg = g_bg.getContext('2d', { alpha: true });
 const fg = g_fg.getContext('2d', { alpha: true });
 
-export function set_renderer(f) {
-	f_render = f;
+export function set_room(r) {
+	room = r;
 }
 
-export function get_renderer() {
-	return f_render;
-}
+// export function set_renderer(f) {
+// 	f_render = f;
+// }
 
-export function set_on_touch(f) {
-	f_on_touch = f;
-}
+// export function get_renderer() {
+// 	return f_render;
+// }
 
-let f_render       = null;
-let f_on_touch     = null;
+// export function set_on_touch(f) {
+// 	f_on_touch = f;
+// }
+
+// let f_render       = null;
+// let f_on_touch     = null;
+let room           = null;
 let scale          = 1;
 let offset_x       = 0;
 let offset_y       = 0;
@@ -87,8 +92,8 @@ function animation_loop() {
 	let dt = current_time - previous_time;
 	previous_time = current_time;
 	if (dt > spf) dt = spf;
-	if (f_render !== null) {
-		f_render(dt);
+	if (room !== null) {
+		room.render(dt);
 	}
 	requestAnimationFrame(animation_loop);
 }
@@ -105,33 +110,18 @@ const room_coords = e => {
 };
 
 const mousedown = e => {
-	if (f_on_touch !== null) {
-		e.preventDefault();
-		f_on_touch(room_coords(e));
+	e.preventDefault();
+	if (room !== null) {
+		room.on_touch(room_coords(e));
 	}
 };
 
 const touchstart = e => {
-	if (f_on_touch !== null) {
-		e.preventDefault();
-		f_on_touch(room_coords(e.changedTouches[0]));
+	e.preventDefault();
+	if (room !== null) {
+		room.on_touch(room_coords(e.changedTouches[0]));
 	}
 };
 
 g_ui_div.addEventListener('mousedown' , mousedown, { capture: true, once: false });
 g_ui_div.addEventListener('touchstart', touchstart, { capture: true, once: false });
-
-
-// export const draw = (ctx, img, sx, sy, sw, sh, dx, dy, dw, dh) => {
-//     ctx.drawImage(
-//         image,
-//         f.tx_x,
-//         f.tx_y,
-//         f.tx_w,
-//         f.tx_h,
-//         f.rm_x + this.offset_x,
-//         f.rm_y + this.offset_y,
-//         f.tx_w,
-//         f.tx_h
-//     );
-// };

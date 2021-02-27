@@ -1,13 +1,17 @@
-import { set_renderer, get_renderer, set_on_touch, set_bg } from '/4500-2021-spring/static/core.js';
-import { load_image, load_json, unload_image } from '/4500-2021-spring/static/utils.js';
+/*
+import { load_image, unload_image } from '/4500-2021-spring/static/utils.js';
 import { c_sound } from '/4500-2021-spring/static/c_sound.js';
 import { rooms_to_load, get_room } from '/4500-2021-spring/static/c_room.js';
+import { load_sprite_sheet } from '/4500-2021-spring/static/c_sprite_sheet.js';
+import { z } from '/4500-2021-spring/static/zone.js';
 
 const r   = rooms_to_load.get('test_2');
 
+const z_sayit = z().circle(223, 593, 100);
+
 r.bg      = null;
 r.image   = null;
-r.sprites = null;
+r.sprite_sheet = null;
 r.click   = null;
 r.music   = null;
 r.test_1  = null;
@@ -16,11 +20,8 @@ r.load = _ => {
 	load_image('bg/test_2.png').then(image => {
 		r.bg = image;
 	});
-	load_image('sprite_sheets/test_2.png').then(image => {
-		r.image = image;
-	});
-	load_json('sprite_sheets/test_2.json').then(sprites => {
-		r.sprites = sprites;
+	load_sprite_sheet('test_2').then(sprite_sheet => {
+		r.sprite_sheet = sprite_sheet;
 	});
 	r.click = new c_sound('/4500-2021-spring/sfx/click.mp3', 1);
 	r.click.fetch();
@@ -39,7 +40,7 @@ r.unload = _ => {
 r.render = dt => {
 };
 
-r.start = _ => {
+r.on_start = _ => {
 	if (r.bg === null) {
 		r.load();
 	}
@@ -73,3 +74,4 @@ r.on_touch = ([x, y]) => {
 		r.test_1.start();
 	}
 };
+*/

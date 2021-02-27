@@ -19,6 +19,8 @@ window.addEventListener('unhandledrejection', function (e) {
 window.addEventListener('load', e => {
 	register_service_worker()
 	.then(_ => { return get_room('test_1'); })
-	.then(r => r.start())
+	.then(r => {
+		r.goto(r.name);
+	})
 	.catch(e => message(`load event handler failed with ${e}`));
 }, { once: true });

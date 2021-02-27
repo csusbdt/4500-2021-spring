@@ -18,7 +18,7 @@ const assert         = require('assert').strict.ok    ;
 const fs             = require("fs")                  ;
 const texture_packer = require("free-tex-packer-core");
 
-let sprites = {};
+let frames = {};
 
 // Delete any existing output files.
 if (fs.existsSync(image_file)) {
@@ -31,12 +31,11 @@ if (fs.existsSync(json_file)) {
 console.log("packing " + sprite_sheet_name);
 
 const packer_data = [];
-const sprite_names  = fs.readdirSync("sprite_sheets/" + sprite_sheet_name);
-sprite_names.forEach(function(sprite_name) {
-	//sprites[sprite_name] = {};
-	const sprite_path    = "sprite_sheets/" + sprite_sheet_name + "/" + sprite_name;
-	const contents       = fs.readFileSync(sprite_path);
-	packer_data.push({ path: sprite_path, contents: contents });
+const frame_names  = fs.readdirSync("sprite_sheets/" + sprite_sheet_name);
+frame_names.forEach(function(frame_name) {
+	const frame_path    = "sprite_sheets/" + sprite_sheet_name + "/" + frame_name;
+	const contents       = fs.readFileSync(frame_path);
+	packer_data.push({ path: frame_path, contents: contents });
 });
 
 const packer_options = {
@@ -46,8 +45,7 @@ const packer_options = {
     padding             : 2          , // important for quality
     allowRotation       : false      ,
     removeFileExtension : true       ,
-    //prependFolderName   : false      ,
-    prependFolderName   : true       ,
+    prependFolderName   : false      ,
     //scale             : 1 
     //scaleMethod       : BILINEAR, NEAREST_NEIGHBOR, BICUBIC, HERMITE, BEZIER
     exporter            : "JsonHash"
@@ -73,18 +71,17 @@ function process_good(items) {
 	fs.writeFileSync(image_file, image_item.buffer);
 	const packer_result = JSON.parse(json_item.buffer);
 	for (let frame_name in packer_result.frames) {
-		const sprite_name = frame_name.split("/")[2];
-		const sprite = {
-			tx_x    : packer_result.frames[frame_name].frame.x            ,
-			tx_y    : packer_result.frames[frame_name].frame.y            ,
-			tx_w    : packer_result.frames[frame_name].frame.w            ,
-			tx_h    : packer_result.frames[frame_name].frame.h            ,
-			rm_x    : packer_result.frames[frame_name].spriteSourceSize.x ,
-			rm_y    : packer_result.frames[frame_name].spriteSourceSize.y 
+		const frame = {
+			sx    : packer_result.frames[frame_name].frame.x            ,
+			sy    : packer_result.frames[frame_name].frame.y            ,
+			w     : packer_result.frames[frame_name].frame.w            ,
+			h     : packer_result.frames[frame_name].frame.h            ,
+			dx    : packer_result.frames[frame_name].spriteSourceSize.x ,
+			dy    : packer_result.frames[frame_name].spriteSourceSize.y 
 		};
-		sprites[sprite_name] = sprite;
+		frames[frame_name] = frame;
 	}
-	fs.writeFileSync(json_file, JSON.stringify(sprites));
+	fs.writeFileSync(json_file, JSON.stringify(frames));
 }
 
 function process_bad(items) {
