@@ -66,6 +66,10 @@ export function load_image(url) {
         });
 }
 
+export function load_json(url) {
+    return fetch(url).then(response => response.json());
+}
+
 export function unload_image(image) {
 	URL.revokeObjectURL(image.src);
 }
