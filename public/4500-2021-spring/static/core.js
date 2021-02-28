@@ -3,7 +3,7 @@ export const d_h = 1080;  // height of drawable area
 export const v_w = 1920;  // width  of game play area
 export const v_h = 1080;  // height of game play area
 
-const spf = 1/8  ;  // seconds per frame
+const spf = 1/8;  // seconds per frame
 const bg  = g_bg.getContext('2d', { alpha: true });
 const fg  = g_fg.getContext('2d', { alpha: true });
 
@@ -11,15 +11,15 @@ export function set_room(r) {
 	room = r;
 }
 
-let room           = null;
-let scale          = 1;
-let offset_x       = 0;
-let offset_y       = 0;
-let margin_left    = 0;
-let margin_top     = 0;
+let room        = null;
+let scale       = 1;
+let offset_x    = 0;
+let offset_y    = 0;
+let margin_left = 0;
+let margin_top  = 0;
 
-let bg_image       = null;
-let bg_dirty       = false;
+let bg_image    = null;
+let bg_dirty    = false;
 
 function adjust_canvas() {
 	// Get the window dimensions (viewport area)

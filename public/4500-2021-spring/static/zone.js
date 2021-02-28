@@ -97,7 +97,14 @@ c_zone.prototype.stops = function(o) {
 };
 
 c_zone.prototype.starts = function(o) {
-	this.start_set.push(o);
+	if (typeof(o) === 'string') {
+		this.start_set.push({ 
+			start: () => this.room.goto(o) 
+		});
+	} else {
+		this.start_set.push(o);
+	}
+	return this;
 };
 
 c_zone.prototype.start = function() {

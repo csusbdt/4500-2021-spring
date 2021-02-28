@@ -1,11 +1,12 @@
 import { load_script } from '/4500-2021-spring/static/utils.js';
 import { set_room, set_bg } from '/4500-2021-spring/static/core.js';
-import { c_zone } from '/4500-2021-spring/static/zone.js';
+import { c_zone  } from '/4500-2021-spring/static/zone.js';
+import { c_sound } from '/4500-2021-spring/static/c_sound.js';
 
 const rooms = new Map();
 export const rooms_to_load = new Map(); // accessed by dynamic scripts
 
-function c_room(name) {
+export function c_room(name) {
 	this.name      = name;
 	this.bg        = null;
 	this.on_start  = null;
@@ -15,6 +16,8 @@ function c_room(name) {
 	this.touch_x   = 0;
 	this.touch_y   = 0;
 }
+
+rooms.set('', new c_room(''));
 
 export const get_room = name => {
 	if (rooms.has(name)) {
@@ -57,7 +60,7 @@ c_room.prototype.render = function(dt) {
 c_room.prototype.start = function() {
 	set_room(this);
 	if (this.bg !== null) {
-		set_bg(this.bg);
+//		set_bg(this.bg);
 	}
 	if (this.on_start !== null) {
 		this.on_start();
@@ -65,8 +68,9 @@ c_room.prototype.start = function() {
 };
 
 c_room.prototype.stop = function() {
-	set_bg(null);
+	//set_bg(null);
 	set_room(null);
+	this.loadables.forEach(o => o.unload());
 	return Promise.resolve(this);
 };
 
@@ -87,4 +91,10 @@ c_room.prototype.goto = function(next_room_name) {
 
 c_room.prototype.z = function() {
 	return new c_zone(this);
+};
+
+c_room.prototype.s = function(url, volume) {
+	const sound = new c_sound(url, volume);
+	this.loadables.push(sound);
+	return sound;
 };

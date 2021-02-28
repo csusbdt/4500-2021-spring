@@ -8,12 +8,8 @@ export function c_sprites(name) {
 
 c_sprites.prototype.load = function() {
 	return Promise.all([
-		load_image(`/4500-2021-spring/sprites/${this.name}.png`).then(image => {
-			this.image = image;
-		}),
-		load_json(`/4500-2021-spring/sprites/${this.name}.json`).then(frames => {
-			this.frames = frames;
-		})
+		load_image(`/4500-2021-spring/sprites/${this.name}.png`),
+		load_json(`/4500-2021-spring/sprites/${this.name}.json`)
 	]).then(([image, frames]) => {
 		this.image  = image;
 		this.frames = frames;
