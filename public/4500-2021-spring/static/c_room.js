@@ -1,5 +1,5 @@
 import { load_script } from '/4500-2021-spring/static/utils.js';
-import { set_room, set_bg } from '/4500-2021-spring/static/core.js';
+import { set_room, set_bg_frame } from '/4500-2021-spring/static/core.js';
 import { c_zone  } from '/4500-2021-spring/static/zone.js';
 import { c_sound } from '/4500-2021-spring/static/c_sound.js';
 
@@ -12,6 +12,7 @@ export function c_room(name) {
 	this.on_start  = null;
 	this.loadables = new Array();
 	this.zones     = new Array();
+	this.drawables = new Array();
 	this.touched   = false;
 	this.touch_x   = 0;
 	this.touch_y   = 0;
@@ -44,7 +45,7 @@ c_room.prototype.on_touch = function([x, y]) {
 	this.touched = true;
 };
 
-c_room.prototype.render = function(dt) {
+c_room.prototype.render = function(dt, ctx) {
 	if (this.touched) {
 		for (let zone of this.zones) {
 			if (zone.contains(this.touch_x, this.touch_y)) {
@@ -55,20 +56,23 @@ c_room.prototype.render = function(dt) {
 		}
 		this.touched = false;
 	}
+	for (let o of this.drawables) {
+		o.draw(ctx);
+	}
 };
 
 c_room.prototype.start = function() {
 	set_room(this);
-	if (this.bg !== null) {
-//		set_bg(this.bg);
-	}
 	if (this.on_start !== null) {
 		this.on_start();
+	}
+	if (this.bg !== null) {
+		set_bg_frame(this.bg);
 	}
 };
 
 c_room.prototype.stop = function() {
-	//set_bg(null);
+	set_bg_frame(null);
 	set_room(null);
 	this.loadables.forEach(o => o.unload());
 	return Promise.resolve(this);
@@ -97,4 +101,14 @@ c_room.prototype.s = function(url, volume) {
 	const sound = new c_sound(url, volume);
 	this.loadables.push(sound);
 	return sound;
+};
+
+c_room.prototype.add_drawable = function(o) {
+	for (let i = this.drawables.length; i > 0; --i) {
+		if (this.drawables[i - 1].order <= this.order) {
+			this.drawables.splice(i, 0, this);
+			return;
+		}
+	}
+	this.drawables.unshift(o);
 };

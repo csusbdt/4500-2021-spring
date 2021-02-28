@@ -18,7 +18,7 @@ let offset_y    = 0;
 let margin_left = 0;
 let margin_top  = 0;
 
-let bg_image    = null;
+let bg_frame    = null;
 let bg_dirty    = false;
 
 function adjust_canvas() {
@@ -58,8 +58,8 @@ function adjust_canvas() {
 window.addEventListener('resize', adjust_canvas, true);
 adjust_canvas();
 
-export function set_bg(image) {
-	bg_image = image;
+export function set_bg_frame(frame) {
+	bg_frame = frame;
 	bg_dirty = true;
 }
 
@@ -67,10 +67,10 @@ let previous_time = new Date().getTime() / 1000;
 
 function animation_loop() {
 	if (bg_dirty) {
-		if (bg_image === null) {
+		if (bg_frame === null) {
 			bg.clearRect(0, 0, d_w, d_h);
 		} else {
-			bg.drawImage(bg_image, 0, 0);
+			bg_frame.draw(bg);
 		}
 		bg_dirty = false;
 	}
@@ -79,7 +79,7 @@ function animation_loop() {
 	previous_time = current_time;
 	if (dt > spf) dt = spf;
 	if (room !== null) {
-		room.render(dt);
+		room.render(dt, fg);
 	}
 	requestAnimationFrame(animation_loop);
 }
