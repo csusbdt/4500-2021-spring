@@ -10,6 +10,7 @@ const thud = r.s('/4500-2021-spring/sfx/thud.mp3', 1);
 const z_big = r.z().sound(thud).rect(0, 0, 1920, 1080).starts('test_1');
 
 r.on_start = _ => {
+	r.bg = r.sprites.get_frame('bg');
 	z_big.start();
 };
 
