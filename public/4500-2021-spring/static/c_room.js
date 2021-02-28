@@ -70,7 +70,6 @@ c_room.prototype.stop = function() {
 };
 
 c_room.prototype.goto = function(next_room_name) {
-//	this.touched = false; // clear any unprocessed touch event
 	let next_room = null;
 	return get_room(next_room_name)
 	.then(room => {

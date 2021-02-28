@@ -11,8 +11,8 @@ if (process.argv.length != 3) {
 	process.exit(1);
 }
 const sprite_sheet_name = process.argv[2];
-const image_file        = "public/4500-2021-spring/sprite_sheets/" + sprite_sheet_name + ".png";
-const json_file         = "public/4500-2021-spring/sprite_sheets/" + sprite_sheet_name + ".json";
+const image_file        = "public/4500-2021-spring/sprites/" + sprite_sheet_name + ".png";
+const json_file         = "public/4500-2021-spring/sprites/" + sprite_sheet_name + ".json";
 
 const assert         = require('assert').strict.ok    ;
 const fs             = require("fs")                  ;
@@ -31,9 +31,9 @@ if (fs.existsSync(json_file)) {
 console.log("packing " + sprite_sheet_name);
 
 const packer_data = [];
-const frame_names  = fs.readdirSync("sprite_sheets/" + sprite_sheet_name);
+const frame_names  = fs.readdirSync("sprites/" + sprite_sheet_name);
 frame_names.forEach(function(frame_name) {
-	const frame_path    = "sprite_sheets/" + sprite_sheet_name + "/" + frame_name;
+	const frame_path    = "sprites/" + sprite_sheet_name + "/" + frame_name;
 	const contents       = fs.readFileSync(frame_path);
 	packer_data.push({ path: frame_path, contents: contents });
 });

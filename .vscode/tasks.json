@@ -12,9 +12,9 @@
 			}
 		},
 		{
-			"label": "make sprite sheets",
+			"label": "make sprites",
 			"type": "shell",
-			"command": "bin/make_sprite_sheets.sh",
+			"command": "bin/make_sprites.sh",
 			"problemMatcher": []
 		},
 		{
