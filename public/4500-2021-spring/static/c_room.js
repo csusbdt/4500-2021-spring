@@ -1,5 +1,6 @@
 import { load_script } from '/4500-2021-spring/static/utils.js';
 import { set_room, set_bg } from '/4500-2021-spring/static/core.js';
+import { c_zone } from '/4500-2021-spring/static/zone.js';
 
 const rooms = new Map();
 export const rooms_to_load = new Map(); // accessed by dynamic scripts
@@ -42,9 +43,9 @@ c_room.prototype.on_touch = function([x, y]) {
 
 c_room.prototype.render = function(dt) {
 	if (this.touched) {
-		for (zone in this.zones) {
+		for (let zone of this.zones) {
 			if (zone.contains(this.touch_x, this.touch_y)) {
-				r.click.fast_play();
+				zone.touch();
 				console.log('touched');
 				break;
 			}
@@ -82,4 +83,8 @@ c_room.prototype.goto = function(next_room_name) {
 	.then(_ => {
 		return next_room.start();
 	})
+};
+
+c_room.prototype.z = function() {
+	return new c_zone(this);
 };

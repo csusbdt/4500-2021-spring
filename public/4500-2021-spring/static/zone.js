@@ -47,9 +47,14 @@ c_triangle.prototype.contains = function(x, y) {
 	return u >= 0 && v >= 0 && u + v < 1;
 };
 
-function c_zone() {
-	this.order = 10;
-	this.shapes = new Array();
+export function c_zone(room) {
+	this.room        = room;
+	this.order       = 10;
+	this.clear_zones = true;
+	this.shapes      = new Array();
+	this.start_set   = new Array();
+	this.stop_set    = new Array();
+	this.touch_sound = null;
 }
 
 c_zone.prototype.rect = function(left, top, right, bottom) {
@@ -71,6 +76,36 @@ c_zone.prototype.contains = function(x, y) {
 	return this.shapes.some(s => s.contains(x, y));
 };
 
-export function z() {
-	return new c_zone();
-}
+c_zone.prototype.sound = function(sound) {
+	this.touch_sound = sound;
+	return this;
+};
+
+c_zone.prototype.touch = function() {
+	if (this.touch_sound !== null) {
+		this.touch_sound.fast_play();
+	}
+	if (this.clear_zones) {
+		this.room.zones.length = 0;
+	}
+	this.stop_set.forEach(o => o.stop());
+	this.start_set.forEach(o => o.start());
+};
+
+c_zone.prototype.stops = function(o) {
+	this.stop_set.push(o);
+};
+
+c_zone.prototype.starts = function(o) {
+	this.start_set.push(o);
+};
+
+c_zone.prototype.start = function() {
+	for (let i = this.room.zones.length; i > 0; --i) {
+		if (this.room.zones[i - 1].order <= this.order) {
+			this.room.zones.splice(i, 0, this);
+			return;
+		}
+	}
+	this.room.zones.unshift(this);
+};

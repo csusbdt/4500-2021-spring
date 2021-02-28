@@ -32,6 +32,10 @@ c_sound.prototype.load = function() {
 	return this.fetch();
 };
 
+c_sound.prototype.unload = function() {
+	return this.release_memory();
+};
+
 // fetch allowed before user interaction 
 // use this function to prefetch audio before user interaction
 c_sound.prototype.fetch = function() {

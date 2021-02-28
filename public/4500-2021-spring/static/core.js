@@ -4,27 +4,13 @@ export const v_w = 1920;  // width  of game play area
 export const v_h = 1080;  // height of game play area
 
 const spf = 1/8  ;  // seconds per frame
-const bg = g_bg.getContext('2d', { alpha: true });
-const fg = g_fg.getContext('2d', { alpha: true });
+const bg  = g_bg.getContext('2d', { alpha: true });
+const fg  = g_fg.getContext('2d', { alpha: true });
 
 export function set_room(r) {
 	room = r;
 }
 
-// export function set_renderer(f) {
-// 	f_render = f;
-// }
-
-// export function get_renderer() {
-// 	return f_render;
-// }
-
-// export function set_on_touch(f) {
-// 	f_on_touch = f;
-// }
-
-// let f_render       = null;
-// let f_on_touch     = null;
 let room           = null;
 let scale          = 1;
 let offset_x       = 0;
