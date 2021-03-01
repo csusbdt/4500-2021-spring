@@ -9,18 +9,48 @@ const click = r.sound('/4500-2021-spring/sfx/click.mp3', 1);
 r.on_start = _ => {
 	r.bg = s1.get_frame('bg');
 
-	const o_apple = s1.get_frame('apple_region');
-	o_apple.next  = null;
-	r.z_apple = r.zone().sound(click).rect(0, 0, 1920, 1080).starts(o_apple);
-	r.z_apple.clear_zones = false;
+	const o_apple = s1.once('apple_region');
+	const o_big   = s1.once('big_region');
+	const o_red   = s1.once('red_region').starts('test_1');
+	const o_white = s1.loop('white_region');
+
+	r.z_apple = r.zone().sound(click).noclear().starts(o_apple);
+	r.z_big   = r.zone().sound(click).noclear().starts(o_big);
+	r.z_red   = r.zone().sound(click).noclear().starts(o_red);
+	r.z_white = r.zone().sound(click).noclear().starts(o_white);
+
+	r.z_apple
+		.triangle(1448, 830, 1260, 852, 1360, 657)
+		.triangle(1448, 830, 1588, 683, 1360, 657)
+		.triangle(1490, 553, 1588, 683, 1360, 657)
+		.triangle(1624, 577, 1588, 683, 1530, 603);
+
+	r.z_big
+		.rect(60, 133, 1060, 411);
+
+	r.z_red
+		.circle(725, 681, 45);
+	
+	r.z_white
+		.circle(223, 593, 100);
+
+	// .polygon(
+	// 	[1280, 840], 
+	// 	[1340, 683],
+	// 	[1484, 546],
+	// 	[1534, 591],
+	// 	[1607, 581],
+	// 	[1593, 688],
+	// 	[1448, 826]
+	// )
+
 	r.z_apple.start();
+	r.z_big.start();
+	r.z_red.start();
+	r.z_white.start();
 };
 
 /*
-	.triangle(1448, 830, 1260, 852, 1360, 657)
-	.triangle(1448, 830, 1588, 683, 1360, 657)
-	.triangle(1490, 553, 1588, 683, 1360, 657)
-	.triangle(1624, 577, 1588, 683, 1530, 603)
 
 	r.music = new c_sound('/4500-2021-spring/music/say_it_isnt_so.mp3', .5);
 

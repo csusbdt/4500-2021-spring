@@ -1,3 +1,5 @@
+import { insert, remove } from '/4500-2021-spring/static/utils.js';
+
 function c_rect(left, top, right, bottom) {
 	this.left   = left;
 	this.top    = top;
@@ -102,6 +104,11 @@ c_zone.prototype.contains = function(x, y) {
 	return this.shapes.some(s => s.contains(x, y));
 };
 
+c_zone.prototype.noclear = function() {
+	this.clear_zones = false;
+	return this;
+};
+
 c_zone.prototype.sound = function(sound) {
 	this.touch_sound = sound;
 	return this;
@@ -134,11 +141,9 @@ c_zone.prototype.starts = function(o) {
 };
 
 c_zone.prototype.start = function() {
-	for (let i = this.room.zones.length; i > 0; --i) {
-		if (this.room.zones[i - 1].order <= this.order) {
-			this.room.zones.splice(i, 0, this);
-			return;
-		}
-	}
-	this.room.zones.unshift(this);
+	insert(this.room.zones, this);
+};
+
+c_zone.prototype.stop = function() {
+	remove(this.room.zones, this);
 };

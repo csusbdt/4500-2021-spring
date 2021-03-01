@@ -8,7 +8,24 @@ function c_frame(json_frame) {
 	this.duration = .1;
 	this.image    = null;
 	this.next     = this; // make a loop
+	this.start_set   = new Array();
+	this.stop_set    = new Array();
 }
+
+c_frame.prototype.stops = function(o) {
+	this.stop_set.push(o);
+};
+
+c_frame.prototype.starts = function(o) {
+	if (typeof(o) === 'string') {
+		this.start_set.push({ 
+			start: () => this.room.goto(o) 
+		});
+	} else {
+		this.start_set.push(o);
+	}
+	return this;
+};
 
 c_frame.prototype.start = function() {
 	this.t = 0;
@@ -67,6 +84,22 @@ c_sprites.prototype.load = function() {
 
 c_sprites.prototype.unload = function() {
 	unload_image(this.image);
+};
+
+c_sprites.prototype.once = function(frame_name) {
+	const frame = new c_frame(this.json_frames[frame_name])
+	frame.room  = this.room;
+	frame.image = this.image;
+	frame.next  = null;
+	return frame;
+};
+
+c_sprites.prototype.loop = function(frame_name) {
+	const frame = new c_frame(this.json_frames[frame_name])
+	frame.room  = this.room;
+	frame.image = this.image;
+	frame.next  = frame;
+	return frame;
 };
 
 c_sprites.prototype.get_frame = function(frame_name) {
