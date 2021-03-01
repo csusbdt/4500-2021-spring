@@ -15,7 +15,7 @@ r.on_start = _ => {
 	const o_apple = s1.get_frame('apple_region');
 	o_apple.next  = null;
 	r.z_apple = r.zone().sound(click).rect(0, 0, 1920, 1080).starts(o_apple);
-
+	r.z_apple.clear_zones = false;
 	r.z_apple.start();
 };
 

@@ -12,16 +12,17 @@ self.addEventListener('install', function(event) {
 			'/4500-2021-spring/sfx/click.mp3',
 			'/4500-2021-spring/static/c_room.js',
 			'/4500-2021-spring/static/c_sound.js',
+			'/4500-2021-spring/static/c_sprites.js',
 			'/4500-2021-spring/static/core.js',
 			'/4500-2021-spring/static/index.js',
 			'/4500-2021-spring/static/utils.js',
+			'/4500-2021-spring/static/zone.js',
 			'/4500-2021-spring/manifest.webmanifest'
 		]);
 	}));
 });
 
 self.addEventListener('activate', event => {
-	console.log("activate " + version);
 	event.waitUntil(clients.claim());
 	event.waitUntil(caches.keys().then(cache_names => {
 		return Promise.all(cache_names.map(cache_name => {

@@ -4,22 +4,22 @@ export const v_w = 1920;  // width  of game play area
 export const v_h = 1080;  // height of game play area
 
 const spf = 1/8;  // seconds per frame
-const bg  = g_bg.getContext('2d', { alpha: true });
-const fg  = g_fg.getContext('2d', { alpha: true });
+const bg  = g_bg.getContext('2d', { alpha: false });
+const fg  = g_fg.getContext('2d', { alpha: true  });
 
 export function set_room(r) {
 	room = r;
 }
 
-let room        = null;
-let scale       = 1;
-let offset_x    = 0;
-let offset_y    = 0;
-let margin_left = 0;
-let margin_top  = 0;
+let room      = null;
+let scale     = 1;
+let offset_x  = 0;
+let offset_y  = 0;
+let left      = 0;
+let top       = 0;
 
-let bg_frame    = null;
-let bg_dirty    = false;
+let bg_frame  = null;
+let bg_dirty  = false;
 
 function adjust_canvas() {
 	// Get the window dimensions (viewport area)
@@ -43,12 +43,12 @@ function adjust_canvas() {
 	offset_y = (canvas_height - d_h * scale) / 2;
 
 	// Center canvas in browser window.
-	margin_left = (screen_width  - canvas_width ) / 2;
-	margin_top  = (screen_height - canvas_height) / 2;
-	g_fg.style['margin-left'] = margin_left;
-	g_bg.style['margin-left'] = margin_left;
-	g_fg.style['margin-top' ] = margin_top ;
-	g_bg.style['margin-top' ] = margin_top ;
+	left = (screen_width  - canvas_width ) / 2;
+	top  = (screen_height - canvas_height) / 2;
+	g_fg.style['left'] = left;
+	g_bg.style['left'] = left;
+	g_fg.style['top' ] = top ;
+	g_bg.style['top' ] = top ;
 
 	bg.setTransform(scale, 0, 0, scale, offset_x, offset_y);
 	fg.setTransform(scale, 0, 0, scale, offset_x, offset_y);
@@ -90,8 +90,8 @@ requestAnimationFrame(animation_loop);
 
 const room_coords = e => {
 	return [
-		(e.pageX - margin_left - offset_x) / scale,
-		(e.pageY - margin_top  - offset_y) / scale
+		(e.pageX - left - offset_x) / scale,
+		(e.pageY - top  - offset_y) / scale
 	];
 };
 
@@ -109,5 +109,5 @@ const touchstart = e => {
 	}
 };
 
-g_ui_div.addEventListener('mousedown' , mousedown, { capture: true, once: false });
-g_ui_div.addEventListener('touchstart', touchstart, { capture: true, once: false });
+g_fg.addEventListener('mousedown' , mousedown, { capture: true, once: false });
+g_fg.addEventListener('touchstart', touchstart, { capture: true, once: false });
