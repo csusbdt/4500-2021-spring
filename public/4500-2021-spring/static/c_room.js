@@ -1,7 +1,8 @@
 import { load_script } from '/4500-2021-spring/static/utils.js';
 import { set_room, set_bg_frame } from '/4500-2021-spring/static/core.js';
-import { c_zone  } from '/4500-2021-spring/static/zone.js';
-import { c_sound } from '/4500-2021-spring/static/c_sound.js';
+import { c_zone    } from '/4500-2021-spring/static/zone.js';
+import { c_sound   } from '/4500-2021-spring/static/c_sound.js';
+import { c_sprites } from '/4500-2021-spring/static/c_sprites.js';
 
 const rooms = new Map();
 export const rooms_to_load = new Map(); // accessed by dynamic scripts
@@ -93,14 +94,23 @@ c_room.prototype.goto = function(next_room_name) {
 	})
 };
 
-c_room.prototype.z = function() {
-	return new c_zone(this);
+c_room.prototype.zone = function(sound) {
+	const z = new c_zone(this);
+	z.touch_sound = sound;
+	return z;
 };
 
-c_room.prototype.s = function(url, volume) {
+c_room.prototype.sound = function(url, volume) {
 	const sound = new c_sound(url, volume);
 	this.loadables.push(sound);
 	return sound;
+};
+
+c_room.prototype.sprites = function(name) {
+	const s = new c_sprites(name);
+	s.room = this;
+	this.loadables.push(s);
+	return s;
 };
 
 c_room.prototype.add_drawable = function(o) {

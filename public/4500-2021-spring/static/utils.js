@@ -73,3 +73,13 @@ export function load_json(url) {
 export function unload_image(image) {
 	URL.revokeObjectURL(image.src);
 }
+
+export function insert_ordered(a, o) {
+	for (let i = a.length; i > 0; --i) {
+		if (a[i - 1].order <= o.order) {
+			a.splice(i, 0, o);
+			return;
+		}
+	}
+	a.unshift(o);
+}

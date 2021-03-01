@@ -1,13 +1,19 @@
-import { load_image, unload_image, load_json } from '/4500-2021-spring/static/utils.js';
+import { load_image, unload_image, load_json, insert_ordered } from '/4500-2021-spring/static/utils.js';
 
 function c_frame(json_frame) {
 	this.f        = json_frame;
+	this.room     = null;
 	this.order    = 10;
 	this.t        = 0;    // elapsed seconds
 	this.duration = .1;
 	this.image    = null;
 	this.next     = this; // make a loop
 }
+
+c_frame.prototype.start = function() {
+	this.t = 0;
+	insert_ordered(this.room.drawables, this);
+};
 
 c_frame.prototype.draw = function(ctx) {
 	ctx.drawImage(
@@ -24,6 +30,7 @@ c_frame.prototype.draw = function(ctx) {
 };
 
 export function c_sprites(name) {
+	this.room        = null;
 	this.name        = name;
 	this.image       = null;
 	this.json_frames = null;
@@ -45,6 +52,7 @@ c_sprites.prototype.unload = function() {
 
 c_sprites.prototype.get_frame = function(frame_name) {
 	const frame = new c_frame(this.json_frames[frame_name])
+	frame.room  = this.room;
 	frame.image = this.image;
 	return frame;
 };

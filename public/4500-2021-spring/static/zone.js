@@ -19,6 +19,27 @@ c_circle.prototype.contains = function(x, y) {
 	return (x - this.x) * (x - this.x) + (y - this.y) * (y - this.y) < this.r * this.r;
 };
 
+function c_polygon(...verts) {
+	this.n  = verts.length;
+	this.vx = verts.map(vert => vert[0]);
+	this.vy = verts.map(vert => vert[1]);
+}
+
+c_polygon.prototype.contains = function(x, y) {
+	let c = false;
+	for (let i = 0, j = this.n - 1; i < this.n; j = i++) {
+		if (
+			((this.vy[i] > y) != (this.vy[j] > y)) &&
+				(x < (this.vx[j] - this.vx[i]) * 
+				(y - this.vy[i]) / 
+				(this.vy[j] - this.vy[i]) + this.vx[i])
+		) {
+			c = !c;
+		}
+	}
+	return c;
+};
+
 function c_triangle(ax, ay, bx, by, cx, cy) {
 	this.ax = ax;
 	this.ay = ay;
@@ -69,6 +90,11 @@ c_zone.prototype.circle = function(x, y, r) {
 
 c_zone.prototype.triangle = function(ax, ay, bx, by, cx, cy) {
 	this.shapes.push(new c_triangle(ax, ay, bx, by, cx, cy));
+	return this;
+};
+
+c_zone.prototype.polygon = function(...verts) {
+	this.shapes.push(new c_polygon(verts));
 	return this;
 };
 
