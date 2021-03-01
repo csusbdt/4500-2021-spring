@@ -8,15 +8,16 @@ const rooms = new Map();
 export const rooms_to_load = new Map(); // accessed by dynamic scripts
 
 export function c_room(name) {
-	this.name      = name;
-	this.bg        = null;
-	this.on_start  = null;
-	this.loadables = new Array();
-	this.zones     = new Array();
-	this.drawables = new Array();
-	this.touched   = false;
-	this.touch_x   = 0;
-	this.touch_y   = 0;
+	this.name       = name;
+	this.bg         = null;
+	this.on_start   = null;
+	this.loadables  = new Array();
+	this.zones      = new Array();
+	this.updatables = new Array();
+	this.drawables  = new Array();
+	this.touched    = false;
+	this.touch_x    = 0;
+	this.touch_y    = 0;
 }
 
 rooms.set('', new c_room(''));
@@ -47,19 +48,23 @@ c_room.prototype.on_touch = function([x, y]) {
 };
 
 c_room.prototype.render = function(dt, ctx) {
+	for (let o of this.drawables) {
+		o.draw(ctx);
+	}
 	if (this.touched) {
 		for (let zone of this.zones) {
 			if (zone.contains(this.touch_x, this.touch_y)) {
 				zone.touch();
-				console.log('touched');
 				break;
 			}
 		}
 		this.touched = false;
 	}
-	for (let o of this.drawables) {
-		o.draw(ctx);
+	let clone = Array.from(this.updatables);
+	for (let o of clone) {
+		o.update(dt);
 	}
+	clone = null;
 };
 
 c_room.prototype.start = function() {

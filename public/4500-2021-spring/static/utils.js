@@ -74,7 +74,12 @@ export function unload_image(image) {
 	URL.revokeObjectURL(image.src);
 }
 
-export function insert_ordered(a, o) {
+export function remove(a, o) {
+	const i = a.indexOf(o);
+	a.splice(i, 1);
+}
+
+export function insert(a, o) {
 	for (let i = a.length; i > 0; --i) {
 		if (a[i - 1].order <= o.order) {
 			a.splice(i, 0, o);

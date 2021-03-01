@@ -2,12 +2,9 @@ import { rooms_to_load } from '/4500-2021-spring/static/c_room.js';
 
 const r  = rooms_to_load.get('test_2');
 
-const s1 = r.sprites('test_2');
-
+const s1    = r.sprites('test_2');
 const thud  = r.sound('/4500-2021-spring/sfx/thud.mp3', 1);
 const click = r.sound('/4500-2021-spring/sfx/click.mp3', 1);
-//const z_big = r.zone(thud).rect(0, 0, 1920, 1080).starts('test_1');
-
 
 r.on_start = _ => {
 	r.bg = s1.get_frame('bg');

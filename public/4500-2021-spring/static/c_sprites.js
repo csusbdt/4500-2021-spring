@@ -1,4 +1,4 @@
-import { load_image, unload_image, load_json, insert_ordered } from '/4500-2021-spring/static/utils.js';
+import { load_image, unload_image, load_json, insert, remove } from '/4500-2021-spring/static/utils.js';
 
 function c_frame(json_frame) {
 	this.f        = json_frame;
@@ -12,7 +12,26 @@ function c_frame(json_frame) {
 
 c_frame.prototype.start = function() {
 	this.t = 0;
-	insert_ordered(this.room.drawables, this);
+	insert(this.room.updatables, this);
+	insert(this.room.drawables, this);
+};
+
+c_frame.prototype.update = function(dt) {
+	this.t += dt;
+	if (this.t < this.duration) {
+		return;
+	}
+	remove(this.room.updatables, this);
+	remove(this.room.drawables, this);
+	if (this.next === null) return;
+	if (typeof(this.next) === 'string') {
+		this.room.goto(this.next);
+	} else if (typeof(this.next) === 'function') {
+		this.next();
+	} else {
+		insert(this.room.updatables, this.next);
+		insert(this.room.drawables, this.next);
+	}
 };
 
 c_frame.prototype.draw = function(ctx) {

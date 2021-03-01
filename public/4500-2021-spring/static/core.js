@@ -79,6 +79,7 @@ function animation_loop() {
 	previous_time = current_time;
 	if (dt > spf) dt = spf;
 	if (room !== null) {
+		fg.clearRect(0, 0, d_w, d_h);
 		room.render(dt, fg);
 	}
 	requestAnimationFrame(animation_loop);
