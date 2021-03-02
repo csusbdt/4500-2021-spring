@@ -74,17 +74,17 @@ export function unload_image(image) {
 	URL.revokeObjectURL(image.src);
 }
 
-export function remove(a, o) {
-	const i = a.indexOf(o);
-	a.splice(i, 1);
+export function remove(array, o) {
+	const i = array.indexOf(o);
+	array.splice(i, 1);
 }
 
-export function insert(a, o) {
-	for (let i = a.length; i > 0; --i) {
-		if (a[i - 1].order <= o.order) {
-			a.splice(i, 0, o);
+export function insert(ordered_array, o) {
+	for (let i = ordered_array.length; i > 0; --i) {
+		if (ordered_array[i - 1].order <= o.order) {
+			ordered_array.splice(i, 0, o);
 			return;
 		}
 	}
-	a.unshift(o);
+	ordered_array.unshift(o);
 }

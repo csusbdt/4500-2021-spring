@@ -3,12 +3,13 @@ export const d_h = 1080;  // height of drawable area
 export const v_w = 1920;  // width  of game play area
 export const v_h = 1080;  // height of game play area
 
-const spf = 1/8;  // seconds per frame
-const bg  = g_bg.getContext('2d', { alpha: false });
-const fg  = g_fg.getContext('2d', { alpha: true  });
+const spf    = 1/8;  // seconds per frame
+const bg_ctx = g_bg.getContext('2d', { alpha: false });
+const fg_ctx = g_fg.getContext('2d', { alpha: true  });
 
 export function set_room(r) {
 	room = r;
+	bg_dirty = true;
 }
 
 let room      = null;
@@ -18,8 +19,8 @@ let offset_y  = 0;
 let left      = 0;
 let top       = 0;
 
-let bg_frame  = null;
-let bg_dirty  = false;
+//let bg_frame  = null;
+let bg_dirty  = true;
 
 function adjust_canvas() {
 	// Get the window dimensions (viewport area)
@@ -50,37 +51,39 @@ function adjust_canvas() {
 	g_fg.style['top' ] = top ;
 	g_bg.style['top' ] = top ;
 
-	bg.setTransform(scale, 0, 0, scale, offset_x, offset_y);
-	fg.setTransform(scale, 0, 0, scale, offset_x, offset_y);
+	bg_ctx.setTransform(scale, 0, 0, scale, offset_x, offset_y);
+	fg_ctx.setTransform(scale, 0, 0, scale, offset_x, offset_y);
 	bg_dirty = true;
 }
 
 window.addEventListener('resize', adjust_canvas, true);
 adjust_canvas();
 
-export function set_bg_frame(frame) {
-	bg_frame = frame;
-	bg_dirty = true;
-}
+// export function set_bg_frame(frame) {
+// 	bg_frame = frame;
+// 	bg_dirty = true;
+// }
 
 let previous_time = new Date().getTime() / 1000;
 
 function animation_loop() {
-	if (bg_dirty) {
-		if (bg_frame === null) {
-			bg.clearRect(0, 0, d_w, d_h);
-		} else {
-			bg_frame.draw(bg);
-		}
-		bg_dirty = false;
-	}
-	const current_time = new Date().getTime() / 1000;
-	let dt = current_time - previous_time;
-	previous_time = current_time;
-	if (dt > spf) dt = spf;
 	if (room !== null) {
-		fg.clearRect(0, 0, d_w, d_h);
-		room.render(dt, fg);
+		if (bg_dirty) {
+			if (room.bg === null) {
+				bg_ctx.clearRect(0, 0, d_w, d_h);
+			} else {
+				room.bg.draw(bg_ctx);
+			}
+			bg_dirty = false;
+		}
+		const current_time = new Date().getTime() / 1000;
+		let dt = current_time - previous_time;
+		previous_time = current_time;
+		if (dt > spf) dt = spf;
+		if (room !== null) {
+			fg_ctx.clearRect(0, 0, d_w, d_h);
+			room.render(dt, fg_ctx);
+		}
 	}
 	requestAnimationFrame(animation_loop);
 }

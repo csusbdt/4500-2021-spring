@@ -1,26 +1,26 @@
-import { load_script } from '/4500-2021-spring/static/utils.js';
-import { set_room, set_bg_frame } from '/4500-2021-spring/static/core.js';
-import { c_zone    } from '/4500-2021-spring/static/zone.js';
-import { c_sound   } from '/4500-2021-spring/static/c_sound.js';
-import { c_sprites } from '/4500-2021-spring/static/c_sprites.js';
+import { load_script, insert, remove } from '/4500-2021-spring/static/utils.js';
+import { set_room       } from '/4500-2021-spring/static/core.js';
+import { c_zone         } from '/4500-2021-spring/static/zone.js';
+import { c_sound        } from '/4500-2021-spring/static/c_sound.js';
+import { c_sprites      } from '/4500-2021-spring/static/c_sprites.js';
 
-const rooms = new Map();
 export const rooms_to_load = new Map(); // accessed by dynamic scripts
 
 export function c_room(name) {
 	this.name       = name;
 	this.bg         = null;
-	this.on_start   = null;
+	this.on_start   = null; // set by dynamic script
 	this.loadables  = new Array();
 	this.zones      = new Array();
-	this.updatables = new Array();
+	this.updatables = new Array(); // not ordered
 	this.drawables  = new Array();
 	this.touched    = false;
 	this.touch_x    = 0;
 	this.touch_y    = 0;
 }
 
-rooms.set('', new c_room(''));
+const rooms = new Map();
+rooms.set('', new c_room('')); // used during app initialization
 
 export const get_room = name => {
 	if (rooms.has(name)) {
@@ -32,13 +32,30 @@ export const get_room = name => {
 		rooms_to_load.set(name, room);
 		return load_script(`/4500-2021-spring/dynamic/r_${name}.js`)
 		.then(_ => {
+			rooms_to_load.delete(name);
 			rooms.set(name, room);
 			return room;
 		})
-		.finally(_ => {
+		.catch(e => {
 			rooms_to_load.delete(name);
 		});
 	}
+};
+
+c_room.prototype.insert_updatable = function(o) {
+	this.updatables.push(o);
+};
+
+c_room.prototype.insert_drawable = function(o) {
+	insert(this.drawables, o);
+};
+
+c_room.prototype.remove_updatable = function(o) {
+	remove(this.updatables, o);
+};
+
+c_room.prototype.remove_drawable = function(o) {
+	remove(this.drawables, o);
 };
 
 c_room.prototype.on_touch = function([x, y]) {
@@ -72,13 +89,9 @@ c_room.prototype.start = function() {
 	if (this.on_start !== null) {
 		this.on_start();
 	}
-	if (this.bg !== null) {
-		set_bg_frame(this.bg);
-	}
 };
 
 c_room.prototype.stop = function() {
-	set_bg_frame(null);
 	set_room(null);
 	this.loadables.forEach(o => o.unload());
 	return Promise.resolve(this);
@@ -100,8 +113,7 @@ c_room.prototype.goto = function(next_room_name) {
 };
 
 c_room.prototype.zone = function(sound) {
-	const z = new c_zone(this);
-	z.touch_sound = sound;
+	const z = new c_zone(this, sound);
 	return z;
 };
 
@@ -118,12 +130,12 @@ c_room.prototype.sprites = function(name) {
 	return s;
 };
 
-c_room.prototype.add_drawable = function(o) {
-	for (let i = this.drawables.length; i > 0; --i) {
-		if (this.drawables[i - 1].order <= this.order) {
-			this.drawables.splice(i, 0, this);
-			return;
-		}
-	}
-	this.drawables.unshift(o);
-};
+// c_room.prototype.add_drawable = function(o) {
+// 	for (let i = this.drawables.length; i > 0; --i) {
+// 		if (this.drawables[i - 1].order <= this.order) {
+// 			this.drawables.splice(i, 0, this);
+// 			return;
+// 		}
+// 	}
+// 	this.drawables.unshift(o);
+// };
