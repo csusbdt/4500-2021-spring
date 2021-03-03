@@ -60,9 +60,18 @@ export function load_image(url) {
     return fetch(url)
         .then(response => response.blob())
         .then(function(blob) {
-            const image = new Image();
-            image.src = URL.createObjectURL(blob);
-            return image;
+			return new Promise((resolve, reject) => {
+				const image = new Image();
+				image.onload = e => {
+					URL.revokeObjectURL(image.src);
+					resolve(image);
+				}
+				image.onerror = e => {
+					reject(e);
+				}				
+				image.src = URL.createObjectURL(blob);
+				return image;	
+			})
         });
 }
 
@@ -71,7 +80,8 @@ export function load_json(url) {
 }
 
 export function unload_image(image) {
-	URL.revokeObjectURL(image.src);
+//	URL.revokeObjectURL(image.src);
+//	image.src = null;
 }
 
 export function remove(array, o) {

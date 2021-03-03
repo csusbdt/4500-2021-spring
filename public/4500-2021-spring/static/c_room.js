@@ -7,17 +7,18 @@ import { c_sprites      } from '/4500-2021-spring/static/c_sprites.js';
 export const rooms_to_load = new Map(); // accessed by dynamic scripts
 
 export function c_room(name) {
-	this.name       = name;
-	this.bg         = null;
-	this.on_start   = null; // set by dynamic script
-	this.loadables  = new Array();
-	this.zones      = new Array();
-	this.updatables = new Array(); // not ordered
-	this.drawables  = new Array();
-	this.touched    = false;
-	this.touch_x    = 0;
-	this.touch_y    = 0;
-	this.next_room  = null;
+	this.name          = name;
+	this.bg            = null;
+	this.on_start      = null; // set by dynamic script
+	this.loadables     = new Array();
+	this.zones         = new Array();
+	this.updatables    = new Array(); // not ordered
+	this.drawables     = new Array();
+	this.touched       = false;
+	this.touch_x       = 0;
+	this.touch_y       = 0;
+	this.next_room     = null;
+	this.previous_room = null;
 }
 
 const rooms = new Map();
@@ -82,6 +83,9 @@ c_room.prototype.on_touch = function([x, y]) {
 };
 
 c_room.prototype.start = function() {
+	if (this.previous_room !== null) {
+		this.previous_room.stop();
+	}
 	set_room(this);
 	if (this.on_start !== null) {
 		this.on_start();
@@ -102,6 +106,7 @@ c_room.prototype.goto = function(next_room_name) {
 	})
 	.then(() => {
 		this.next_room = next_room;
+		next_room.previous_room = this;
 	})
 };
 

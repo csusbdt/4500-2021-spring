@@ -11,6 +11,7 @@ export function c_frame(sprites, name) {
 	this.stops         = stops;
 	this.run_stop_set  = run_stop_set;
 	this.run_start_set = run_start_set;
+	this.wait_on_goto  = false;
 
 	this.order         = 10;
 	this.t             = 0;    // elapsed seconds

@@ -4,7 +4,8 @@ This file is for my working notes.
 
 Today's Plan:
 
-Develop caching strategy for images.  Learn IndexedDB.
+* Develop caching strategy for images.  Learn IndexedDB.
+* mayb read https://www.davrous.com/2019/10/18/myth-busting-pwas-the-new-edge-edition/
 
 Tomorrow's Plan:
 

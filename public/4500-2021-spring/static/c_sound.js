@@ -5,7 +5,7 @@ export function get_audio_context() {
 		audio_context = new (window.AudioContext || window.webkitAudioContext)();
 	}
 	if (audio_context.state === 'suspended') {
-		audio_context.resume();
+		audio_context.resume(); // resume works in safari only when called in a ui event handler
 		if (audio_context.state === 'suspended') {
 				return null;
 		}
@@ -36,8 +36,8 @@ c_sound.prototype.unload = function() {
 	return this.release_memory();
 };
 
-// fetch allowed before user interaction 
-// use this function to prefetch audio before user interaction
+// fetch can load undecoded (compressed) audio data before user interaction
+// Can only decode array_buffer once!
 c_sound.prototype.fetch = function() {
 	if (this.array_buffer !== null) {
 		return Promise.resolve(this.array_buffer);
@@ -61,8 +61,8 @@ c_sound.prototype.fetch = function() {
 	}
 };
 
-// decode requires an audioContext, which requires user interaction 
-// can only decode array_buffer once!
+// decode (decompressing) requires an audioContext, which requires user interaction 
+// Can only decode array_buffer once!
 c_sound.prototype.decode = function() {
 	if (this.audio_buffer !== null) {
 		return Promise.resolve(this.audio_buffer);

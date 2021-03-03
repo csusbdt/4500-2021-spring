@@ -90,7 +90,9 @@ function animation_loop() {
 	requestAnimationFrame(animation_loop);
 }
 
-requestAnimationFrame(animation_loop);
+export const start_animation_loop = () => {
+	requestAnimationFrame(animation_loop);
+};
 
 // need to convert mouse event coords to game world coords
 
