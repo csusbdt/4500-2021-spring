@@ -10,8 +10,8 @@ r.on_start = _ => {
 	r.bg = s1.once('bg');
 
 	const o_apple = s1.once('apple_region');
-	const o_big   = s1.once('big_region'  );
-	const o_red   = s1.once('red_region'  ).starts('test_1');
+	const o_big   = s1.once('big_region'  ).starts('test_1');
+	const o_red   = s1.once('red_region'  );
 	const o_white = s1.loop('white_region');
 
 	r.z_apple = r.zone(click).noclear().starts(o_apple);

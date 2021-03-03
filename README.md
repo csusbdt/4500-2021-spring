@@ -15,6 +15,10 @@ https://github.com/audiojs/web-audio-stream
 * [site through github pages](https://csusbdt.github.io/4500-2021-spring/)
 * [127.0.0.1:8080/](https://127.0.0.1:8080/)
 
+__test safari__
+
+Safari ... Preferences ... Privacy ... Manage Website Data ... select and remove
+
 __dev dependencies__
 
 * github, vscode, node, eslint, babel, eslint-babel

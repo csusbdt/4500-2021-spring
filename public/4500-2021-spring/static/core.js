@@ -1,3 +1,5 @@
+import { get_audio_context } from '/4500-2021-spring/static/c_sound.js';
+
 export const d_w = 1920;  // width  of drawable area
 export const d_h = 1080;  // height of drawable area
 export const v_w = 1920;  // width  of game play area
@@ -100,6 +102,7 @@ const room_coords = e => {
 };
 
 const mousedown = e => {
+	get_audio_context();
 	e.preventDefault();
 	if (room !== null) {
 		room.on_touch(room_coords(e));
@@ -107,6 +110,7 @@ const mousedown = e => {
 };
 
 const touchstart = e => {
+	get_audio_context();
 	e.preventDefault();
 	if (room !== null) {
 		room.on_touch(room_coords(e.changedTouches[0]));
