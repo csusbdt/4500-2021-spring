@@ -19,7 +19,7 @@ export function message(...messages) {
 };
 
 export function register_service_worker() {
-	if ('serviceWorker' in navigator) {	
+	if ('serviceWorker' in navigator) {
 		return navigator.serviceWorker.register('/4500-2021-spring/sw.js')
 		.then(registration => {
 			registration.addEventListener('updatefound', e => {
@@ -28,9 +28,9 @@ export function register_service_worker() {
 						window.location.reload();
 					}
 				});
-			}, { once: true });
+			});
 		})
-		.then(navigator.serviceWorker.ready);
+//		.then(navigator.serviceWorker.ready);
 	} else {
 		return Promise.resolve();
 	}

@@ -20,29 +20,27 @@
 	<style>
 		html, body { 
 			overflow: hidden; 
+		}
+		html, body, #g_message_div { 
 			width:    100%; 
 			height:   100%; 
 			margin :  0; 
 			padding:  0; 
 		}
-		#g_message_div { 
-			position: absolute;
-			display:  none; 
-			top:      0;
-			left:     0;
-			height:   100%;
-			width:    100%;
-			padding:  1em;
-		}
 		body, #g_bg { 
 			background-color: #5A5A5A;
 		}
-		#g_bg {
+		#g_message_div, #g_bg, #g_fg { 
 			position: absolute;
+		}
+		#g_message_div { 
+			display:  none; 
+			padding:  1em;
+		}
+		#g_bg {
 			z-index: 1;
 		}
 		#g_fg {
-			position: absolute;
 			z-index: 2;
 		}
 	</style>

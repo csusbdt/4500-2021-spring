@@ -1,20 +1,22 @@
 /* eslint-env serviceworker */
 
-const version = "v4";
+const version = "v5";
+
+self.skipWaiting(); // activate immediately after install
 
 self.addEventListener('install', function(event) {
-	console.log("install " + version);
-	self.skipWaiting();
 	event.waitUntil(caches.open(version).then(cache => {
 		cache.addAll([
 			'/4500-2021-spring/',
 			'/4500-2021-spring/dynamic/r_test_1.js',
 			'/4500-2021-spring/sfx/click.mp3',
+			'/4500-2021-spring/static/c_frame.js',
 			'/4500-2021-spring/static/c_room.js',
 			'/4500-2021-spring/static/c_sound.js',
 			'/4500-2021-spring/static/c_sprites.js',
 			'/4500-2021-spring/static/core.js',
 			'/4500-2021-spring/static/index.js',
+			'/4500-2021-spring/static/mixins.js',
 			'/4500-2021-spring/static/utils.js',
 			'/4500-2021-spring/static/zone.js',
 			'/4500-2021-spring/manifest.webmanifest'
@@ -54,6 +56,7 @@ function fetch_request(request) {
 		}
 	});
 }
+
 
 self.addEventListener('fetch', function(event) {
 	if (event.request.method === 'GET') {
