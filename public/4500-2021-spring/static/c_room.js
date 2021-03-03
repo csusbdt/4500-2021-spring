@@ -17,6 +17,7 @@ export function c_room(name) {
 	this.touched    = false;
 	this.touch_x    = 0;
 	this.touch_y    = 0;
+	this.next_room  = null;
 }
 
 const rooms = new Map();
@@ -42,6 +43,22 @@ export const get_room = name => {
 	}
 };
 
+c_room.prototype.zone = function(sound) {
+	return new c_zone(this, sound);
+};
+
+c_room.prototype.sound = function(url, volume) {
+	const sound = new c_sound(url, volume);
+	this.loadables.push(sound);
+	return sound;
+};
+
+c_room.prototype.sprites = function(name) {
+	const s = new c_sprites(this, name);
+	this.loadables.push(s);
+	return s;
+};
+
 c_room.prototype.insert_updatable = function(o) {
 	this.updatables.push(o);
 };
@@ -64,26 +81,6 @@ c_room.prototype.on_touch = function([x, y]) {
 	this.touched = true;
 };
 
-c_room.prototype.render = function(dt, ctx) {
-	for (let o of this.drawables) {
-		o.draw(ctx);
-	}
-	if (this.touched) {
-		for (let zone of this.zones) {
-			if (zone.contains(this.touch_x, this.touch_y)) {
-				zone.touch();
-				break;
-			}
-		}
-		this.touched = false;
-	}
-	let clone = Array.from(this.updatables);
-	for (let o of clone) {
-		o.update(dt);
-	}
-	clone = null;
-};
-
 c_room.prototype.start = function() {
 	set_room(this);
 	if (this.on_start !== null) {
@@ -94,7 +91,6 @@ c_room.prototype.start = function() {
 c_room.prototype.stop = function() {
 	set_room(null);
 	this.loadables.forEach(o => o.unload());
-	return Promise.resolve(this);
 };
 
 c_room.prototype.goto = function(next_room_name) {
@@ -104,38 +100,28 @@ c_room.prototype.goto = function(next_room_name) {
 		next_room = room;
 		return Promise.all(next_room.loadables.map(o => o.load()));
 	})
-	.then(_ => {
-		return this.stop();
-	})
-	.then(_ => {
-		return next_room.start();
+	.then(() => {
+		this.next_room = next_room;
 	})
 };
 
-c_room.prototype.zone = function(sound) {
-	const z = new c_zone(this, sound);
-	return z;
+c_room.prototype.render = function(dt, ctx) {
+	if (this.next_room === null || this.updatables.some(o => o.wait_on_goto)) {
+		for (let o of this.drawables) o.draw(ctx);
+		if (this.touched) {
+			for (let zone of this.zones) {
+				if (zone.contains(this.touch_x, this.touch_y)) {
+					zone.touch();
+					break;
+				}
+			}
+			this.touched = false;
+		}
+		let updatables = Array.from(this.updatables);
+		for (let o of updatables) o.update(dt);
+		updatables = null;
+	} else {
+		this.stop();
+		this.next_room.start();
+	}
 };
-
-c_room.prototype.sound = function(url, volume) {
-	const sound = new c_sound(url, volume);
-	this.loadables.push(sound);
-	return sound;
-};
-
-c_room.prototype.sprites = function(name) {
-	const s = new c_sprites(name);
-	s.room = this;
-	this.loadables.push(s);
-	return s;
-};
-
-// c_room.prototype.add_drawable = function(o) {
-// 	for (let i = this.drawables.length; i > 0; --i) {
-// 		if (this.drawables[i - 1].order <= this.order) {
-// 			this.drawables.splice(i, 0, this);
-// 			return;
-// 		}
-// 	}
-// 	this.drawables.unshift(o);
-// };

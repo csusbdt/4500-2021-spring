@@ -1,8 +1,8 @@
 import { load_image, unload_image, load_json, insert, remove } from '/4500-2021-spring/static/utils.js';
 import { c_frame } from '/4500-2021-spring/static/c_frame.js';
 
-export function c_sprites(name) {
-	this.room        = null;
+export function c_sprites(room, name) {
+	this.room        = room;
 	this.name        = name;
 	this.image       = null;
 	this.json_frames = null;
