@@ -1,6 +1,5 @@
 import { load_image, load_json } from '/4500-2021-spring/static/utils.js';
 import { c_once } from '/4500-2021-spring/static/c_once.js';
-//import { c_frame } from '/4500-2021-spring/static/c_frame.js';
 
 export function c_spritesheet(name) {
 	this.name   = name;
@@ -54,13 +53,3 @@ c_spritesheet.prototype.sub = function(frame_name) {
 	return new c_sub_image(this, frame_name);
 };
 
-c_spritesheet.prototype.once = function(frame_name) {
-	return new c_once(new c_sub_image(this, frame_name));
-};
-
-// c_spritesheet.prototype.loop = function(frame_name) {
-//  	const frame = new c_frame(this, frame_name);
-// 	frame.loop = true;
-// 	//frame.starts(frame);
-// 	return frame;
-// };

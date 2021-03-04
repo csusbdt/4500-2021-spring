@@ -1,4 +1,4 @@
-import { rooms } from '/4500-2021-spring/static/c_room.js';
+import { rooms } from '/4500-2021-spring/static/rooms.js';
 
 const r = rooms.get('test_2');
 
@@ -9,10 +9,12 @@ const click = r.sound('/4500-2021-spring/sfx/click.mp3', 1);
 r.on_start = () => {
 	r.bg(ss, 'bg');
 
-	const o_apple = ss.once('apple_region');
-	const o_big   = ss.once('big_region'  ).starts('test_1');
-	const o_red   = ss.once('red_region'  );
-	const o_white = ss.loop('white_region');
+	const test_1  = r.goto('test_1');
+
+	const o_apple = r.once(ss, 'apple_region');
+	const o_big   = r.once(ss, 'big_region'  ).starts(test_1);
+	const o_red   = r.once(ss, 'red_region'  );
+	const o_white = r.loop(ss, 'white_region');
 
 	r.z_apple = r.zone(click).noclear().starts(o_apple);
 	r.z_big   = r.zone(click).noclear().starts(o_big  );

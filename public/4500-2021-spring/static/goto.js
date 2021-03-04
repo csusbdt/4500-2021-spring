@@ -1,6 +1,6 @@
-import { get_room } from './rooms';
+import { get_room } from '/4500-2021-spring/static/rooms.js';
 
-function c_goto(room, next_room_name) {
+export function c_goto(room, next_room_name) {
 	this.room           = room;
 	this.next_room_name = next_room_name;
 	this.block_goto     = false;

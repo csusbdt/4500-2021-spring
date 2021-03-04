@@ -1,5 +1,5 @@
 import { message, register_service_worker } from '/4500-2021-spring/static/utils.js';
-import { get_room                         } from '/4500-2021-spring/static/c_room.js';
+import { get_room                         } from '/4500-2021-spring/static/rooms.js';
 import { set_room, start_animation_loop   } from '/4500-2021-spring/static/core.js';
 
 // global error handlers for uncaught exceptions
@@ -22,10 +22,8 @@ window.addEventListener('load', e => {
 	.then(r => { 
 		set_room(r);
 		start_animation_loop();
+		return r.goto('test_1').start();
 		return r; 
-	})
-	.then(r => {
-		return r.goto('test_1');
 	})
 	.catch(e => message(`load event handler failed with ${e}`));
 }, { once: true });

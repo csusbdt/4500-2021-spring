@@ -1,6 +1,4 @@
-//import { insert, remove } from '/4500-2021-spring/static/utils.js';
 import { starts, stops, run_stop_set, run_start_set } from '/4500-2021-spring/static/mixins.js';
-
 
 export function c_frame(room, sub) {
 	this.sub           = sub;

@@ -1,6 +1,4 @@
-//import { get_spritesheet             } from '/4500-2021-spring/static/spritesheets.js';
-
-import { c_frame } from "./c_frame";
+import { c_frame } from '/4500-2021-spring/static/c_frame.js';
 
 export function c_once(room, sub) {
 	this.frame = new c_frame(room, sub);
