@@ -1,4 +1,3 @@
-import { c_frame } from '/4500-2021-spring/static/c_frame.js';
 import { starts, stops, run_stop_set, run_start_set } from '/4500-2021-spring/static/mixins.js';
 
 export function c_once(room) {

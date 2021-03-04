@@ -19,13 +19,14 @@ cp $a/music/*                             $b/music/
 cp $a/sfx/*                               $b/sfx/
 cp $a/sprites/*                           $b/sprites/
 
-npx terser $a/static/c_frame.js           -m -c -o $b/static/c_frame.js
-npx terser $a/static/c_room.js            -m -c -o $b/static/c_room.js
+npx terser $a/static/c_once.js            -m -c -o $b/static/c_once.js
 npx terser $a/static/c_sound.js           -m -c -o $b/static/c_sound.js
-npx terser $a/static/c_sprites.js         -m -c -o $b/static/c_sprites.js
 npx terser $a/static/core.js              -m -c -o $b/static/core.js
+npx terser $a/static/goto.js              -m -c -o $b/static/goto.js
 npx terser $a/static/index.js             -m -c -o $b/static/index.js
 npx terser $a/static/mixins.js            -m -c -o $b/static/mixins.js
+npx terser $a/static/rooms.js             -m -c -o $b/static/rooms.js
+npx terser $a/static/spritesheets.js      -m -c -o $b/static/spritesheets.js
 npx terser $a/static/utils.js             -m -c -o $b/static/utils.js
 npx terser $a/static/zone.js              -m -c -o $b/static/zone.js
 

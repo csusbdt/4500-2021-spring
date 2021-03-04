@@ -64,7 +64,8 @@ c_room.prototype.spritesheet = function(name) {
 
 c_room.prototype.once = function(spritesheet, ...frame_names) {
 	const o = new c_once(this);
-	frame_names.forEach(fn => o.add(new c_frame(spritesheet, fn)));
+//	frame_names.forEach(fn => o.add(new c_frame(spritesheet, fn)));
+	frame_names.forEach(fn => o.add(spritesheet.frame(fn)));
 	return o;
 };
 
@@ -104,6 +105,9 @@ c_room.prototype.start = function() {
 c_room.prototype.stop = function() {
 	set_bg(null);
 	set_room(null);
+	this.drawables.length = 0;
+	this.updatables.length = 0;
+	this.zones.length = 0;
 	this.sounds.forEach(s => s.release_memory());
 };
 
