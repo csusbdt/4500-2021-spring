@@ -1,7 +1,21 @@
 import { load_image, load_json } from '/4500-2021-spring/static/utils.js';
-import { c_once } from '/4500-2021-spring/static/c_once.js';
+//import { c_frame               } from '/4500-2021-spring/static/c_frame.js';
+//import { c_once                } from '/4500-2021-spring/static/c_once.js';
 
-export function c_spritesheet(name) {
+function c_frame(spritesheet, frame_name) {
+	this.i = spritesheet.image;
+	this.f = spritesheet.frames[frame_name];
+}
+
+c_frame.prototype.draw = function(ctx) {
+	ctx.drawImage(
+		this.i, 
+		this.f.sx, this.f.sy, this.f.w, this.f.h, 
+		this.f.dx, this.f.dy, this.f.w, this.f.h
+	);
+};
+
+function c_spritesheet(name) {
 	this.name   = name;
 	this.image  = null;
 	this.frames = null;
@@ -36,20 +50,6 @@ c_spritesheet.prototype.load = function() {
 	});
 };
 
-function c_sub_image(spritesheet, frame_name) {
-	this.i = spritesheet.image;
-	this.f = spritesheet.frames[frame_name];
-}
-
-c_sub_image.prototype.draw = function(ctx) {
-	ctx.drawImage(
-		this.i, 
-		this.f.sx, this.f.sy, this.f.w, this.f.h, 
-		this.f.dx, this.f.dy, this.f.w, this.f.h
-	);
-}
-
-c_spritesheet.prototype.sub = function(frame_name) {
-	return new c_sub_image(this, frame_name);
+c_spritesheet.prototype.frame = function(frame_name) {
+	return new c_frame(this, frame_name);
 };
-

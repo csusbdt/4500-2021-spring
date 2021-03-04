@@ -1,13 +1,12 @@
 import { rooms } from '/4500-2021-spring/static/rooms.js';
 
-const r = rooms.get('test_2');
-
+const r     = rooms.get('test_2');
 const ss    = r.spritesheet('test_2');
 const thud  = r.sound('/4500-2021-spring/sfx/thud.mp3', 1);
 const click = r.sound('/4500-2021-spring/sfx/click.mp3', 1);
 
 r.on_start = () => {
-	r.bg(ss, 'bg');
+	r.bg(ss.frame('bg'));
 
 	const test_1  = r.goto('test_1');
 

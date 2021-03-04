@@ -8,7 +8,6 @@ import { c_once                      } from '/4500-2021-spring/static/c_once.js'
 
 export function c_room(name) {
 	this.name          = name;
-//	this.bg            = null;
 	this.on_start      = null; // set by dynamic script
 	this.spritesheets  = new Array();
 	this.sounds        = new Array();
@@ -57,18 +56,20 @@ c_room.prototype.sound = function(url, volume) {
 	return s;
 };
 
-c_room.prototype.once = function(spritesheet, frame_name) {
-	return new c_once(this, spritesheet.sub(frame_name));
-};
-
 c_room.prototype.spritesheet = function(name) {
 	const ss = get_spritesheet(name);
 	this.spritesheets.push(ss);
 	return ss;
 };
 
-c_room.prototype.bg = function(spritesheet, frame_name) {
-	set_bg(spritesheet.sub(frame_name));
+c_room.prototype.once = function(spritesheet, ...frame_names) {
+	const o = new c_once(this);
+	frame_names.forEach(fn => o.add(new c_frame(spritesheet, fn)));
+	return o;
+};
+
+c_room.prototype.bg = function(frame) {
+	set_bg(frame);
 };
 
 c_room.prototype.insert_updatable = function(o) {
