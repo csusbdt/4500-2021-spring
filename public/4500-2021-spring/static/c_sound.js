@@ -28,13 +28,13 @@ export function c_sound(file, volume) {
 	this.decoding = false;
 }
 
-c_sound.prototype.load = function() {
-	return this.fetch();
-};
+// c_sound.prototype.load = function() {
+// 	return this.fetch();
+// };
 
-c_sound.prototype.unload = function() {
-	return this.release_memory();
-};
+// c_sound.prototype.unload = function() {
+// 	return this.release_memory();
+// };
 
 // fetch can load undecoded (compressed) audio data before user interaction
 // Can only decode array_buffer once!

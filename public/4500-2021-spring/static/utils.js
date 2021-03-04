@@ -30,18 +30,17 @@ export function register_service_worker() {
 				});
 			});
 		})
-//		.then(navigator.serviceWorker.ready);
 	} else {
 		return Promise.resolve();
 	}
 }
 
 export function load_script(src) {
-	for (let i = 0; i < document.scripts.length; ++i) {
-		if (document.scripts[i].src === src) {
-			return Promise.resolve(document.scripts[i]);
-		}
-	}
+	// for (let i = 0; i < document.scripts.length; ++i) {
+	// 	if (document.scripts[i].src === src) {
+	// 		return Promise.resolve(document.scripts[i]);
+	// 	}
+	// }
 	return new Promise(function(resolve, reject) {
 		const script = document.createElement('script');
 		script.type = "module";
