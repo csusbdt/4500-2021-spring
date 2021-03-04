@@ -7,7 +7,7 @@ const thud  = r.sound('/4500-2021-spring/sfx/thud.mp3', 1);
 const click = r.sound('/4500-2021-spring/sfx/click.mp3', 1);
 
 r.on_start = () => {
-	r.set_bg(ss, 'bg');
+	r.bg(ss, 'bg');
 
 	const o_apple = ss.once('apple_region');
 	const o_big   = ss.once('big_region'  ).starts('test_1');

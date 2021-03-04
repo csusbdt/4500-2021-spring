@@ -9,20 +9,23 @@ const spf    = 1/8;  // seconds per frame
 const bg_ctx = g_bg.getContext('2d', { alpha: false });
 const fg_ctx = g_fg.getContext('2d', { alpha: true  });
 
-export function set_room(r) {
-	room = r;
-	bg_dirty = true;
-}
-
 let room      = null;
 let scale     = 1;
 let offset_x  = 0;
 let offset_y  = 0;
 let left      = 0;
 let top       = 0;
-
-//let bg_frame  = null;
+let bg        = null;
 let bg_dirty  = true;
+
+export function set_room(r) {
+	room = r;
+}
+
+export function set_bg(drawable) {
+	bg       = drawable;
+	bg_dirty = true;
+}
 
 function adjust_canvas() {
 	// Get the window dimensions (viewport area)
@@ -61,23 +64,18 @@ function adjust_canvas() {
 window.addEventListener('resize', adjust_canvas, true);
 adjust_canvas();
 
-// export function set_bg_frame(frame) {
-// 	bg_frame = frame;
-// 	bg_dirty = true;
-// }
-
 let previous_time = new Date().getTime() / 1000;
 
 function animation_loop() {
-	if (room !== null) {
-		if (bg_dirty) {
-			if (room.bg === null) {
-				bg_ctx.clearRect(0, 0, d_w, d_h);
-			} else {
-				room.bg.draw(bg_ctx);
-			}
-			bg_dirty = false;
+	if (bg_dirty) {
+		if (bg === null) {
+			bg_ctx.clearRect(0, 0, d_w, d_h);
+		} else {
+			bg.draw(bg_ctx);
 		}
+		bg_dirty = false;
+	}
+	if (room !== null) {
 		const current_time = new Date().getTime() / 1000;
 		let dt = current_time - previous_time;
 		previous_time = current_time;

@@ -1,9 +1,9 @@
-import { get_spritesheet } from '/4500-2021-spring/static/spritesheets.js';
+import { get_spritesheet             } from '/4500-2021-spring/static/spritesheets.js';
 import { load_script, insert, remove } from '/4500-2021-spring/static/utils.js';
-import { set_room       } from '/4500-2021-spring/static/core.js';
-import { c_zone         } from '/4500-2021-spring/static/zone.js';
-import { c_sound        } from '/4500-2021-spring/static/c_sound.js';
-import { c_goto         } from '/4500-2021-spring/static/c_goto.js';
+import { set_room, set_bg            } from '/4500-2021-spring/static/core.js';
+import { c_zone                      } from '/4500-2021-spring/static/zone.js';
+import { c_sound                     } from '/4500-2021-spring/static/c_sound.js';
+import { c_goto                      } from '/4500-2021-spring/static/c_goto.js';
 
 export function c_room(name) {
 	this.name          = name;
@@ -62,6 +62,10 @@ c_room.prototype.spritesheet = function(name) {
 	return ss;
 };
 
+c_room.prototype.bg = function(spritesheet, frame_name) {
+	set_bg(spritesheet.sub(frame_name));
+};
+
 c_room.prototype.insert_updatable = function(o) {
 	this.updatables.push(o);
 };
@@ -89,9 +93,13 @@ c_room.prototype.start = function() {
 	if (this.on_start !== null) {
 		this.on_start();
 	}
+	if (this.bg !== null) {
+		set_bg(this.bg);
+	}
 };
 
 c_room.prototype.stop = function() {
+	set_bg(null);
 	set_room(null);
 	this.sounds.forEach(s => s.release_memory());
 };

@@ -2,11 +2,9 @@
 import { starts, stops, run_stop_set, run_start_set } from '/4500-2021-spring/static/mixins.js';
 
 
-export function c_frame(sprites, name) {
-	this.sprites       = sprites;
-	this.name          = name;
-	this.room          = sprites.room;
-	this.f             = sprites.json_frames[name];
+export function c_frame(room, sub) {
+	this.sub           = sub;
+	this.room          = room;
 	this.starts        = starts;
 	this.stops         = stops;
 	this.run_stop_set  = run_stop_set;
@@ -14,42 +12,28 @@ export function c_frame(sprites, name) {
 	this.block_goto    = false;
 
 	this.order         = 10;
-	this.t             = 0;    // elapsed seconds
-	this.duration      = .1;   // seconds
-	this.loop          = false;
+	this.t             = 0;
+	this.duration      = .1;
 }
 
 c_frame.prototype.start = function() {
 	this.t = 0;
-	this.sprites.room.insert_updatable(this);
-	this.sprites.room.insert_drawable(this);	
+	this.room.insert_updatable(this);
+	this.room.insert_drawable(this);	
 };
 
 c_frame.prototype.update = function(dt) {
-	if (this.loop) return;
+	if (this.duration < 0) return;
 	this.t += dt;
 	if (this.t < this.duration) {
 		return;
 	}
-	this.sprites.room.remove_updatable(this);
-	this.sprites.room.remove_drawable(this);	
-//	remove(this.sprites.room.updatables, this);
-//	remove(this.sprites.room.drawables, this);
+	this.room.remove_updatable(this);
+	this.room.remove_drawable(this);	
 	this.run_stop_set();
 	this.run_start_set();
-//	if (this.next !== null) return;
 };
 
 c_frame.prototype.draw = function(ctx) {
-	ctx.drawImage(
-		this.sprites.image,
-		this.f.sx,
-		this.f.sy,
-		this.f.w,
-		this.f.h,
-		this.f.dx,
-		this.f.dy,
-		this.f.w,
-		this.f.h
-	);
+	this.sub.draw(ctx);
 };
