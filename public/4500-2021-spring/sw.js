@@ -1,6 +1,6 @@
 /* eslint-env serviceworker */
 
-const version = "v6";
+const version = "v7";
 
 self.skipWaiting(); // activate immediately after install
 
