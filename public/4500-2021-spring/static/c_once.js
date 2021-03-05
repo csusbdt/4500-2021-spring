@@ -50,8 +50,9 @@ c_once.prototype.update = function(dt) {
 		this.t = 0;
 		++this.frame_index;
 		if (this.frame_index === this.frames.length) {
+			this.frame_index = 0; // this fix a bug when clicking fast but don't understand
 			this.room.remove_updatable(this);
-			this.room.remove_drawable(this);	
+			this.room.remove_drawable(this);
 			this.run_stop_set();
 			this.run_start_set();
 		}

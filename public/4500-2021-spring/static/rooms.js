@@ -17,9 +17,12 @@ export function c_room(name) {
 	this.touched       = false;
 	this.touch_x       = 0;
 	this.touch_y       = 0;
+	this.on_loaded     = null;
 }
 
 export const rooms = new Map(); // accessed by dynamic scripts
+window.g = { rooms: rooms };
+//g.rooms = rooms;
 
 // create a start room for app initialization
 const start_room = new c_room('');
@@ -36,7 +39,12 @@ export function get_room(name) {
 			room.spritesheets.map(ss => ss.load()), 
 			room.sounds.map(s => s.fetch())
 		))
-		.then(() => room);
+		.then(() => {
+			if (room.on_loaded !== null) {
+				room.on_loaded();
+			}
+			return room;
+		});
 	} else {
 		return Promise.resolve(room);
 	}
@@ -64,7 +72,6 @@ c_room.prototype.spritesheet = function(name) {
 
 c_room.prototype.once = function(spritesheet, ...frame_names) {
 	const o = new c_once(this);
-//	frame_names.forEach(fn => o.add(new c_frame(spritesheet, fn)));
 	frame_names.forEach(fn => o.add(spritesheet.frame(fn)));
 	return o;
 };

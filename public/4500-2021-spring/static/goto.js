@@ -14,6 +14,7 @@ c_goto.prototype.fails = function(o) {
 };
 
 c_goto.prototype.start = function() {
+	this.room.zones.length = 0;
 	this.room.insert_updatable(this);
 	get_room(this.next_room_name)
 	.then(room => { 

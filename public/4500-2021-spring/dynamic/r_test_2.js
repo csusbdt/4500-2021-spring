@@ -5,8 +5,8 @@ const ss    = r.spritesheet('test_2');
 const thud  = r.sound('/4500-2021-spring/sfx/thud.mp3', 1);
 const click = r.sound('/4500-2021-spring/sfx/click.mp3', 1);
 
-r.on_start = () => {
-	r.bg(ss.frame('bg'));
+r.on_loaded = () => {
+	r.bg_frame    = ss.frame('bg');
 
 	const test_1  = r.goto('test_1');
 
@@ -30,6 +30,10 @@ r.on_start = () => {
 	r.z_red.circle(725, 681, 45);
 	r.z_white.circle(223, 593, 100);
 	r.z_bg.rect(0, 0, 1920, 1080);
+};
+
+r.on_start = () => {
+	r.bg(r.bg_frame);
 
 	r.z_apple.start();
 	r.z_big.start();

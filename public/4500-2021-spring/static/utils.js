@@ -6,13 +6,13 @@ export function message(...messages) {
 	g_bg.style.display = 'none';
 	g_fg.style.display = 'none';
 	g_message_div.style.display = 'block';
-	g_message_div.onclick = e => {
-		e.preventDefault();
-		g_message_div.innerHTML = "";
-		g_bg.style.display = 'block';
-		g_fg.style.display = 'block';
-		g_message_div.style.display = 'none';
-	};
+	// g_message_div.onclick = e => {
+	// 	e.preventDefault();
+	// 	g_message_div.innerHTML = "";
+	// 	g_bg.style.display = 'block';
+	// 	g_fg.style.display = 'block';
+	// 	g_message_div.style.display = 'none';
+	// };
 	messages.forEach(m => {
 		g_message_div.innerHTML += "<br>" + m;
 	});
@@ -36,11 +36,6 @@ export function register_service_worker() {
 }
 
 export function load_script(src) {
-	// for (let i = 0; i < document.scripts.length; ++i) {
-	// 	if (document.scripts[i].src === src) {
-	// 		return Promise.resolve(document.scripts[i]);
-	// 	}
-	// }
 	return new Promise(function(resolve, reject) {
 		const script = document.createElement('script');
 		script.type = "module";
