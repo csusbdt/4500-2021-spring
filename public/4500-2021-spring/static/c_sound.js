@@ -26,6 +26,7 @@ export function c_sound(file, volume) {
 	this.gain_node = null;
 	this.fetching = false;
 	this.decoding = false;
+	this.on_end   = null;
 }
 
 // c_sound.prototype.load = function() {
@@ -113,7 +114,7 @@ c_sound.prototype.fast_play = function() {
 	.catch(() => {});
 };
 
-c_sound.prototype.play = function() {
+c_sound.prototype.start = function() {
 	this.decode()
 	.then(audio_buffer => {
 		// avoid race condition
@@ -131,6 +132,7 @@ c_sound.prototype.play = function() {
 			this.buffer_source_node.addEventListener('ended', () => {
 				this.buffer_source_node = null;
 				this.gain_node = null;
+				if (this.on_ended !== null) this.on_end();
 			}, { once: true });
 			this.buffer_source_node.start();
 		}	

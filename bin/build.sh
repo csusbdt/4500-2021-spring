@@ -19,6 +19,7 @@ cp $a/music/*                             $b/music/
 cp $a/sfx/*                               $b/sfx/
 cp $a/sprites/*                           $b/sprites/
 
+npx terser $a/static/c_loop.js            -m -c -o $b/static/c_loop.js
 npx terser $a/static/c_once.js            -m -c -o $b/static/c_once.js
 npx terser $a/static/c_sound.js           -m -c -o $b/static/c_sound.js
 npx terser $a/static/core.js              -m -c -o $b/static/core.js

@@ -5,6 +5,7 @@ import { c_zone                      } from '/4500-2021-spring/static/zone.js';
 import { c_sound                     } from '/4500-2021-spring/static/c_sound.js';
 import { c_goto                      } from '/4500-2021-spring/static/goto.js';
 import { c_once                      } from '/4500-2021-spring/static/c_once.js';
+import { c_loop                      } from '/4500-2021-spring/static/c_loop.js';
 
 export function c_room(name) {
 	this.name          = name;
@@ -21,8 +22,7 @@ export function c_room(name) {
 }
 
 export const rooms = new Map(); // accessed by dynamic scripts
-window.g = { rooms: rooms };
-//g.rooms = rooms;
+window.g = { rooms: rooms }; // to stop garbage collection
 
 // create a start room for app initialization
 const start_room = new c_room('');
@@ -72,6 +72,12 @@ c_room.prototype.spritesheet = function(name) {
 
 c_room.prototype.once = function(spritesheet, ...frame_names) {
 	const o = new c_once(this);
+	frame_names.forEach(fn => o.add(spritesheet.frame(fn)));
+	return o;
+};
+
+c_room.prototype.loop = function(spritesheet, ...frame_names) {
+	const o = new c_loop(this);
 	frame_names.forEach(fn => o.add(spritesheet.frame(fn)));
 	return o;
 };

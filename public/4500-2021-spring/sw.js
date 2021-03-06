@@ -1,6 +1,6 @@
 /* eslint-env serviceworker */
 
-const version = "v7";
+const version = "v8";
 
 self.skipWaiting(); // activate immediately after install
 
@@ -10,6 +10,7 @@ self.addEventListener('install', function(event) {
 			'/4500-2021-spring/',
 			'/4500-2021-spring/dynamic/r_test_1.js',
 			'/4500-2021-spring/sfx/click.mp3',
+			'/4500-2021-spring/static/c_loop.js',
 			'/4500-2021-spring/static/c_once.js',
 			'/4500-2021-spring/static/c_sound.js',
 			'/4500-2021-spring/static/core.js',

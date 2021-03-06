@@ -73,17 +73,18 @@ export function load_json(url) {
     return fetch(url).then(response => response.json());
 }
 
-export function unload_image(image) {
+//export function unload_image(image) {
 //	URL.revokeObjectURL(image.src);
 //	image.src = null;
-}
+//}
 
 export function remove(array, o) {
 	const i = array.indexOf(o);
-	array.splice(i, 1);
+	if (i !== -1) array.splice(i, 1);
 }
 
 export function insert(ordered_array, o) {
+	if (ordered_array.includes(o)) return;
 	for (let i = ordered_array.length; i > 0; --i) {
 		if (ordered_array[i - 1].order <= o.order) {
 			ordered_array.splice(i, 0, o);
