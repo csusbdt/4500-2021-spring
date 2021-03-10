@@ -2,7 +2,11 @@ if (location.protocol !== 'https:') location.protocol = 'https:';
 
 window.g = {};
 
-g.fatal = function(...messages) {
+g.app = {
+	theme_color: '#5A5A5A'
+};
+
+g.app.fatal = function(...messages) {
 	while (document.body.lastElementChild) {
 		document.body.removeChild(document.body.lastElementChild);
 	}
@@ -18,14 +22,14 @@ g.fatal = function(...messages) {
 // global error handlers for uncaught exceptions
 
 window.addEventListener('error', function(e) {
-	g.fatal(e.message, e.filename, e.lineno);
+	g.app.fatal(e.message, e.filename, e.lineno);
 });
 
 window.addEventListener('unhandledrejection', function (e) {
 	if (typeof(e.reason.stack) !== 'undefined') {
-		g.fatal(e.reason, e.reason.message, e.reason.stack);
+		g.app.fatal(e.reason, e.reason.message, e.reason.stack);
 	} else {
-		g.fatal(e.reason, e.reason.message);
+		g.app.fatal(e.reason, e.reason.message);
 	}
 });
 
@@ -49,16 +53,16 @@ function register_service_worker() {
 window.addEventListener('load', e => {
 	if ('serviceWorker' in navigator) {
 		register_service_worker().then(() => {
-			if (g.start) g.start();
+			if (g.app.start) g.app.start();
 		}).catch(e => fatal(e));
 	} else {
-		if (g.start) g.start();
+		if (g.app.start) g.app.start();
 	}
 });
 
 // helper functions for other scripts
 
-g.load_image = function(url) {
+g.app.load_image = function(url) {
     return fetch(url)
         .then(response => response.blob())
         .then(function(blob) {
@@ -75,18 +79,18 @@ g.load_image = function(url) {
 				return image;
 			})
 		});
-}
+};
 
-g.load_json = function(url) {
+g.app.load_json = function(url) {
     return fetch(url).then(response => response.json());
-}
+};
 
-g.remove = function(array, o) {
+g.app.remove = function(array, o) {
 	const i = array.indexOf(o);
 	if (i !== -1) array.splice(i, 1);
-}
+};
 
-g.insert = function(ordered_array, o) {
+g.app.insert = function(ordered_array, o) {
 	if (ordered_array.includes(o)) return;
 	for (let i = ordered_array.length; i > 0; --i) {
 		if (ordered_array[i - 1].order <= o.order) {
