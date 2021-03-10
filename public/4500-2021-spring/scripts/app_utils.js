@@ -2,36 +2,6 @@
 // imported by others. So you don't need to think about 
 // circular dependencies when importing this module.
 
-export function fatal(...messages) {
-	while (document.body.lastElementChild) {
-		document.body.removeChild(document.body.lastElementChild);
-	}
-	document.body.style.background_color = 'white';
-	const e = document.createElement("h2");
-	e.style.color = 'black';
-	messages.forEach(m => {
-		e.innerHTML += "<br>" + m;
-	});
-	document.body.appendChild(e);
-};
-
-export function register_service_worker() {
-	if ('serviceWorker' in navigator) {
-		return navigator.serviceWorker.register('/4500-2021-spring/sw.js')
-		.then(registration => {
-			registration.addEventListener('updatefound', e => {
-				registration.installing.addEventListener('statechange', e => {
-					if (e.target.state === 'activated') {
-						window.location.reload();
-					}
-				});
-			});
-		})
-	} else {
-		return Promise.resolve();
-	}
-}
-
 // export function load_script(src) {
 // 	return new Promise(function(resolve, reject) {
 // 		const script = document.createElement('script');
@@ -61,9 +31,9 @@ export function load_image(url) {
 					reject(e);
 				}				
 				image.src = URL.createObjectURL(blob);
-				return image;	
+				return image;
 			})
-        });
+		});
 }
 
 export function load_json(url) {
