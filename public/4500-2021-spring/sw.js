@@ -1,67 +1,55 @@
 /* eslint-env serviceworker */
 
-const version = "v8";
+const apps = new Map();
+
+apps.set(''  , 'g0_000');
+apps.set('g1', 'g1_000');
+apps.set('g2', 'g2_000');
 
 self.skipWaiting(); // activate immediately after install
-
-self.addEventListener('install', function(event) {
-	event.waitUntil(caches.open(version).then(cache => {
-		cache.addAll([
-			'/4500-2021-spring/',
-			'/4500-2021-spring/dynamic/r_test_1.js',
-			'/4500-2021-spring/sfx/click.mp3',
-			'/4500-2021-spring/static/c_loop.js',
-			'/4500-2021-spring/static/c_once.js',
-			'/4500-2021-spring/static/c_sound.js',
-			'/4500-2021-spring/static/core.js',
-			'/4500-2021-spring/static/goto.js',
-			'/4500-2021-spring/static/index.js',
-			'/4500-2021-spring/static/mixins.js',
-			'/4500-2021-spring/static/rooms.js',
-			'/4500-2021-spring/static/spritesheets.js',
-			'/4500-2021-spring/static/utils.js',
-			'/4500-2021-spring/static/zone.js',
-			'/4500-2021-spring/manifest.webmanifest'
-		]);
-	}));
-});
 
 self.addEventListener('activate', event => {
 	event.waitUntil(clients.claim());
 	event.waitUntil(caches.keys().then(cache_names => {
-		return Promise.all(cache_names.map(cache_name => {
-			if (cache_name !== version) {
+		return Promise.all(
+			Array.from(cache_names).filter(cache_name => {
+				return !Array.from(apps.values()).includes(cache_name);
+			}).map(cache_name => {
 				return caches.delete(cache_name);
-			}
-		}));
+			})
+		);
 	}));
 });
 
-function fetch_request(request) {
-	return caches.match(request)
-	.then(response => {
-		if (response !== undefined) {
-			return response;
-		} else {
-			return fetch(request.clone()).then(response => {
-				if (response.status !== 200 || response.type !== 'basic') {
-					throw new Error("bad request");
-				}
-				return caches.open(version)
-					.then(cache => {
-						return cache.put(request, response.clone());
-					})
-					.then(() => {
-						return response;
-					});
-			});
-		}
-	});
-}
-
-
 self.addEventListener('fetch', function(event) {
 	if (event.request.method === 'GET') {
-		event.respondWith(fetch_request(event.request));
+		const app_name = event.request.url.split('/')[4];
+		let cache_name = null;
+		if (app_name && apps.has(app_name)) {
+			cache_name = apps.get(app_name);
+		} else {
+			cache_name = '';
+		}
+		caches.open(cache_name).then(function(cache) {
+			return cache.match(event.request)
+			.then(response => {
+				if (response === undefined) {
+					return fetch(event.request.clone()).then(response => {
+						if (response.status !== 200 || response.type !== 'basic') {
+							throw new Error("bad request");
+						}
+						return caches.open(cache_name)
+						.then(cache => {
+							return cache.put(event.request, response.clone());
+						})
+						.then(() => {
+							return response;
+						});
+					});
+				} else {
+					return response;
+				}
+			});
+		});
 	}
 });

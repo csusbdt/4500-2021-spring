@@ -2,8 +2,11 @@ This repo is my experimentation on creating a gamified website as a progressive 
 
 This file is for my working notes.
 
+Watched: https://www.youtube.com/watch?v=_kJMjJ1tm6o
+
 Today's Plan:
 
+* // watch https://www.youtube.com/playlist?list=PLNYkxOF6rcIB2xHBZ7opgc2Mv009X87Hh
 * Develop caching strategy for images.  Learn IndexedDB.
 * mayb read https://www.davrous.com/2019/10/18/myth-busting-pwas-the-new-edge-edition/
 
