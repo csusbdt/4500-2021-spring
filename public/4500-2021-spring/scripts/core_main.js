@@ -9,13 +9,13 @@ g.core.v_w = 1920;  // width  of game play area
 g.core.v_h = 1080;  // height of game play area
 g.core.spf = 1/8;   // seconds per frame
 
+g.core.bg_dirty  = true;
+
 let scale     = 1;
 let offset_x  = 0;
 let offset_y  = 0;
 let left      = 0;
 let top       = 0;
-let bg        = null;
-let bg_dirty  = true;
 let previous_time = new Date().getTime() / 1000;
 
 function adjust_canvas() {
@@ -31,8 +31,8 @@ function adjust_canvas() {
 	const canvas_height = Math.min(screen_height, g.core.d_h * scale);
 
 	g.core.bg_canvas.width  = canvas_width;
-	g.core.bg_canvas.width  = canvas_width;
-	g.core.fg_canvas.height = canvas_height;
+	g.core.fg_canvas.width  = canvas_width;
+	g.core.bg_canvas.height = canvas_height;
 	g.core.fg_canvas.height = canvas_height;
 
 	// Center the drawing area in the canvas.
@@ -76,23 +76,25 @@ function animation_loop() {
 }
 
 g.app.start = () => {
-	while (document.body.lastElementChild) {
-		document.body.removeChild(document.body.lastElementChild);
-	}
+//	while (document.body.lastElementChild) {
+//		document.body.removeChild(document.body.lastElementChild);
+//	}
 	document.body.style.overflow = 'hidden'; 
 	document.body.style.margin   = 0; 
 	document.body.style.padding  = 0;
-	document.body.style.background_color = g.app.theme_color;
+	document.body.style.backgroundColor = g.app.theme_color;
+//	document.body.style.width  = '100%';
+//	document.body.style.height = '100%';
 
 	g.core.bg_canvas = document.createElement("canvas");
 	g.core.bg_canvas.style.position = 'absolute';
-	g.core.bg_canvas.style.z_index = 1;
-	g.core.bg_canvas.style.background_color = g.app.theme_color;
+	g.core.bg_canvas.style.zIndex = 1;
+	g.core.bg_canvas.style.backgroundColor = g.app.theme_color;
 	document.body.appendChild(g.core.bg_canvas);
 
 	g.core.fg_canvas = document.createElement("canvas");
 	g.core.fg_canvas.style.position = 'absolute';
-	g.core.fg_canvas.style.z_index = 2;
+	g.core.fg_canvas.style.zIndex = 2;
 	document.body.appendChild(g.core.fg_canvas);
 
 	g.core.bg_ctx = g.core.bg_canvas.getContext('2d', { alpha: false });
