@@ -8,9 +8,9 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "serve public",
+			"label": "serve docs",
 			"type": "shell",
-			"command": "bin/serve public",
+			"command": "bin/serve docs",
 			"problemMatcher": [],
 			"group": {
 				"kind": "build",
