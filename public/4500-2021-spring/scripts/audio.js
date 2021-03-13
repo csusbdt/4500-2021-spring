@@ -124,7 +124,7 @@ c_sound.prototype.start = function() {
 			this.buffer_source_node.addEventListener('ended', () => {
 				this.buffer_source_node = null;
 				this.gain_node = null;
-				if (this.on_ended !== null) this.on_end();
+				if (this.on_end !== null) this.on_end();
 			}, { once: true });
 			this.buffer_source_node.start();
 		}	
