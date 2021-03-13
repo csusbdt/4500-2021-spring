@@ -39,6 +39,6 @@ g.core.draw_fg = ctx => {
 };
 
 g.core.start = () => {
-	console.log("g2 started");
+	console.log("g1 started");
 	document.body.style.backgroundColor = g.app.theme_color;
 };

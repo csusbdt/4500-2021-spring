@@ -1,71 +1,41 @@
-import '/4500-2021-spring/scripts/core_main.js';
+import '/4500-2021-spring/scripts/app_main.js';
+import { c_sound } from '/4500-2021-spring/scripts/audio.js';
 
-const white = '#FFFFFF';
-const red   = '#FF0000';
-
-let h         = 40;
-let x         = -1.2 * 1.618 * h;
-let box_color = red;
-let bg_color  = white;
-
-const toggle_colors = () => {
-	if (box_color === red) {
-		box_color = white;
-		bg_color  = red;
-	} else {
-		box_color = red;
-		bg_color  = white;
-	}
-};
-
-g.core.update = dt => {
-	x += dt * 1000;
-	if (x > g.core.d_w || 1.618 * h > 1.2 * g.core.d_h && x + 1.618 * h > g.core.d_w) {
-		h *= 1.618;
-		if (h > 1.2 * g.core.d_h) {
-			h = 40;
-			toggle_colors();
-		}
-		x = -2 * h;
-	}
-	g.core.fg_dirty = true;
-};
-
-g.core.draw_fg = ctx => {
-	if (1.618 * h > 1.2 * g.core.d_h) {
-		ctx.fillStyle = box_color;
-		ctx.fillRect(0, .5 * (g.core.d_h - h), x, h);
-		ctx.fillStyle = bg_color;
-		ctx.fillRect(x, .5 * (g.core.d_h - h), g.core.d_w, h);
-	} else {
-		ctx.fillStyle = bg_color;
-		ctx.fillRect(0, 0, g.core.d_w, g.core.d_h);
-	}
-	ctx.fillStyle = box_color;
-	ctx.fillRect(x, .5 * (g.core.d_h - h), 1.618 * h, h);
-};
-
-g.core.start = () => {
-	console.log("g2 started");
-};
-
-
-/*
-import { d_w, d_h, set_renderer, set_event_handler } from '/4500-2021-spring/static/core.js';
-import { c_sound } from '/4500-2021-spring/static/c_sound.js';
-
-const music = new c_sound('/4500-2021-spring/music/say_it_isnt_so.mp3', .5);
 const click = new c_sound('/4500-2021-spring/sfx/click.mp3', 1);
+const thud  = new c_sound('/4500-2021-spring/sfx/thud.mp3', 1);
+const song  = new c_sound('/4500-2021-spring/music/say_it_isnt_so.mp3', 1);
+const e     = document.createElement("p");
 
+const on_resize = () => {
+	e.style.marginTop = Math.floor(window.innerHeight / 2 - 50) + 'px';
+};
 
-set_event_handler(() => {
-	click.fast_play();
-	toggle_colors();
-	if (music.is_playing()) music.stop(); else music.play();
-});
+const on_end = () => {
+	e.innerHTML = '&#9210;'
+};
 
-set_renderer((ctx, dt) => {
-	render(ctx, dt);
-	set_renderer(render);
-});
-*/
+const on_touch = () => {
+	if (song.is_playing()) {
+		thud.fast_play();
+		song.stop();
+		e.innerHTML = '&#9199;';
+	} else {
+		click.fast_play();
+		song.start();
+		e.innerHTML = '&#9209;';
+	}
+};
+
+g.app.start = () => {
+	document.body.style.background_color = 'white';
+	e.style.fontSize = '100px';
+	e.style.marginTop = Math.floor(window.innerHeight / 2 - 50) + 'px';
+	e.style.textAlign = 'center';
+	e.style.cursor = 'pointer';
+	e.innerHTML = '&#9199;'
+	document.body.appendChild(e);
+	on_resize();
+	window.addEventListener('resize', on_resize);
+	e.addEventListener('mousedown' , on_touch, { capture: true, once: false });
+	e.addEventListener('touchstart', on_touch, { capture: true, once: false });	
+};

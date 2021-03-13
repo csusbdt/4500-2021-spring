@@ -16,10 +16,10 @@ self.addEventListener('install', event => {
 			'/4500-2021-spring/images/icon-192x192.png',
 			'/4500-2021-spring/images/icon-512x512.png',
 			'/4500-2021-spring/scripts/app_main.js',
-			'/4500-2021-spring/scripts/audio.js',
+//			'/4500-2021-spring/scripts/audio.js',
 			'/4500-2021-spring/scripts/core_main.js',
-			'/4500-2021-spring/sfx/click.mp3',
-			'/4500-2021-spring/sfx/thud.mp3',
+//			'/4500-2021-spring/sfx/click.mp3',
+//			'/4500-2021-spring/sfx/thud.mp3',
 			'/4500-2021-spring/manifest.webmanifest'
 		])),
 		caches.open(apps.get('g1')).then(cache => cache.addAll([
