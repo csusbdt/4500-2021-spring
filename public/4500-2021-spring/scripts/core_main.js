@@ -1,5 +1,5 @@
 import '/4500-2021-spring/scripts/app_main.js';
-//import { get_audio_context } from '/4500-2021-spring/scripts/audio.js';
+import { get_audio_context } from '/4500-2021-spring/scripts/audio.js';
 
 g.core = {
 	d_w: 1920,  // width  of drawable area
@@ -66,6 +66,30 @@ function adjust_canvas() {
 	g.core.fg_dirty = true;
 }
 
+// need to convert mouse event coords to game world coords
+const room_coords = e => {
+	return [
+		(e.pageX - left - offset_x) / scale,
+		(e.pageY - top  - offset_y) / scale
+	];
+};
+
+const mousedown = e => {
+	get_audio_context();
+	e.preventDefault();
+	if (g.core.on_touch) {
+		g.core.on_touch(room_coords(e));
+	}
+};
+
+const touchstart = e => {
+	get_audio_context();
+	e.preventDefault();
+	if (g.core.on_touch) {
+		g.core.on_touch(room_coords(e.changedTouches[0]));
+	}
+};
+
 function animation_loop() {
 	if (g.core.bg_dirty) {
 		if (g.core.draw_bg) {
@@ -117,6 +141,9 @@ g.app.start = () => {
 	if (g.core.start) g.core.start();
 
 	requestAnimationFrame(animation_loop);
+
+	g.core.fg_canvas.addEventListener('mousedown' , mousedown, { capture: true, once: false });
+	g.core.fg_canvas.addEventListener('touchstart', touchstart, { capture: true, once: false });	
 };
 
 g.core.clear_bg = () => {
@@ -126,35 +153,3 @@ g.core.clear_bg = () => {
 g.core.clear_fg = () => {
 	g.core.fg_ctx.clearRect(0, 0, g.core.d_w, g.core.d_h);	
 };
-
-/*
-
-// need to convert mouse event coords to game world coords
-
-const room_coords = e => {
-	return [
-		(e.pageX - left - offset_x) / scale,
-		(e.pageY - top  - offset_y) / scale
-	];
-};
-
-const mousedown = e => {
-	get_audio_context();
-	e.preventDefault();
-	if (room !== null) {
-		room.on_touch(room_coords(e));
-	}
-};
-
-const touchstart = e => {
-	get_audio_context();
-	e.preventDefault();
-	if (room !== null) {
-		room.on_touch(room_coords(e.changedTouches[0]));
-	}
-};
-
-g_fg.addEventListener('mousedown' , mousedown, { capture: true, once: false });
-g_fg.addEventListener('touchstart', touchstart, { capture: true, once: false });
-
-*/

@@ -7,23 +7,25 @@ function random_color() {
 
 let time_remaining = 2;
 
+g.core.on_touch = ([x, y]) => {
+	g.core.fg_dirty = true;
+};
+
 g.core.update = dt => {
 	time_remaining -= dt;
 	if (time_remaining <= 0) {
 		time_remaining = 2;
 		document.body.style.backgroundColor = random_color();
 	}
-	g.core.fg_dirty = true;
 };
-
-//let fg_color = '#ffffff';
 
 g.core.draw_bg = ctx => {
 	g.core.clear_bg();
 };
 
 g.core.draw_fg = ctx => {
-	g.core.clear_fg();
+	ctx.fillStyle = document.body.style.backgroundColor;
+	ctx.fillRect(0, 0, g.core.d_w, g.core.d_h);
 };
 
 g.core.start = () => {
