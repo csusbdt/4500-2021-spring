@@ -13,11 +13,17 @@ g.core.update = dt => {
 		time_remaining = 2;
 		document.body.style.backgroundColor = random_color();
 	}
+	g.core.fg_dirty = true;
 };
 
 //let fg_color = '#ffffff';
 
-g.core.fg_draw = ctx => {
+g.core.draw_bg = ctx => {
+	g.core.clear_bg();
+};
+
+g.core.draw_fg = ctx => {
+	g.core.clear_fg();
 };
 
 g.core.start = () => {

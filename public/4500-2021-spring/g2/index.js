@@ -31,7 +31,7 @@ g.core.update = dt => {
 	g.core.fg_dirty = true;
 };
 
-g.core.fg_draw = ctx => {
+g.core.draw_fg = ctx => {
 	if (1.618 * h > 1.2 * g.core.d_h) {
 		ctx.fillStyle = box_color;
 		ctx.fillRect(0, .5 * (g.core.d_h - h), x, h);

@@ -17,6 +17,8 @@ g.core = {
 	draw_bg: null,
 	draw_fg: null,
 	update: null,
+	clear_bg: null,
+	clear_fg: null,
 	
 	bg_dirty: true,
 	fg_dirty: true	
@@ -68,16 +70,13 @@ function animation_loop() {
 	if (g.core.bg_dirty) {
 		if (g.core.draw_bg) {
 			g.core.draw_bg(g.core.bg_ctx);
-		} else {
-			g.core.bg_ctx.clearRect(0, 0, g.core.d_w, g.core.d_h);
 		}
 		g.core.bg_dirty = false;
 	}
 	if (g.core.fg_dirty) {
+		g.core.fg_ctx.clearRect(0, 0, g.core.d_w, g.core.d_h);
 		if (g.core.draw_fg) {
 			g.core.draw_fg(g.core.fg_ctx);
-		} else {
-			g.core.fg_ctx.clearRect(0, 0, g.core.d_w, g.core.d_h);
 		}
 		g.core.fg_dirty = false;
 	}
@@ -93,15 +92,10 @@ function animation_loop() {
 }
 
 g.app.start = () => {
-//	while (document.body.lastElementChild) {
-//		document.body.removeChild(document.body.lastElementChild);
-//	}
 	document.body.style.overflow = 'hidden'; 
 	document.body.style.margin   = 0; 
 	document.body.style.padding  = 0;
 	document.body.style.backgroundColor = g.app.theme_color;
-//	document.body.style.width  = '100%';
-//	document.body.style.height = '100%';
 
 	g.core.bg_canvas = document.createElement("canvas");
 	g.core.bg_canvas.style.position = 'absolute';
@@ -123,6 +117,14 @@ g.app.start = () => {
 	if (g.core.start) g.core.start();
 
 	requestAnimationFrame(animation_loop);
+};
+
+g.core.clear_bg = () => {
+	g.core.bg_ctx.clearRect(0, 0, g.core.d_w, g.core.d_h);	
+};
+
+g.core.clear_fg = () => {
+	g.core.fg_ctx.clearRect(0, 0, g.core.d_w, g.core.d_h);	
 };
 
 /*
