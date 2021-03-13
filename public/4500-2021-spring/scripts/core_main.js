@@ -1,15 +1,26 @@
 import '/4500-2021-spring/scripts/app_main.js';
 //import { get_audio_context } from '/4500-2021-spring/scripts/audio.js';
 
-g.core = {};
+g.core = {
+	d_w: 1920,  // width  of drawable area
+	d_h: 1080,  // height of drawable area
+	v_w: 1920,  // width  of game play area
+	v_h: 1080,  // height of game play area
+	spf: 1/8,   // seconds per frame
 
-g.core.d_w = 1920;  // width  of drawable area
-g.core.d_h = 1080;  // height of drawable area
-g.core.v_w = 1920;  // width  of game play area
-g.core.v_h = 1080;  // height of game play area
-g.core.spf = 1/8;   // seconds per frame
+	//bg_canvas:
+	//fg_canvas:
+	//bg_ctx:
+	//fg_ctx:
 
-g.core.bg_dirty  = true;
+	start: null,
+	draw_bg: null,
+	draw_fg: null,
+	update: null,
+	
+	bg_dirty: true,
+	fg_dirty: true	
+};
 
 let scale     = 1;
 let offset_x  = 0;
@@ -50,6 +61,7 @@ function adjust_canvas() {
 	g.core.bg_ctx.setTransform(scale, 0, 0, scale, offset_x, offset_y);
 	g.core.fg_ctx.setTransform(scale, 0, 0, scale, offset_x, offset_y);
 	g.core.bg_dirty = true;
+	g.core.fg_dirty = true;
 }
 
 function animation_loop() {
@@ -61,10 +73,15 @@ function animation_loop() {
 		}
 		g.core.bg_dirty = false;
 	}
-	if (g.core.fg_draw) {
-		g.core.fg_ctx.clearRect(0, 0, g.core.d_w, g.core.d_h);
-		g.core.fg_draw(g.core.fg_ctx);
+	if (g.core.fg_dirty) {
+		if (g.core.draw_fg) {
+			g.core.draw_fg(g.core.fg_ctx);
+		} else {
+			g.core.fg_ctx.clearRect(0, 0, g.core.d_w, g.core.d_h);
+		}
+		g.core.fg_dirty = false;
 	}
+
 	const current_time = new Date().getTime() / 1000;
 	let dt = current_time - previous_time;
 	previous_time = current_time;

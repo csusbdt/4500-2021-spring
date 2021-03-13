@@ -3,7 +3,13 @@ if (location.protocol !== 'https:') location.protocol = 'https:';
 window.g = {};
 
 g.app = {
-	theme_color: '#5A5A5A'
+	theme_color: '#5A5A5A',
+	start: null
+	//fatal:
+	//load_image:
+	//load_json:
+	//insert:
+	//remove:
 };
 
 g.app.fatal = function(...messages) {
@@ -27,8 +33,10 @@ window.addEventListener('error', function(e) {
 
 window.addEventListener('unhandledrejection', function (e) {
 	if (typeof(e.reason.stack) !== 'undefined') {
+		console.log(e.reason, e.reason.message, e.reason.stack);
 		g.app.fatal(e.reason, e.reason.message, e.reason.stack);
 	} else {
+		console.log(e.reason, e.reason.message);
 		g.app.fatal(e.reason, e.reason.message);
 	}
 });

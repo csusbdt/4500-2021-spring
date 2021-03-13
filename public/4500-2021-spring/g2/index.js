@@ -28,6 +28,7 @@ g.core.update = dt => {
 		}
 		x = -2 * h;
 	}
+	g.core.fg_dirty = true;
 };
 
 g.core.fg_draw = ctx => {
