@@ -1,4 +1,4 @@
-import '/4500-2021-spring/scripts/core_main.js';
+import '/4500-2021-spring/scripts/canvas_main.js';
 import { c_sound } from '/4500-2021-spring/scripts/audio.js';
 
 function random_color() {
@@ -7,21 +7,16 @@ function random_color() {
 }
 
 const click = new c_sound('/4500-2021-spring/sfx/click.mp3', 1);
-const song  = new c_sound('/4500-2021-spring/music/say_it_isnt_so.mp3', 1);
+const thud  = new c_sound('/4500-2021-spring/sfx/thud.mp3', 1);
 
 let time_remaining = 2;
 
-g.core.on_touch = ([x, y]) => {
+g.canvas.on_touch = ([x, y]) => {
 	click.fast_play();
-	g.core.fg_dirty = true;
-	if (song.is_playing()) {
-		song.stop();
-	} else {
-		song.start();
-	}
+	g.canvas.fg_dirty = true;
 };
 
-g.core.update = dt => {
+g.canvas.update = dt => {
 	time_remaining -= dt;
 	if (time_remaining <= 0) {
 		time_remaining = 2;
@@ -29,16 +24,33 @@ g.core.update = dt => {
 	}
 };
 
-g.core.draw_bg = ctx => {
-	g.core.clear_bg();
+g.canvas.draw_bg = ctx => {
+	g.canvas.clear_bg();
 };
 
-g.core.draw_fg = ctx => {
+g.canvas.draw_fg = ctx => {
 	ctx.fillStyle = document.body.style.backgroundColor;
-	ctx.fillRect(0, 0, g.core.d_w, g.core.d_h);
+	ctx.fillRect(0, 0, g.canvas.d_w, g.canvas.d_h);
 };
 
-g.core.start = () => {
+g.canvas.start = () => {
 	console.log("g2 started");
-	document.body.style.backgroundColor = g.app.theme_color;
+	document.body.addEventListener(
+		'mousedown', 
+		e => {
+			e.preventDefault();
+			e.stopPropagation();
+			thud.fast_play();
+		}, 
+		{ capture: false, once: false }
+	);
+	document.body.addEventListener(
+		'touchstart', 
+		e => {
+			e.preventDefault();
+			e.stopPropagation();
+			thud.fast_play();
+		}, 
+		{ capture: false, once: false }
+	);
 };
