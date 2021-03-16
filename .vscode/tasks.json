@@ -2,20 +2,26 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"label": "build docs",
+			"type": "shell",
+			"command": "rm -rf docs; cp -r public/4500-2021-spring docs",
+			"problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
 			"label": "make sprites",
 			"type": "shell",
 			"command": "bin/make_sprites.sh",
 			"problemMatcher": []
 		},
 		{
-			"label": "serve docs",
+			"label": "run webserver",
 			"type": "shell",
-			"command": "bin/serve docs",
-			"problemMatcher": [],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
+			"command": "bin/serve public",
+			"problemMatcher": []
 		},
 		{
 			"label": "win_chrome",
