@@ -6,9 +6,9 @@ Watched: https://www.youtube.com/watch?v=_kJMjJ1tm6o
 
 Today's Plan:
 
-* // watch https://www.youtube.com/playlist?list=PLNYkxOF6rcIB2xHBZ7opgc2Mv009X87Hh
-* Develop caching strategy for images.  Learn IndexedDB.
-* mayb read https://www.davrous.com/2019/10/18/myth-busting-pwas-the-new-edge-edition/
+* <s>// watch https://www.youtube.com/playlist?list=PLNYkxOF6rcIB2xHBZ7opgc2Mv009X87Hh</s>
+* Develop caching strategy for images.  <s>Learn IndexedDB.</s>
+* maybe read https://www.davrous.com/2019/10/18/myth-busting-pwas-the-new-edge-edition/
 
 Tomorrow's Plan:
 
