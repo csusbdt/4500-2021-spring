@@ -96,11 +96,14 @@ function animation_loop() {
 	if (g.canvas.bg_dirty) {
 		if (g.canvas.draw_bg) {
 			g.canvas.draw_bg(g.canvas.bg_ctx);
+		} else {
+			// i don't know what to do here
+			//g.canvas.bg_ctx.clearRect(0, 0, g.canvas.d_w, g.canvas.d_h);
 		}
 		g.canvas.bg_dirty = false;
 	}
 	if (g.canvas.fg_dirty) {
-		g.canvas.fg_ctx.clearRect(0, 0, g.canvas.d_w, g.canvas.d_h);
+//		g.canvas.fg_ctx.clearRect(0, 0, g.canvas.d_w, g.canvas.d_h);
 		if (g.canvas.draw_fg) {
 			g.canvas.draw_fg(g.canvas.fg_ctx);
 		}

@@ -9,7 +9,7 @@ function random_color() {
 const click = new c_sound('/4500-2021-spring/sfx/click.mp3', 1);
 const thud  = new c_sound('/4500-2021-spring/sfx/thud.mp3', 1);
 
-let time_remaining = 2;
+let time_remaining = .5;
 
 g.canvas.on_touch = ([x, y]) => {
 	click.fast_play();
@@ -19,7 +19,7 @@ g.canvas.on_touch = ([x, y]) => {
 g.canvas.update = dt => {
 	time_remaining -= dt;
 	if (time_remaining <= 0) {
-		time_remaining = 2;
+		time_remaining = 1.5;
 		document.body.style.backgroundColor = random_color();
 	}
 };

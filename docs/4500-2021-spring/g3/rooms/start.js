@@ -17,6 +17,8 @@ r.update = function(dt) {
 };
 
 r.draw_fg = function(ctx) {
+	g.canvas.clear_fg();
 	ctx.fillStyle = '#00FF00';
+	ctx.beginPath();
 	ctx.fillRect(400, 400, 200, 200);
 };
