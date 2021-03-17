@@ -24,6 +24,12 @@
 			"problemMatcher": []
 		},
 		{
+			"label": "win_brave",
+			"type": "shell",
+			"command": "bin/win_brave",
+			"problemMatcher": []
+		},
+		{
 			"label": "win_chrome",
 			"type": "shell",
 			"command": "bin/win_chrome",
