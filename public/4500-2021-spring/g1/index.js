@@ -40,8 +40,10 @@ g.app.start = () => {
 
 	const start_player = () => {
 		button.innerHTML = '&#9199;'
-		button.addEventListener('mousedown' , on_touch, { capture: true, once: false });
-		button.addEventListener('touchstart', on_touch, { capture: true, once: false });	
+		setTimeout(() => {
+			button.addEventListener('mousedown' , on_touch, { capture: true, once: false });
+			button.addEventListener('touchstart', on_touch, { capture: true, once: false });	
+		});
 	};
 
 	const options = { capture: true, once: true };

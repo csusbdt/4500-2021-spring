@@ -12,9 +12,9 @@ Today's Plan:
 
 Tomorrow's Plan:
 
-I might need to break music into segments if I want to play longer peices of music.
-https://github.com/audiojs/web-audio-stream
-
+* I might need to break music into segments if I want to play longer peices of music.
+    * https://github.com/audiojs/web-audio-stream
+* https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then
 
 * [site through github pages](https://csusbdt.github.io/4500-2021-spring/)
 * [127.0.0.1:8080/](https://127.0.0.1:8080/)
