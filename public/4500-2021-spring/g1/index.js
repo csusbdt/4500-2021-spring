@@ -33,7 +33,8 @@ g.app.start = () => {
 	button.style.textAlign = 'center';
 	button.style.cursor = 'pointer';
 	button.style.userSelect = 'none';
-	button.innerHTML = '&#128148;'
+//	button.innerHTML = '&#128148;';
+	button.innerHTML = '&#128149;';
 	document.body.appendChild(button);
 	on_resize();
 	window.addEventListener('resize', on_resize);
