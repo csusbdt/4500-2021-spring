@@ -2,9 +2,9 @@
 
 const apps = new Map();
 
-apps.set('g0' ,'g0_101');
-apps.set('g1', 'g1_101');
-apps.set('g2', 'g2_101');
+apps.set('g0' ,'g0_103');
+apps.set('g1', 'g1_103');
+apps.set('g2', 'g2_103');
 
 self.skipWaiting(); // activate immediately after install
 

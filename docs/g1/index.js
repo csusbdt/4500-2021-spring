@@ -33,15 +33,18 @@ g.app.start = () => {
 	button.style.textAlign = 'center';
 	button.style.cursor = 'pointer';
 	button.style.userSelect = 'none';
-	button.innerHTML = '&#128148;'
+//	button.innerHTML = '&#128148;';
+	button.innerHTML = '&#128149;';
 	document.body.appendChild(button);
 	on_resize();
 	window.addEventListener('resize', on_resize);
 
 	const start_player = () => {
 		button.innerHTML = '&#9199;'
-		button.addEventListener('mousedown' , on_touch, { capture: true, once: false });
-		button.addEventListener('touchstart', on_touch, { capture: true, once: false });	
+		setTimeout(() => {
+			button.addEventListener('mousedown' , on_touch, { capture: true, once: false });
+			button.addEventListener('touchstart', on_touch, { capture: true, once: false });	
+		});
 	};
 
 	const options = { capture: true, once: true };
