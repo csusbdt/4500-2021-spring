@@ -137,8 +137,8 @@ g.app.start = () => {
 	g.canvas.fg_canvas.style.zIndex = 2;
 	document.body.appendChild(g.canvas.fg_canvas);
 
-	g.canvas.bg_ctx = g.canvas.bg_canvas.getContext('2d', { alpha: false });
-	g.canvas.fg_ctx = g.canvas.fg_canvas.getContext('2d', { alpha: true  });
+	g.canvas.bg_ctx = g.canvas.bg_canvas.getContext('2d', { alpha: true });
+	g.canvas.fg_ctx = g.canvas.fg_canvas.getContext('2d', { alpha: true });
 	
 	window.addEventListener('resize', adjust_canvas, true);
 	adjust_canvas();
