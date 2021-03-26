@@ -62,7 +62,7 @@ window.addEventListener('load', e => {
 	if ('serviceWorker' in navigator) {
 		register_service_worker().then(() => {
 			if (g.app.start) g.app.start();
-		}).catch(e => fatal(e));
+		}).catch(e => g.app.fatal(e));
 	} else {
 		document.body.style.backgroundColor = g.app.theme_color;
 		if (g.app.start) g.app.start();

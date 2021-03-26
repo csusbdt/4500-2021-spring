@@ -103,7 +103,6 @@ function animation_loop() {
 		g.canvas.bg_dirty = false;
 	}
 	if (g.canvas.fg_dirty) {
-//		g.canvas.fg_ctx.clearRect(0, 0, g.canvas.d_w, g.canvas.d_h);
 		if (g.canvas.draw_fg) {
 			g.canvas.draw_fg(g.canvas.fg_ctx);
 		}
@@ -161,8 +160,10 @@ g.app.start = () => {
 
 g.canvas.clear_bg = () => {
 	g.canvas.bg_ctx.clearRect(0, 0, g.canvas.d_w, g.canvas.d_h);	
+	g.canvas.bg_ctx.beginPath();
 };
 
 g.canvas.clear_fg = () => {
-	g.canvas.fg_ctx.clearRect(0, 0, g.canvas.d_w, g.canvas.d_h);	
+	g.canvas.fg_ctx.clearRect(0, 0, g.canvas.d_w, g.canvas.d_h);
+	g.canvas.fg_ctx.beginPath();
 };

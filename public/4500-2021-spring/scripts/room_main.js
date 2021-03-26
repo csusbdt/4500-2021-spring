@@ -37,4 +37,3 @@ g.canvas.draw_fg = ctx => {
 g.canvas.start = () => {
 	if (g.room.start) g.room.start();
 };
-
