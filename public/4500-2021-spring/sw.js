@@ -2,9 +2,12 @@
 
 const apps = new Map();
 
-apps.set('g0' ,'g0_104');
-apps.set('g1', 'g1_104');
-apps.set('g2', 'g2_104');
+apps.set('g0' ,'g0_105');
+apps.set('g1', 'g1_105');
+apps.set('g2', 'g2_105');
+apps.set('g3', 'g3_105');
+apps.set('g4', 'g4_105');
+apps.set('g5', 'g5_105');
 
 self.skipWaiting(); // activate immediately after install
 
@@ -16,12 +19,20 @@ self.addEventListener('install', event => {
 			'/4500-2021-spring/images/icon-192x192.png',
 			'/4500-2021-spring/images/icon-512x512.png',
 			'/4500-2021-spring/scripts/app_main.js',
+			'/4500-2021-spring/scripts/audio.js',
 			'/4500-2021-spring/scripts/canvas_main.js',
+			'/4500-2021-spring/scripts/room_main.js',
+			'/4500-2021-spring/scripts/spritesheets.js',
 			'/4500-2021-spring/manifest.webmanifest'
 		])),
-		caches.open(apps.get('g1')).then(cache => cache.addAll([
-		])),
-		caches.open(apps.get('g2')).then(cache => cache.addAll([]))
+		caches.open(apps.get('g1')).then(cache => cache.addAll([])),
+		caches.open(apps.get('g2')).then(cache => cache.addAll([])),
+		caches.open(apps.get('g3')).then(cache => cache.addAll([])),
+		caches.open(apps.get('g4')).then(cache => cache.addAll([])),
+		caches.open(apps.get('g5')).then(cache => cache.addAll([
+			'/4500-2021-spring/g5/',
+			'/4500-2021-spring/g5/index.js'
+		]))
 	]));
 });
 
