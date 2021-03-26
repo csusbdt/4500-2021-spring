@@ -48,14 +48,14 @@ g.app.start = () => {
 	};
 
 	const options = { capture: true, once: true };
+	let mouse = null;
 	let touch = null;
-	const mouse = 
-	button.addEventListener('mousedown' , () => {
+	mouse = button.addEventListener('mousedown' , () => {
 		get_audio_context();
 		button.removeEventListener(touch, options);
 		start_player();
 	}, options);
-	button.addEventListener('touchstart', () => {
+	touch = button.addEventListener('touchstart', () => {
 		get_audio_context();
 		button.removeEventListener(mouse, options);
 		start_player();
