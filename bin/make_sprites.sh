@@ -1,5 +1,5 @@
-rm public/4500-2021-spring/sprites/*
-mkdir public/4500-2021-spring/sprites
+rm public/sprites/*
+mkdir public/sprites
 
 c="node bin/make_sprites.js"
 

@@ -1,0 +1,37 @@
+<html>
+<head>
+	<meta name="theme-color" content="#5A5A5A">
+	<link rel="manifest" href="/manifest.webmanifest">
+	<link rel="shortcut icon" type="image/png" href="/images/icon-192x192.png">
+	<link rel="shortcut icon" sizes="192x192" href="/images/icon-192x192.png">
+
+	<!-- Add to homescreen for Chrome on Android -->
+	<meta name="mobile-web-app-capable" content="yes">
+	<link rel="icon" sizes="192x192" href="/images/icon-192x192.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-title" content="csusbdt">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<link rel="apple-touch-icon" href="/images/apple-touch-icon-192x192.png">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+</head>
+<body>
+	<h2>Main project branch, v. 104</h2>
+	<p>The arch2 git branch is based on a 3-tier layering.</p>
+	<ol>
+		<li><a href="g1/">game 1</a> relies on app_main.js (fixed)</li>
+		<li><a href="g2/">game 2</a> relies on canvas_main.js (done)</li>
+		<li><a href="g3/">game 3</a> relies on room_main.js (done)</li>
+		<li><a href="g4/">game 4</a> relies on room_main.js (under construction)</li>
+		<li><a href="g5/">game 5</a> relies on room_main.js (done)</li>
+	</ol>
+	<script type="module" src="/scripts/app_main.js"></script>
+	<script type="module">
+		g.start = function() {
+			console.log("/ started");
+		}
+	</script>
+</body>
+</html>

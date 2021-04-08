@@ -4,6 +4,8 @@ This file is for my working notes.
 
 Watched: https://www.youtube.com/watch?v=_kJMjJ1tm6o
 
+Bubbling and capturing: https://javascript.info/bubbling-and-capturing
+
 Today's Plan:
 
 * <s>// watch https://www.youtube.com/playlist?list=PLNYkxOF6rcIB2xHBZ7opgc2Mv009X87Hh</s>

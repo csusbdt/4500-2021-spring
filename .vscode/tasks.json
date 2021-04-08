@@ -2,16 +2,6 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "build docs",
-			"type": "shell",
-			"command": "rm -rf docs; cp -r public/4500-2021-spring docs",
-			"problemMatcher": [],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
-		},
-		{
 			"label": "make sprites",
 			"type": "shell",
 			"command": "bin/make_sprites.sh",
@@ -21,7 +11,11 @@
 			"label": "run webserver",
 			"type": "shell",
 			"command": "bin/serve public",
-			"problemMatcher": []
+			"problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
 		},
 		{
 			"label": "win_brave",
