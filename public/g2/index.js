@@ -39,18 +39,16 @@ g.canvas.start = () => {
 		'mousedown', 
 		e => {
 			e.preventDefault();
-			e.stopPropagation();
+			e.stopImmediatePropagation();
 			thud.fast_play();
-		}, 
-		{ capture: false, once: false }
+		}
 	);
 	document.body.addEventListener(
 		'touchstart', 
 		e => {
 			e.preventDefault();
-			e.stopPropagation();
+			e.stopImmediatePropagation();
 			thud.fast_play();
-		}, 
-		{ capture: false, once: false }
+		}
 	);
 };
