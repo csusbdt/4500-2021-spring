@@ -3,6 +3,8 @@ let audio_context = null;
 export function get_audio_context() {
 	if (audio_context === null) {
 		audio_context = new (window.AudioContext || window.webkitAudioContext)();
+	} else if (audio_context.state === 'suspended') {
+		audio_context.resume();
 	}
 	// if (audio_context.state === 'suspended') {
 	// 	audio_context.resume(); // resume works in safari only when called in a ui event handler

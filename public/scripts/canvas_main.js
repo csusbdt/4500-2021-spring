@@ -77,7 +77,7 @@ const room_coords = e => {
 const mousedown = e => {
 	get_audio_context();
 	e.preventDefault();
-	e.stopPropagation();
+	e.stopImmediatePropagation();
 	if (g.canvas.on_touch) {
 		g.canvas.on_touch(room_coords(e));
 	}
@@ -86,7 +86,7 @@ const mousedown = e => {
 const touchstart = e => {
 	get_audio_context();
 	e.preventDefault();
-	e.stopPropagation();
+	e.stopImmediatePropagation();
 	if (g.canvas.on_touch) {
 		g.canvas.on_touch(room_coords(e.changedTouches[0]));
 	}
