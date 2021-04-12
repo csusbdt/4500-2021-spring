@@ -10,8 +10,8 @@ const on_resize = () => {
 	button.style.marginTop = Math.floor(window.innerHeight / 2 - 50) + 'px';
 };
 
-const on_end = () => {
-	button.innerHTML = '&#9210;'
+song.on_end = () => {
+	button.innerHTML = '&#9199;'
 };
 
 const on_touch = e => {
