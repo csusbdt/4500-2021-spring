@@ -28,6 +28,7 @@ function resume_audio() {
 
 function start_audio() {
 	w = audio_context.createGain();
+	w.gain.value = 0;
 	w.gain.setTargetAtTime(1, audio_context.currentTime, 1);
 	w.connect(audio_context.destination);
 

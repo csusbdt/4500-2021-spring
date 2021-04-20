@@ -4,21 +4,15 @@ This file is for my working notes.
 
 Watched: https://www.youtube.com/watch?v=_kJMjJ1tm6o
 
-Bubbling and capturing: https://javascript.info/bubbling-and-capturing
+Bubbling and capturing: https://javascript.info/bubbling-and-capturing GOOD!
 
-Today's Plan:
-
-* <s>// watch https://www.youtube.com/playlist?list=PLNYkxOF6rcIB2xHBZ7opgc2Mv009X87Hh</s>
-* Develop caching strategy for images.  <s>Learn IndexedDB.</s>
-* maybe read https://www.davrous.com/2019/10/18/myth-busting-pwas-the-new-edge-edition/
-
-Tomorrow's Plan:
+To do:
 
 * I might need to break music into segments if I want to play longer peices of music.
     * https://github.com/audiojs/web-audio-stream
 * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then
+* Develop caching strategy for images.  <s>Learn IndexedDB.</s>
 
-* [site through github pages](https://csusbdt.github.io/4500-2021-spring/)
 * [127.0.0.1:8080/](https://127.0.0.1:8080/)
 
 __test safari__
@@ -34,6 +28,9 @@ __runtime dependences__
 
 * none!
 
+__save__
+
+* <s>// watch https://www.youtube.com/playlist?list=PLNYkxOF6rcIB2xHBZ7opgc2Mv009X87Hh</s>
 
 
 The following from https://stackoverflow.com/a/27322253
