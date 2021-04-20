@@ -6,13 +6,14 @@
 
 /* eslint-env node */
 
-if (process.argv.length != 3) {
-	console.log("args: sprite_sheet_name");
+if (process.argv.length != 4) {
+	console.log("args: sprite_sheet_name dest_dir");
 	process.exit(1);
 }
 const sprite_sheet_name = process.argv[2];
-const image_file        = "public/4500-2021-spring/sprites/" + sprite_sheet_name + ".png";
-const json_file         = "public/4500-2021-spring/sprites/" + sprite_sheet_name + ".json";
+const dest_dir          = process.argv[3];
+const image_file        = dest_dir + "/" + sprite_sheet_name + ".png";
+const json_file         = dest_dir + "/" + sprite_sheet_name + ".json";
 
 const assert         = require('assert').strict.ok    ;
 const fs             = require("fs")                  ;
@@ -60,6 +61,7 @@ texture_packer(packer_data, packer_options, (items, error) => {
 		if (items.length === 2) {
 			process_good(items);
 		} else {
+//			console.log("Can not pack " + sprite_sheet_name);
 			process_bad(items);
 		}
 	}
@@ -85,9 +87,11 @@ function process_good(items) {
 }
 
 function process_bad(items) {
-	for (let i = 1; i < items.length; i += 2) {
-		const item = items[i];
-		console.log(item.name);
-		fs.writeFileSync(item.name, item.buffer);
-    } 
+	console.log("Can not pack " + sprite_sheet_name);
+
+//	for (let i = 1; i < items.length; i += 2) {
+//		const item = items[i];
+//		console.log(item.name);
+//		//fs.writeFileSync(item.name, item.buffer);
+//    } 
 }
