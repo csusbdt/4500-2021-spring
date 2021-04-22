@@ -1,6 +1,3 @@
-import { c_loop } from '/scripts/c_loop.js';
-import { c_once } from '/scripts/c_once.js';
-
 const images = new Map();
 const frames = new Map();
 
@@ -60,15 +57,49 @@ c_spritesheet.prototype.frame = function(frame_name) {
 	return new c_frame(this, frame_name);
 };
 
-c_spritesheet.prototype.loop = function(frame_names) {
-	return new c_loop(
+function c_frame_sequence(frames) {
+	this.frames      = frames;
+	this.frame_index = 0;
+	this.t           = 0;
+	this.on_end      = null;
+}
+
+c_frame_sequence.prototype.update = function(dt) {
+	this.t += dt;
+	if (this.t < this.frames[this.frame_index].d) {
+		return;
+	} else {
+		g.canvas.fg_dirty = true;
+		this.t = 0;
+		++this.frame_index;
+		if (this.frame_index === this.frames.length) {
+			this.frame_index = 0;
+			if (this.on_end !== null) {
+				this.on_end();
+			}
+		}
+	}
+};
+
+c_frame_sequence.prototype.draw = function(ctx) {
+	this.frames[this.frame_index].draw(ctx);
+};
+
+c_spritesheet.prototype.seq = function(frame_names) {
+	return new c_frame_sequence(
 		frame_names.map(frame_name => this.frame(frame_name))
 	);
 };
 
-c_spritesheet.prototype.once = function(frame_names) {
-	return new c_once(
-		frame_names.map(frame_name => this.frame(frame_name))
-	);
-};
+// c_spritesheet.prototype.loop = function(frame_names) {
+// 	return new c_frame_sequence(
+// 		frame_names.map(frame_name => this.frame(frame_name))
+// 	);
+// };
+
+// c_spritesheet.prototype.once = function(frame_names) {
+// 	return new c_frame_sequence(
+// 		frame_names.map(frame_name => this.frame(frame_name))
+// 	);
+// };
 

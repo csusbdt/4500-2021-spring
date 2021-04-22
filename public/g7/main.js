@@ -35,13 +35,13 @@ function init() {
 	f_fg1 = ss2.frame('fg1');
 	f_fg2 = ss2.frame('fg2');
 	f_fg3 = ss2.frame('fg3');
-	l_left  = ss1.loop(['left1', 'left2', 'left3']);
-	l_right = ss1.loop(['right1', 'right2', 'right3']);
-	o_right_to_left = ss1.once(make_names('w', 24));
+	l_left  = ss1.seq(['left1', 'left2', 'left3']);
+	l_right = ss1.seq(['right1', 'right2', 'right3']);
+	o_right_to_left = ss1.seq(make_names('w', 24));
 	o_right_to_left.on_end = () => {
 		pc = l_left;
 	};
-	o_left_to_right = ss1.once(make_names('w', 24).reverse());
+	o_left_to_right = ss1.seq(make_names('w', 24).reverse());
 	o_left_to_right.on_end = () => {
 		pc = l_right;
 	};
