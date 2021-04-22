@@ -1,5 +1,5 @@
 import '/scripts/app_main.js';
-import { get_audio_context } from '/scripts/audio.js';
+import { get_audio_context, c_sound } from '/scripts/audio.js';
 
 g.canvas = {
 	d_w: 1920,  // width  of drawable area
@@ -162,4 +162,8 @@ g.canvas.clear_bg = () => {
 g.canvas.clear_fg = () => {
 	g.canvas.fg_ctx.clearRect(0, 0, g.canvas.d_w, g.canvas.d_h);
 	g.canvas.fg_ctx.beginPath();
+};
+
+g.canvas.sound = (file, volume) => {
+	return new c_sound(file, volume);
 };

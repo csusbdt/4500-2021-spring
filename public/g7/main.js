@@ -1,8 +1,7 @@
-import { c_sound } from '/scripts/audio.js';
 import { c_spritesheet } from '/scripts/spritesheets.js';
 
-const click = new c_sound('/sfx/click.mp3', 1);
-const thud  = new c_sound('/sfx/thud.mp3', 1);
+const click = g.canvas.sound('/sfx/click.mp3', 1);
+const thud  = g.canvas.sound('/sfx/thud.mp3', 1);
 const ss1   = new c_spritesheet('/g7/g7_1');
 const ss2   = new c_spritesheet('/g7/g7_2');
 
@@ -66,6 +65,9 @@ r.update = function(dt) {
 		pc = o_left_to_right;
 		g.canvas.fg_dirty = true;
 	} else {
+		if (g.room.touch_point) {
+			thud.fast_play();
+		}
 		pc.update(dt);
 	}
 };
