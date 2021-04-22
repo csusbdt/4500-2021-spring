@@ -14,6 +14,7 @@ let f_fg3   = null;
 let l_right = null;
 let l_left  = null;
 let o_right_to_left = null;
+let o_left_to_right = null;
 let pc = null;
 
 function make_names(prefix, end) {
@@ -40,6 +41,10 @@ function init() {
 	o_right_to_left.on_end = () => {
 		pc = l_left;
 	};
+	o_left_to_right = ss1.once(make_names('w', 24).reverse());
+	o_left_to_right.on_end = () => {
+		pc = l_right;
+	};
 	pc = l_right;
 }
 
@@ -55,6 +60,10 @@ r.update = function(dt) {
 	if (pc === l_right && g.room.touch_dirty) {
 		click.fast_play();
 		pc = o_right_to_left;
+		g.canvas.fg_dirty = true;
+	} else if (pc === l_left && g.room.touch_dirty) {
+		click.fast_play();
+		pc = o_left_to_right;
 		g.canvas.fg_dirty = true;
 	} else {
 		pc.update(dt);

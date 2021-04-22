@@ -51,6 +51,7 @@ c_once.prototype.update = function(dt) {
 		this.t = 0;
 		++this.frame_index;
 		if (this.frame_index === this.frames.length) {
+			this.frame_index = 0;
 			if (this.on_end !== 'undefined') {
 				this.on_end();
 			}
