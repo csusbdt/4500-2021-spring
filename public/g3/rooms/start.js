@@ -1,4 +1,3 @@
-//import { c_sound } from '/scripts/audio.js';
 import { r as end_room } from '/g3/rooms/end.js';
 
 const click = g.canvas.sound('/sfx/click.mp3', 1);

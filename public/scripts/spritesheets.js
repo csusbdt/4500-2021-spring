@@ -1,10 +1,10 @@
-const images = new Map();
-const frames = new Map();
+const ss_images = new Map();
+const ss_frames = new Map();
 
-export function c_spritesheet(name) {
-	this.name   = name;
-	this.image  = images.get(name);
-	this.frames = frames.get(name);
+export function c_spritesheet(ss_name) {
+	this.name   = ss_name;
+	this.image  = ss_images.get(ss_name);
+	this.frames = ss_frames.get(ss_name);
 }
 
 c_spritesheet.prototype.load = function() {
@@ -17,11 +17,11 @@ c_spritesheet.prototype.load = function() {
 	return Promise.all([
 		g.app.load_image(`${this.name}.png`),
 		g.app.load_json(`${this.name}.json`)
-	]).then(([image, _frames]) => {
-		images.set(this.name, image);
-		frames.set(this.name, _frames);
+	]).then(([image, frames]) => {
+		ss_images.set(this.name, image);
+		ss_frames.set(this.name, frames);
 		this.image  = image;
-		this.frames = _frames;
+		this.frames = frames;
 	});
 };
 
@@ -39,22 +39,27 @@ c_spritesheet.prototype.draw = function(ctx, frame_name) {
 	);
 };
 
-function c_frame(spritesheet, frame_name, duration = .125) {
-	this.i = spritesheet.image;
-	this.f = spritesheet.frames[frame_name];
+const default_duration = .125;
+
+function c_frame(spritesheet, frame_name, duration = default_duration) {
+	this.spritesheet = spritesheet;
+	this.frame_name = frame_name;
+//	this.i = spritesheet.image;
+//	this.f = spritesheet.frames[frame_name];
 	this.d = duration;
 }
 
 c_frame.prototype.draw = function(ctx) {
-	ctx.drawImage(
-		this.i, 
-		this.f.sx, this.f.sy, this.f.w, this.f.h, 
-		this.f.dx, this.f.dy, this.f.w, this.f.h
-	);
+	this.spritesheet.draw(ctx, this.frame_name);
+	// ctx.drawImage(
+	// 	this.i, 
+	// 	this.f.sx, this.f.sy, this.f.w, this.f.h, 
+	// 	this.f.dx, this.f.dy, this.f.w, this.f.h
+	// );
 };
 
-c_spritesheet.prototype.frame = function(frame_name) {
-	return new c_frame(this, frame_name);
+c_spritesheet.prototype.frame = function(frame_name, duration = default_duration) {
+	return new c_frame(this, frame_name, duration);
 };
 
 function c_frame_sequence(frames) {
@@ -85,9 +90,39 @@ c_frame_sequence.prototype.draw = function(ctx) {
 	this.frames[this.frame_index].draw(ctx);
 };
 
-c_spritesheet.prototype.seq = function(frame_names) {
-	return new c_frame_sequence(
-		frame_names.map(frame_name => this.frame(frame_name))
-	);
-};
+// function make_names(prefix, end) {
+// 	const names = [];
+// 	for (let i = 1; i <= end; ++i) {
+// 		if (i < 10) {
+// 			names.push(prefix + '0' + i);
+// 		} else if (i < 100) {
+// 			names.push(prefix + i);
+// 		} else {
+// 			throw new Error();
+// 		}
+// 	}
+// 	return names;
+// }
 
+c_spritesheet.prototype.seq = function(seq_name) {
+	const frames = [];
+	let i = 1;
+	let frame_name = seq_name + i;
+	while (frame_name in this.frames) {
+		frames.push(this.frame(frame_name));
+		++i;
+		frame_name = seq_name + i;
+	}
+	i = 1;
+	frame_name = seq_name + '0' + i;
+	while (frame_name in this.frames) {
+		frames.push(this.frame(frame_name));
+		++i;
+		if (i < 10) {
+			frame_name = seq_name + '0' + i;
+		} else {
+			frame_name = seq_name + i;
+		}
+	}
+	return new c_frame_sequence(frames);
+};
