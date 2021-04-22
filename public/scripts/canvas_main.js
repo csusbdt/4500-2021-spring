@@ -1,5 +1,6 @@
 import '/scripts/app_main.js';
 import { get_audio_context, c_sound } from '/scripts/audio.js';
+import { c_spritesheet } from '/scripts/spritesheets.js';
 
 g.canvas = {
 	d_w: 1920,  // width  of drawable area
@@ -166,4 +167,8 @@ g.canvas.clear_fg = () => {
 
 g.canvas.sound = (file, volume) => {
 	return new c_sound(file, volume);
+};
+
+g.canvas.spritesheet = (name) => {
+	return new c_spritesheet(name);
 };

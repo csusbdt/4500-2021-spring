@@ -1,8 +1,6 @@
-import { c_spritesheet } from '/scripts/spritesheets.js';
-
 const click = g.canvas.sound('/sfx/click.mp3', 1);
 const thud  = g.canvas.sound('/sfx/thud.mp3', 1);
-const ss    = new c_spritesheet('/g4/rooms/room2/test_2');
+const ss    = g.canvas.spritesheet('/g4/rooms/room2/test_2');
 
 export const r = {};
 
