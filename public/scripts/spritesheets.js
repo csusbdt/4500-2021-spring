@@ -1,4 +1,5 @@
 import { c_loop } from '/scripts/c_loop.js';
+import { c_once } from '/scripts/c_once.js';
 
 const images = new Map();
 const frames = new Map();
@@ -41,9 +42,10 @@ c_spritesheet.prototype.draw = function(ctx, frame_name) {
 	);
 };
 
-function c_frame(spritesheet, frame_name) {
+function c_frame(spritesheet, frame_name, duration = .125) {
 	this.i = spritesheet.image;
 	this.f = spritesheet.frames[frame_name];
+	this.d = duration;
 }
 
 c_frame.prototype.draw = function(ctx) {
@@ -60,6 +62,12 @@ c_spritesheet.prototype.frame = function(frame_name) {
 
 c_spritesheet.prototype.loop = function(frame_names) {
 	return new c_loop(
+		frame_names.map(frame_name => this.frame(frame_name))
+	);
+};
+
+c_spritesheet.prototype.once = function(frame_names) {
+	return new c_once(
 		frame_names.map(frame_name => this.frame(frame_name))
 	);
 };
