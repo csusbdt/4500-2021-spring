@@ -67,7 +67,7 @@ function adjust_canvas() {
 }
 
 // need to convert mouse event coords to game world coords
-const room_coords = e => {
+const canvas_coords = e => {
 	return [
 		(e.pageX - left - offset_x) / scale,
 		(e.pageY - top  - offset_y) / scale
@@ -79,7 +79,7 @@ const mousedown = e => {
 	e.preventDefault();
 	e.stopImmediatePropagation();
 	if (g.canvas.on_touch) {
-		g.canvas.on_touch(room_coords(e));
+		g.canvas.on_touch(canvas_coords(e));
 	}
 };
 
@@ -88,7 +88,7 @@ const touchstart = e => {
 	e.preventDefault();
 	e.stopImmediatePropagation();
 	if (g.canvas.on_touch) {
-		g.canvas.on_touch(room_coords(e.changedTouches[0]));
+		g.canvas.on_touch(canvas_coords(e.changedTouches[0]));
 	}
 };
 
@@ -96,9 +96,6 @@ function animation_loop() {
 	if (g.canvas.bg_dirty) {
 		if (g.canvas.draw_bg) {
 			g.canvas.draw_bg(g.canvas.bg_ctx);
-		} else {
-			// i don't know what to do here
-			//g.canvas.bg_ctx.clearRect(0, 0, g.canvas.d_w, g.canvas.d_h);
 		}
 		g.canvas.bg_dirty = false;
 	}
@@ -108,7 +105,6 @@ function animation_loop() {
 		}
 		g.canvas.fg_dirty = false;
 	}
-
 	const current_time = new Date().getTime() / 1000;
 	let dt = current_time - previous_time;
 	previous_time = current_time;
