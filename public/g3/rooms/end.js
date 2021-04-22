@@ -1,8 +1,4 @@
-import { c_sound } from '/scripts/audio.js';
-//import { start_room } from '/4500-2021-spring/g3/rooms/start.js';
-
-const click = new c_sound('/sfx/click.mp3', 1);
-//const thud  = new c_sound('/4500-2021-spring/sfx/thud.mp3', 1);
+const click = g.canvas.sound('/sfx/click.mp3', 1);
 
 export const r = {};
 

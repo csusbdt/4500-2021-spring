@@ -1,13 +1,12 @@
 import '/scripts/canvas_main.js';
-import { c_sound } from '/scripts/audio.js';
 
 function random_color() {
 	const n = Math.floor(Math.random() * Math.floor(0xFFFFFF));
 	return "#" + n.toString(16).padStart(6, '0');
 }
 
-const click = new c_sound('/sfx/click.mp3', 1);
-const thud  = new c_sound('/sfx/thud.mp3', 1);
+const click = g.canvas.sound('/sfx/click.mp3', 1);
+const thud  = g.canvas.sound('/sfx/thud.mp3', 1);
 
 let time_remaining = .5;
 
