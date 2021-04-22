@@ -3,20 +3,22 @@ import '/scripts/canvas_main.js';
 g.room = {
 	current_room: null,
 	start: null,
-	touch_point: [g.canvas.d_w / 2, g.canvas.d_h / 2],
-	touch_dirty: false
+	touch_point: null
+//	touch_point: [g.canvas.d_w / 2, g.canvas.d_h / 2],
+//	touch_dirty: false
 };
 
 g.canvas.on_touch = p => {
 	g.room.touch_point = p;
-	g.room.touch_dirty = true;
+//	g.room.touch_dirty = true;
 };
 
 g.canvas.update = dt => {
 	if (g.room.current_room && g.room.current_room.update) {
 		g.room.current_room.update(dt);
 	}
-	g.room.touch_dirty = false;
+//	g.room.touch_dirty = false;
+	g.room.touch_point = null;
 };
 
 g.canvas.draw_bg = ctx => {

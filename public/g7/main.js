@@ -57,11 +57,11 @@ r.start = function() {
 };
 
 r.update = function(dt) {
-	if (pc === l_right && g.room.touch_dirty) {
+	if (pc === l_right && g.room.touch_point) {
 		click.fast_play();
 		pc = o_right_to_left;
 		g.canvas.fg_dirty = true;
-	} else if (pc === l_left && g.room.touch_dirty) {
+	} else if (pc === l_left && g.room.touch_point) {
 		click.fast_play();
 		pc = o_left_to_right;
 		g.canvas.fg_dirty = true;

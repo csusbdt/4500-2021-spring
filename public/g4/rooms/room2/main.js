@@ -21,7 +21,7 @@ r.start = function() {
 };
 
 r.update = function(dt) {
-	if (g.room.touch_dirty) {
+	if (g.room.touch_point) {
 		click.fast_play();
 		g.canvas.fg_dirty = true;
 	}

@@ -127,7 +127,7 @@ const r = {};
 let started = false;
 
 r.update = function(dt) {
-	if (g.room.touch_dirty) {
+	if (g.room.touch_point) {
 		if (!started) {
 			audio_context = get_audio_context();
 			if (audio_context === null) return;

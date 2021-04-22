@@ -16,7 +16,7 @@ r.start = function() {
 };
 
 r.update = function(dt) {
-	if (g.room.touch_dirty) {
+	if (g.room.touch_point) {
 		click.fast_play();
 		room2.start();
 	}
@@ -25,15 +25,3 @@ r.update = function(dt) {
 r.draw_bg = function(ctx) {
 	ss.draw(ctx, 'bg');
 };
-
-
-// r.on_loaded = () => {
-// 	r.bg_frame = ss.frame('bg');
-// 	const test_2 = r.goto('test_2');
-// 	r.z_goto = r.zone(click).rect(0, 0, 1920, 1080).starts(test_2);
-// };
-
-// r.on_start = () => {
-// 	r.bg(r.bg_frame);
-// 	r.z_goto.start();
-// };

@@ -10,7 +10,7 @@ let pos_x = 0;
 let pos_y = 0;
 
 r.update = function(dt) {
-	if (g.room.touch_dirty) {
+	if (g.room.touch_point) {
 		click.fast_play();
 		pos_x = Math.floor(Math.random() * 800);
 		pos_y = Math.floor(Math.random() * 500);
@@ -19,8 +19,6 @@ r.update = function(dt) {
 };
 
 r.draw_fg = function(ctx) {
-	// g.canvas.clear_bg();
-	// g.canvas.clear_fg();
 	ctx.fillStyle = '#0000FF';
 	ctx.fillRect(600, 600, 200, 100);
 	ctx.fillRect(pos_x, pos_y, 300, 180);

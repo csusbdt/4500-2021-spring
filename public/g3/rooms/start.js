@@ -6,7 +6,7 @@ const click = new c_sound('/sfx/click.mp3', 1);
 export const r = {};
 
 r.update = function(dt) {
-	if (g.room.touch_dirty) {
+	if (g.room.touch_point) {
 		click.fast_play();
 		g.room.current_room = end_room;
 		g.canvas.fg_dirty = true;
