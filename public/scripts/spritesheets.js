@@ -91,15 +91,3 @@ c_spritesheet.prototype.seq = function(frame_names) {
 	);
 };
 
-// c_spritesheet.prototype.loop = function(frame_names) {
-// 	return new c_frame_sequence(
-// 		frame_names.map(frame_name => this.frame(frame_name))
-// 	);
-// };
-
-// c_spritesheet.prototype.once = function(frame_names) {
-// 	return new c_frame_sequence(
-// 		frame_names.map(frame_name => this.frame(frame_name))
-// 	);
-// };
-

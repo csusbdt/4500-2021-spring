@@ -21,7 +21,6 @@ self.addEventListener('install', event => {
 			'/scripts/app_main.js',
 			'/scripts/audio.js',
 			'/scripts/c_goto.js',
-			'/scripts/c_loop.js',
 			'/scripts/canvas_main.js',
 			'/scripts/room_main.js',
 			'/scripts/spritesheets.js',
