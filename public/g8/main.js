@@ -1,85 +1,73 @@
-const click = g.canvas.sound('/sfx/click.mp3', 1);
-const thud  = g.canvas.sound('/sfx/thud.mp3', 1);
-const ss    = g.canvas.spritesheet('/g8/g8');
+import { c_room } from '/scripts/rooms.js';
 
-export const r = {};
-
-// idle states (l_ === loop)
-let l_top_left        = null;
-let l_top_right       = null;
-let l_bottom_middle   = null;
-
-// transitions (o_ === once)
-let o_left_to_right   = null;
-let o_right_to_left   = null;
-let o_left_to_middle  = null;
-let o_middle_to_left  = null;
-let o_right_to_middle = null;
-let o_middle_to_right = null;
-
-// state (set to a loop or a once)
-let anim = null;
-
-// touch areas (r_ === rectangle)
-let r_top_left        = g.room.rect(200, 200, 400, 400);
-let r_top_right       = g.room.rect(200, 200, 400, 400);
-let r_bottom_middle   = g.room.rect(200, 200, 400, 400);
-
-// interactables (z_ === zone)
-let z_left_to_right   = null;
-let z_right_to_left   = null;
-let z_left_to_middle  = null;
-let z_middle_to_left  = null;
-let z_right_to_middle = null;
-let z_middle_to_right = null;
+export const r = new c_room('main');
 
 function init() {
-	l_left  = ss1.seq('left');
-	l_right = ss1.seq('right');
-	o_right_to_left = ss1.seq('w');
-	o_right_to_left.on_end = () => {
-		pc = l_left;
-	};
-	o_left_to_right = ss1.seq('w');
-	o_left_to_right.reverse();
-	o_left_to_right.on_end = () => {
-		pc = l_right;
-	};
-	pc = l_right;
+	r.hit  = g.canvas.sound('/sfx/click.mp3', 1);
+	r.miss = g.canvas.sound('/sfx/thud.mp3', 1);
+	r.ss   = g.canvas.spritesheet('g8');
+
+		// idle states (l_ === loop)
+	r.l_left   = r.ss.seq('top_left');
+	r.l_right  = r.ss.seq('top_right');
+	r.l_middle = r.ss.seq('bottom_middle');
+
+	// transitions (o_ === once)
+	r.o_left_to_right   = r.ss.seq('left_to_right');
+	r.o_right_to_left   = r.ss.reverse_seq('left_to_right');
+	r.o_left_to_middle  = r.ss.seq('left_to_middle');
+	r.o_middle_to_left  = r.ss.reverse_seq('left_to_middle');
+	r.o_right_to_middle = r.ss.seq('right_to_middle');
+	r.o_middle_to_right = r.ss.reverse_seq('right_to_middle');
+
+	// interactables (z_ === zone)
+	r.z_left_to_right   = r.zone().add(r_right);
+	r.z_right_to_left   = r.zone().add(r_left);
+	r.z_left_to_middle  = r.zone().add(r_middle);
+	r.z_middle_to_left  = r.zone().add(r_left);
+	r.z_right_to_middle = r.zone().add(r_middle);
+	r.z_middle_to_right = r.zone().add(r_right);
+
+	r.o_left_to_right.starts(r.l_right).starts(r.z_right_to_left).starts(r.z_right_to_middle);
+	r.o_right_to_left.starts(r.l_left).starts(r.z_left_to_right).starts(r.z_left_to_middle);
+	r.o_left_to_middle.starts(r.l_middle).starts(r.z_middle_to_left).starts(r.z_middle_to_right);
+	r.o_middle_to_left.starts(r.l_left).starts(r.z_left_to_right).starts(r.z_left_to_middle);
+	r.o_right_to_middle.starts(r.l_middle).starts(r.z_middle_to_left).starts(r.z_middle_to_right);
+	r.o_middle_to_right.starts(r.l_right).starts(r.z_right_to_left).starts(r.z_right_to_middle);
+
+	// touch areas (r_ === rectangle)
+	const r_left   = r.rect(200, 200, 400, 400);
+	const r_right  = r.rect(200, 200, 400, 400);
+	const r_middle = r.rect(200, 200, 400, 400);
+
+	r.z_left_to_right.starts(r.o_left_to_right);
+	r.z_right_to_left.starts(r.o_right_to_left);
+	r.z_left_to_middle.starts(r.o_left_to_middle);
+	r.z_middle_to_left.starts(r.o_middle_to_left);
+	r.z_right_to_middle.starts(r.o_right_to_middle);
+	r.z_middle_to_right.starts(r.o_middle_to_right);
+}
+
+function start() {
+	r.l_left.start();
+	r.z_left_to_right.start();
+	r.z_left_to_middle.start();
+	g.room.set_room(r);
 }
 
 r.start = function() {
-	Promise.all([ click.fetch(), thud.fetch(), ss1.load(), ss2.load() ]).then(() => {
-		g.room.current_room = r;
-		g.canvas.bg_dirty = true;
-		init();
-	});
-};
-
-r.update = function(dt) {
-	if (pc === l_right && g.room.touch_point) {
-		click.fast_play();
-		pc = o_right_to_left;
-		g.canvas.fg_dirty = true;
-	} else if (pc === l_left && g.room.touch_point) {
-		click.fast_play();
-		pc = o_left_to_right;
-		g.canvas.fg_dirty = true;
+	if (r.loaded) {
+		start();
 	} else {
-		if (g.room.touch_point) {
-			thud.fast_play();
-		}
-		pc.update(dt);
+		Promise.all([
+			click.fetch(), 
+			thud.fetch(), 
+			ss1.load(), 
+			ss2.load()
+		]).then(() => {
+			r.loaded = true;
+			init();
+			start();
+		});
 	}
-};
-
-r.draw_bg = function(ctx) {
-	ss1.draw(ctx, 'bg');
-};
-
-r.draw_fg = function(ctx) {
-	pc.draw(ctx);
-	f_fg1.draw(ctx);
-	f_fg2.draw(ctx);
-	f_fg3.draw(ctx);
 };

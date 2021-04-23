@@ -15,8 +15,8 @@ c_spritesheet.prototype.load = function() {
 		return Promise.reject('race condition');
 	}
 	return Promise.all([
-		g.app.load_image(`${this.name}.png`),
-		g.app.load_json(`${this.name}.json`)
+		g.app.load_image(`/sprites/${this.name}.png`),
+		g.app.load_json(`/sprites/${this.name}.json`)
 	]).then(([image, frames]) => {
 		ss_images.set(this.name, image);
 		ss_frames.set(this.name, frames);
@@ -44,8 +44,6 @@ const default_duration = .125;
 function c_frame(spritesheet, frame_name, duration = default_duration) {
 	this.spritesheet = spritesheet;
 	this.frame_name = frame_name;
-//	this.i = spritesheet.image;
-//	this.f = spritesheet.frames[frame_name];
 	this.d = duration;
 }
 
@@ -125,4 +123,10 @@ c_spritesheet.prototype.seq = function(seq_name) {
 		}
 	}
 	return new c_frame_sequence(frames);
+};
+
+c_spritesheet.prototype.reverse_seq = function(seq_name) {
+	const seq = this.seq(seq_name);
+	seq.frames.reverse();
+	return seq;
 };

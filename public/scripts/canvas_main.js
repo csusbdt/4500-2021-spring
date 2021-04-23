@@ -13,16 +13,16 @@ g.canvas = {
 	//fg_canvas:
 	//bg_ctx:
 	//fg_ctx:
+	//clear_bg:
+	//clear_fg:
 
-	start: null,
-	draw_bg: null,
-	draw_fg: null,
-	update: null,
-	clear_bg: null,
-	clear_fg: null,
-	
+	// set externally
 	bg_dirty: true,
-	fg_dirty: true	
+	fg_dirty: true,
+	start   : null,
+	draw_bg : null,
+	draw_fg : null,
+	update  : null
 };
 
 let scale     = 1;

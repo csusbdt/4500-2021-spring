@@ -8,6 +8,12 @@
 			"problemMatcher": []
 		},
 		{
+			"label": "make sprites temp",
+			"type": "shell",
+			"command": "bin/make_sprites_temp.sh",
+			"problemMatcher": []
+		},
+		{
 			"label": "run webserver",
 			"type": "shell",
 			"command": "bin/serve public",

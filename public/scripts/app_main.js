@@ -94,22 +94,6 @@ g.app.load_json = function(url) {
     return fetch(url).then(response => response.json());
 };
 
-g.app.remove = function(array, o) {
-	const i = array.indexOf(o);
-	if (i !== -1) array.splice(i, 1);
-};
-
-g.app.insert = function(ordered_array, o) {
-	if (ordered_array.includes(o)) return;
-	for (let i = ordered_array.length; i > 0; --i) {
-		if (ordered_array[i - 1].order <= o.order) {
-			ordered_array.splice(i, 0, o);
-			return;
-		}
-	}
-	ordered_array.unshift(o);
-}
-
 // NOTE: Current architecture does not allow dynamic loading of scripts,
 //       which means all app scripts are loaded when the page is loaded.
 
