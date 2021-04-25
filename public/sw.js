@@ -8,6 +8,9 @@ apps.set('g2', 'g2_100');
 apps.set('g3', 'g3_100');
 apps.set('g4', 'g4_100');
 apps.set('g5', 'g5_100');
+apps.set('g6', 'g6_100');
+apps.set('g7', 'g7_100');
+apps.set('g8', 'g8_100');
 
 self.skipWaiting(); // activate immediately after install
 
@@ -20,10 +23,11 @@ self.addEventListener('install', event => {
 			'/images/icon-512x512.png',
 			'/scripts/app_main.js',
 			'/scripts/audio.js',
-			'/scripts/c_goto.js',
 			'/scripts/canvas_main.js',
-			'/scripts/room_main.js',
+			'/scripts/game_main.js',
+			'/scripts/rooms.js',
 			'/scripts/spritesheets.js',
+			'/game.css',
 			'/manifest.webmanifest'
 		])),
 		caches.open(apps.get('g1')).then(cache => cache.addAll([])),
