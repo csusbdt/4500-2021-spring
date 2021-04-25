@@ -41,19 +41,14 @@ c_spritesheet.prototype.draw = function(ctx, frame_name) {
 
 const default_duration = .125;
 
-function c_frame(spritesheet, frame_name, duration = default_duration) {
-	this.spritesheet = spritesheet;
+function c_frame(ss, frame_name, duration = default_duration) {
+	this.ss         = ss;
 	this.frame_name = frame_name;
-	this.d = duration;
+	this.d          = duration;
 }
 
 c_frame.prototype.draw = function(ctx) {
-	this.spritesheet.draw(ctx, this.frame_name);
-	// ctx.drawImage(
-	// 	this.i, 
-	// 	this.f.sx, this.f.sy, this.f.w, this.f.h, 
-	// 	this.f.dx, this.f.dy, this.f.w, this.f.h
-	// );
+	this.ss.draw(ctx, this.frame_name);
 };
 
 c_spritesheet.prototype.frame = function(frame_name, duration = default_duration) {
@@ -88,20 +83,6 @@ c_frame_sequence.prototype.draw = function(ctx) {
 	this.frames[this.frame_index].draw(ctx);
 };
 
-// function make_names(prefix, end) {
-// 	const names = [];
-// 	for (let i = 1; i <= end; ++i) {
-// 		if (i < 10) {
-// 			names.push(prefix + '0' + i);
-// 		} else if (i < 100) {
-// 			names.push(prefix + i);
-// 		} else {
-// 			throw new Error();
-// 		}
-// 	}
-// 	return names;
-// }
-
 c_spritesheet.prototype.seq = function(seq_name) {
 	const frames = [];
 	let i = 1;
@@ -123,10 +104,4 @@ c_spritesheet.prototype.seq = function(seq_name) {
 		}
 	}
 	return new c_frame_sequence(frames);
-};
-
-c_spritesheet.prototype.reverse_seq = function(seq_name) {
-	const seq = this.seq(seq_name);
-	seq.frames.reverse();
-	return seq;
 };

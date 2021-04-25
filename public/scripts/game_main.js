@@ -86,3 +86,15 @@ c_ordered_array.prototype.clear = function() {
 	this.objects.length = 0;
 	return this;
 };
+
+// sound
+
+g.game.sound = function(sound_file, volume = 1) {
+	return g.canvas.sound(sound_file, volume);
+};
+
+// sprite sheet
+
+g.game.spritesheet = function(name) {
+	return g.canvas.spritesheet(name);
+};

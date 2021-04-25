@@ -1,9 +1,11 @@
 export function c_room(name) {
-	this.name       = name;
-	this.loaded     = false;
-	this.zones      = g.game.ordered_array();
-	this.drawables  = g.game.ordered_array();
-	this.updatables = [];
+	this.name         = name;
+	this.load_state   = null;
+	this.zones        = g.game.ordered_array();
+	this.drawables    = g.game.ordered_array();
+	this.updatables   = [];
+	this.sounds       = [];
+	this.spritesheets = [];
 }
 
 // rect
@@ -75,8 +77,139 @@ c_zone.prototype.consume_touch = function(p) {
 	return false;
 };
 
+// loop
+
+c_room.prototype.loop = function(spritesheet, seq_name, order = 10) {
+	const seq = spritesheet.seq(seq_name);
+	seq.order = order;
+	return seq;
+};
+
+// once
+
+function once_one_end() {
+	this.stop();
+	this.stop_set.forEach(o => o.stop());
+	this.start_set.forEach(o => o.start());
+}
+
+function c_once(room, order, seq) {
+	this.room       = room;
+	this.order      = order;
+	this.seq        = seq;
+	this.start_set  = [];
+	this.stop_set   = [];
+	this.seq.on_end = once_on_end.bind(this);
+}
+
+c_room.prototype.once = function(ss, seq_name, order = 10) {
+	return new c_once(this, order, ss.seq(seq_name));
+};
+
+c_once.prototype.reverse = function() {
+	this.seq.frames.reverse();
+	return this;
+};
+
+c_once.prototype.starts = function(o) {
+	if (!o.start) throw new Error("missing start");
+	this.start_set.push(o);
+	return this;
+};
+
+c_once.prototype.stops = function(o) {
+	if (!o.stop) throw new Error("missing stop");
+	this.stop_set.push(o);
+	return this;
+};
+
+c_once.prototype.start = function() {
+	this.room.updatables.push(this);
+	this.room.drawables.insert(this);
+};
+
+c_once.prototype.stop = function() {
+	const i = this.room.updatables.indexOf(this);
+	if (i !== -1) this.room.updatables.splice(i, 1);
+	this.room.drawables.remove(this);
+};
+
+// sound
+
+c_room.prototype.sound = function(sound_file, volume = 1) {
+	const s = g.game.sound(sound_file, volume);
+	this.sounds.push(s);
+	return s;
+};
+
+// sprite sheet
+
+c_room.prototype.spritesheet = function(name) {
+	const ss = g.game.spritesheet(name);
+	this.spritesheets.push(ss);
+	return ss;
+};
+
+// load
+
+c_room.prototype.load = function() {
+	if (this.load_state === null) {
+		this.load_state = 'loading';
+		return Promise.all([
+			...this.sounds.map(s => s.fetch()),
+			...this.spreadsheets.map(ss => ss.load())
+		]).then(() => {
+			this.load_state = 'loaded';
+			if (this.on_load) {
+				this.on_load();
+			}
+		});
+	} else {
+		return Promise.resolve();
+	}
+};
+
+// start room
+
+function c_next_room(room, next_room) {
+	this.room = room;
+	this.next_room = next_room;
+}
+
+c_room.prototype.next_room = function(next_room) {
+	return new c_next_room(this, next_room);
+};
+
+c_room.prototype.stop = function() {
+	this.updatables.length = 0;
+	this.drawables.clear();
+	this.zones.clear();
+};
+
+c_next_room.prototype.start = function() {
+	if (this.next_room.load_status === null) {
+		this.next_room.load();
+	}
+	this.room.updatables.push(this);
+};
+
+// other
+
+c_next_room.prototype.update = function(dt) {
+	if (this.next_room.load_status === 'loaded') {
+		this.room.stop();
+		g.game.set_room(this.next_room);
+		this.next_room.start();
+	}
+};
+
 c_room.prototype.start = function() {
-	throw new Error("start not implemented");
+	if (this.load_state !== 'loaded') {
+		throw new Error("start called on unloaded room");
+	}
+	if (this.on_start) {
+		this.on_start();
+	}
 };
 
 c_room.prototype.update = function(dt) {
