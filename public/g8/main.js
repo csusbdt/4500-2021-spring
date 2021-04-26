@@ -7,6 +7,8 @@ r.miss = r.sound('/sfx/thud.mp3');
 r.ss   = r.spritesheet('g8');
 
 r.on_load = () => {
+	r.bg(r.ss, 'bg');
+
 	// idle states (l_ === loop)
 	r.l_left   = r.loop(r.ss, 'left');
 	r.l_right  = r.loop(r.ss, 'right');
@@ -20,18 +22,18 @@ r.on_load = () => {
 	r.o_middle_to_right = r.once(r.ss, 'middle_right');
 	r.o_right_to_middle = r.once(r.ss, 'middle_right').reverse();
 
-	// touch areas (r_ === rectangle)
-	const r_left   = r.rect(200, 200, 400, 400);
-	const r_right  = r.rect(200, 200, 400, 400);
-	const r_middle = r.rect(200, 200, 400, 400);
+	// touch areas (c_ === circle)
+	const c_left   = r.circle( 270, 190, 150);
+	const c_middle = r.circle(1700, 180, 150);
+	const c_right  = r.circle(1080, 660, 150);
 
 	// interactables (z_ === zone)
-	r.z_left_to_right   = r.zone().add(r_right);
-	r.z_right_to_left   = r.zone().add(r_left);
-	r.z_left_to_middle  = r.zone().add(r_middle);
-	r.z_middle_to_left  = r.zone().add(r_left);
-	r.z_right_to_middle = r.zone().add(r_middle);
-	r.z_middle_to_right = r.zone().add(r_right);
+	r.z_left_to_right   = r.zone().add(c_right);
+	r.z_right_to_left   = r.zone().add(c_left);
+	r.z_left_to_middle  = r.zone().add(c_middle);
+	r.z_middle_to_left  = r.zone().add(c_left);
+	r.z_right_to_middle = r.zone().add(c_middle);
+	r.z_middle_to_right = r.zone().add(c_right);
 
 	r.o_left_to_right.starts(r.l_right).starts(r.z_right_to_left).starts(r.z_right_to_middle);
 	r.o_right_to_left.starts(r.l_left).starts(r.z_left_to_right).starts(r.z_left_to_middle);

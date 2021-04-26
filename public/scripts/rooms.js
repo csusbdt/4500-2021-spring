@@ -1,3 +1,5 @@
+import { r } from "../g8/main.js";
+
 export function c_room(name) {
 	this.name         = name;
 	this.load_state   = null;
@@ -23,6 +25,22 @@ c_room.prototype.rect = function(left, top, right, bottom) {
 
 c_rect.prototype.inside = function(p) {
 	return p.x >= left && p.x < right && p.y >= top && p.y < bottom;
+};
+
+// circle
+
+function c_circle(x, y, r) {
+	this.x = x;
+	this.y = y;
+	this.r = r;
+}
+
+c_room.prototype.circle = function(x, y, r) {
+	return new c_circle(x, y, r);
+};
+
+c_circle.prototype.inside = function(p) {
+	return (this.x - p.x) * (this.x - p.x) + (this.y - p.y) * (this.y - p.y) < this.r * this.r;
 };
 
 // zone
@@ -66,7 +84,7 @@ c_zone.prototype.stops = function(o) {
 };
 
 c_zone.prototype.consume_touch = function(p) {
-	for (let i = 0; i < this.shapes; ++i) {
+	for (let i = 0; i < this.shapes.length; ++i) {
 		if (this.shapes[i].inside(p)) {
 			if (this.clear_zones) this.room.zones.clear();
 			this.stop_set.forEach(o => o.stop());
@@ -181,6 +199,10 @@ c_room.prototype.spritesheet = function(name) {
 	return ss;
 };
 
+c_room.prototype.bg = function(ss, seq_name) {
+	g.game.set_bg(ss.frame(seq_name));
+};
+
 // load
 
 c_room.prototype.load = function() {
@@ -244,16 +266,11 @@ c_room.prototype.start = function() {
 };
 
 c_room.prototype.update = function(dt) {
-
-PROCESS ZONES
-
-THEN, UPDATE
-
 	this.updatables.slice().forEach(o => o.update(dt));
 	if (g.game.touch_point) {
 		let found = false;
-		for (let i = this.zones.length - 1; i >= 0; --i) {
-			if (this.zones[i].consume_touch(g.game.touch_point)) {
+		for (let i = this.zones.size() - 1; i >= 0; --i) {
+			if (this.zones.get(i).consume_touch(g.game.touch_point)) {
 				if (this.hit) this.hit.fast_play();
 				found = true;
 				break;

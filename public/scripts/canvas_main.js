@@ -69,10 +69,10 @@ function adjust_canvas() {
 
 // need to convert mouse event coords to game world coords
 const canvas_coords = e => {
-	return [
-		(e.pageX - left - offset_x) / scale,
-		(e.pageY - top  - offset_y) / scale
-	];
+	return {
+		x: (e.pageX - left - offset_x) / scale,
+		y: (e.pageY - top  - offset_y) / scale
+	};
 };
 
 const mousedown = e => {
