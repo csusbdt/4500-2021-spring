@@ -9,6 +9,8 @@ r.ss   = r.spritesheet('g8');
 r.on_load = () => {
 	r.bg(r.ss, 'bg');
 
+	r.l_clouds = r.loop(r.ss, 'clouds', 11);
+
 	// idle states (l_ === loop)
 	r.l_left   = r.loop(r.ss, 'left');
 	r.l_right  = r.loop(r.ss, 'right');
@@ -51,6 +53,7 @@ r.on_load = () => {
 }
 
 r.on_start = () => {
+	r.l_clouds.start();
 	r.l_left.start();
 	r.z_left_to_right.start();
 	r.z_left_to_middle.start();
