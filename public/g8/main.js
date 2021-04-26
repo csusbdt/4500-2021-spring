@@ -24,8 +24,8 @@ r.on_load = () => {
 
 	// touch areas (c_ === circle)
 	const c_left   = r.circle( 270, 190, 150);
-	const c_middle = r.circle(1700, 180, 150);
-	const c_right  = r.circle(1080, 660, 150);
+	const c_right  = r.circle(1700, 180, 150);
+	const c_middle = r.circle(1080, 660, 150);
 
 	// interactables (z_ === zone)
 	r.z_left_to_right   = r.zone().add(c_right);
@@ -42,12 +42,12 @@ r.on_load = () => {
 	r.o_right_to_middle.starts(r.l_middle).starts(r.z_middle_to_left).starts(r.z_middle_to_right);
 	r.o_middle_to_right.starts(r.l_right).starts(r.z_right_to_left).starts(r.z_right_to_middle);
 
-	r.z_left_to_right.starts(r.o_left_to_right);
-	r.z_right_to_left.starts(r.o_right_to_left);
-	r.z_left_to_middle.starts(r.o_left_to_middle);
-	r.z_middle_to_left.starts(r.o_middle_to_left);
-	r.z_right_to_middle.starts(r.o_right_to_middle);
-	r.z_middle_to_right.starts(r.o_middle_to_right);
+	r.z_left_to_right.stops(r.l_left).starts(r.o_left_to_right);
+	r.z_right_to_left.stops(r.l_right).starts(r.o_right_to_left);
+	r.z_left_to_middle.stops(r.l_left).starts(r.o_left_to_middle);
+	r.z_middle_to_left.stops(r.l_middle).starts(r.o_middle_to_left);
+	r.z_right_to_middle.stops(r.l_right).starts(r.o_right_to_middle);
+	r.z_middle_to_right.stops(r.l_middle).starts(r.o_middle_to_right);
 }
 
 r.on_start = () => {
