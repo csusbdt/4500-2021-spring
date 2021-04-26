@@ -4,7 +4,8 @@ let room = null;
 let bg   = null;
 
 g.game = {
-	touch_point: null
+	touch_point: null,
+	start: null
 };
 
 g.game.get_room = () => room;
@@ -48,8 +49,8 @@ g.canvas.draw_fg = ctx => {
 };
 
 g.canvas.start = () => {
-	if (room && room.start) {
-		room.start();
+	if (g.game.start) {
+		g.game.start();
 	} else {
 		console.log("nothing to start");
 	}
@@ -75,6 +76,14 @@ c_ordered_array.prototype.insert = function(o) {
 	this.objects.unshift(o);
 	return this;
 }
+
+c_ordered_array.prototype.size = function() {
+	return this.objects.length;
+};
+
+c_ordered_array.prototype.get = function(i) {
+	return this.objects[i];
+};
 
 c_ordered_array.prototype.remove = function(o) {
 	const i = this.objects.indexOf(o);

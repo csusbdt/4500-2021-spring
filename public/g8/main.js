@@ -8,17 +8,17 @@ r.ss   = r.spritesheet('g8');
 
 r.on_load = () => {
 	// idle states (l_ === loop)
-	r.l_left   = r.loop(ss, 'top_left');
-	r.l_right  = r.loop(ss, 'top_right');
-	r.l_middle = r.loop(ss, 'bottom_middle');
+	r.l_left   = r.loop(r.ss, 'left');
+	r.l_right  = r.loop(r.ss, 'right');
+	r.l_middle = r.loop(r.ss, 'middle');
 
 	// transitions (o_ === once)
-	r.o_left_to_right   = r.once(ss, 'left_to_right');
-	r.o_right_to_left   = r.once(ss, 'left_to_right').reverse();
-	r.o_left_to_middle  = r.once(ss, 'left_to_middle');
-	r.o_middle_to_left  = r.once(ss, 'left_to_middle').reverse();
-	r.o_right_to_middle = r.once(ss, 'right_to_middle');
-	r.o_middle_to_right = r.once(ss, 'right_to_middle').reverse();
+	r.o_left_to_right   = r.once(r.ss, 'left_right');
+	r.o_right_to_left   = r.once(r.ss, 'left_right').reverse();
+	r.o_left_to_middle  = r.once(r.ss, 'left_middle');
+	r.o_middle_to_left  = r.once(r.ss, 'left_middle').reverse();
+	r.o_middle_to_right = r.once(r.ss, 'middle_right');
+	r.o_right_to_middle = r.once(r.ss, 'middle_right').reverse();
 
 	// touch areas (r_ === rectangle)
 	const r_left   = r.rect(200, 200, 400, 400);

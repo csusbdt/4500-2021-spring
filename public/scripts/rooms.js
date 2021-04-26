@@ -79,15 +79,38 @@ c_zone.prototype.consume_touch = function(p) {
 
 // loop
 
-c_room.prototype.loop = function(spritesheet, seq_name, order = 10) {
-	const seq = spritesheet.seq(seq_name);
-	seq.order = order;
-	return seq;
+function c_loop(room, order, seq) {
+	this.room       = room;
+	this.order      = order;
+	this.seq        = seq;
+}
+
+c_room.prototype.loop = function(ss, seq_name, order = 10) {
+	return new c_loop(this, order, ss.seq(seq_name));
+};
+
+c_loop.prototype.start = function() {
+	this.room.updatables.push(this);
+	this.room.drawables.insert(this);
+};
+
+c_loop.prototype.stop = function() {
+	const i = this.room.updatables.indexOf(this);
+	if (i !== -1) this.room.updatables.splice(i, 1);
+	this.room.drawables.remove(this);
+};
+
+c_loop.prototype.update = function(dt) {
+	this.seq.update(dt);
+};
+
+c_loop.prototype.draw = function(ctx) {
+	this.seq.draw(ctx);
 };
 
 // once
 
-function once_one_end() {
+function once_on_end() {
 	this.stop();
 	this.stop_set.forEach(o => o.stop());
 	this.start_set.forEach(o => o.start());
@@ -134,6 +157,14 @@ c_once.prototype.stop = function() {
 	this.room.drawables.remove(this);
 };
 
+c_once.prototype.update = function(dt) {
+	this.seq.update(dt);
+};
+
+c_once.prototype.draw = function(ctx) {
+	this.seq.draw(ctx);
+};
+
 // sound
 
 c_room.prototype.sound = function(sound_file, volume = 1) {
@@ -157,7 +188,7 @@ c_room.prototype.load = function() {
 		this.load_state = 'loading';
 		return Promise.all([
 			...this.sounds.map(s => s.fetch()),
-			...this.spreadsheets.map(ss => ss.load())
+			...this.spritesheets.map(ss => ss.load())
 		]).then(() => {
 			this.load_state = 'loaded';
 			if (this.on_load) {
@@ -213,6 +244,11 @@ c_room.prototype.start = function() {
 };
 
 c_room.prototype.update = function(dt) {
+
+PROCESS ZONES
+
+THEN, UPDATE
+
 	this.updatables.slice().forEach(o => o.update(dt));
 	if (g.game.touch_point) {
 		let found = false;
@@ -230,8 +266,7 @@ c_room.prototype.update = function(dt) {
 };
 
 c_room.prototype.draw = function(ctx) {
-	for (let i = 0; i < this.drawables.length; ++i) {
-		this.drawables[i].draw(ctx);
+	for (let i = 0; i < this.drawables.size(); ++i) {
+		this.drawables.get(i).draw(ctx);
 	}
 };
-

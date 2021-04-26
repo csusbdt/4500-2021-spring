@@ -85,6 +85,9 @@ c_frame_sequence.prototype.draw = function(ctx) {
 
 c_spritesheet.prototype.seq = function(seq_name) {
 	const frames = [];
+	if (seq_name in this.frames) {
+		frames.push(this.frame(seq_name));
+	}
 	let i = 1;
 	let frame_name = seq_name + i;
 	while (frame_name in this.frames) {
@@ -102,6 +105,9 @@ c_spritesheet.prototype.seq = function(seq_name) {
 		} else {
 			frame_name = seq_name + i;
 		}
+	}
+	if (frames.length === 0) {
+		throw new Error(seq_name + "  not found in " + this.name);
 	}
 	return new c_frame_sequence(frames);
 };
