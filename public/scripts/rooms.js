@@ -83,14 +83,21 @@ c_zone.prototype.stops = function(o) {
 	return this;
 };
 
-c_zone.prototype.consume_touch = function(p) {
+c_zone.prototype.contains = function(p) {
 	for (let i = 0; i < this.shapes.length; ++i) {
 		if (this.shapes[i].inside(p)) {
-			if (this.clear_zones) this.room.zones.clear();
-			this.stop_set.forEach(o => o.stop());
-			this.start_set.forEach(o => o.start());
 			return true;
 		}
+	}
+	return false;
+};
+
+c_zone.prototype.consume_touch = function(p) {
+	if (this.contains(p)) {
+		if (this.clear_zones) this.room.zones.clear();
+		this.stop_set.forEach(o => o.stop());
+		this.start_set.forEach(o => o.start());
+		return true;
 	}
 	return false;
 };
@@ -280,8 +287,15 @@ c_room.prototype.update = function(dt) {
 			if (this.miss) this.miss.fast_play();
 		}
 	}
-	let hover_zone = null;
-
+	if (g.game.mouse_point && g.game.mouse) {
+		let hover_zone = null;
+		for (let i = this.zones.size() - 1; i >= 0; --i) {
+			const zone = this.zones.get(i);
+			if (zone.contains(g.game.mouse_point)) {
+				
+			}
+		}
+	}
 };
 
 c_room.prototype.draw = function(ctx) {
