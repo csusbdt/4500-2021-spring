@@ -131,12 +131,14 @@ g.app.start = () => {
 	document.body.style.backgroundColor = g.app.theme_color;
 
 	g.canvas.bg_canvas = document.createElement("canvas");
+	g.canvas.bg_canvas.style.cursor = 'none';
 	g.canvas.bg_canvas.style.position = 'absolute';
 	g.canvas.bg_canvas.style.zIndex = 1;
 	g.canvas.bg_canvas.style.backgroundColor = g.app.theme_color;
 	document.body.appendChild(g.canvas.bg_canvas);
 
 	g.canvas.fg_canvas = document.createElement("canvas");
+	g.canvas.fg_canvas.style.cursor = 'none';
 	g.canvas.fg_canvas.style.position = 'absolute';
 	g.canvas.fg_canvas.style.zIndex = 2;
 	document.body.appendChild(g.canvas.fg_canvas);

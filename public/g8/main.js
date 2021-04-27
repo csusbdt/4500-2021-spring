@@ -9,6 +9,8 @@ r.ss   = r.spritesheet('g8');
 r.on_load = () => {
 	r.bg(r.ss, 'bg');
 
+	r.mouse = r.loop(r.ss, 'mouse1');
+
 	r.l_clouds = r.loop(r.ss, 'clouds', 11);
 
 	// idle states (l_ === loop)
@@ -30,12 +32,13 @@ r.on_load = () => {
 	const c_middle = r.circle(1080, 660, 150);
 
 	// interactables (z_ === zone)
-	r.z_left_to_right   = r.zone().add(c_right);
-	r.z_right_to_left   = r.zone().add(c_left);
-	r.z_left_to_middle  = r.zone().add(c_middle);
-	r.z_middle_to_left  = r.zone().add(c_left);
-	r.z_right_to_middle = r.zone().add(c_middle);
-	r.z_middle_to_right = r.zone().add(c_right);
+	const hover_mouse = r.loop(r.ss, 'mouse');
+	r.z_left_to_right   = r.zone(hover_mouse).add(c_right);
+	r.z_right_to_left   = r.zone(hover_mouse).add(c_left);
+	r.z_left_to_middle  = r.zone(hover_mouse).add(c_middle);
+	r.z_middle_to_left  = r.zone(hover_mouse).add(c_left);
+	r.z_right_to_middle = r.zone(hover_mouse).add(c_middle);
+	r.z_middle_to_right = r.zone(hover_mouse).add(c_right);
 
 	r.o_left_to_right.starts(r.l_right).starts(r.z_right_to_left).starts(r.z_right_to_middle);
 	r.o_right_to_left.starts(r.l_left).starts(r.z_left_to_right).starts(r.z_left_to_middle);

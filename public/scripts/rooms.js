@@ -313,6 +313,7 @@ c_room.prototype.update = function(dt) {
 				if (this.hover_zone.mouse) {
 					zone.mouse.offset_x = g.game.mousemove_point.x;
 					zone.mouse.offset_y = g.game.mousemove_point.y;
+					zone.mouse.update(dt);
 				}
 				break;
 			}
@@ -336,33 +337,3 @@ c_room.prototype.draw = function(ctx) {
 		}
 	}
 };
-
-// const c_mouse = function(room, l_out, l_in) {
-// 	this.room      = room;
-// 	this.l_out     = l_out;
-// 	this.l_in      = l_in;
-// 	this.hovering  = false;
-// 	this.point     = null;
-// };
-
-// c_room.prototype.mouse = function(l_out, l_in) {
-// 	return new c_mouse(this, l_out, l_in);
-// };
-
-// c_mouse.prototype.update = function(dt) {
-// 	if (this.hovering) {
-// 		this.l_in.offset = this.point;
-// 		this.l_in.update(dt);
-// 	} else {
-// 		this.l_out.offset = this.point;
-// 		this.l_out.update(dt);
-// 	}
-// };
-
-// c_mouse.prototype.draw = function(ctx) {
-// 	if (this.hovering) {
-// 		this.l_in.draw(ctx);
-// 	} else {
-// 		this.l_out.draw(ctx);
-// 	}
-// };

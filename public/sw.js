@@ -27,7 +27,6 @@ self.addEventListener('install', event => {
 			'/scripts/game_main.js',
 			'/scripts/rooms.js',
 			'/scripts/spritesheets.js',
-			'/game.css',
 			'/manifest.webmanifest'
 		])),
 		caches.open(apps.get('g1')).then(cache => cache.addAll([])),
