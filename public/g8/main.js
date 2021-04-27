@@ -30,6 +30,7 @@ r.on_load = () => {
 	const c_left   = r.circle( 270, 190, 150);
 	const c_right  = r.circle(1700, 180, 150);
 	const c_middle = r.circle(1080, 660, 150);
+	const r_exit   = r.rect(56, 960, 130, 1043);
 
 	// interactables (z_ === zone)
 	const hover_mouse = r.loop(r.ss, 'mouse');
@@ -39,6 +40,7 @@ r.on_load = () => {
 	r.z_middle_to_left  = r.zone(hover_mouse).add(c_left);
 	r.z_right_to_middle = r.zone(hover_mouse).add(c_middle);
 	r.z_middle_to_right = r.zone(hover_mouse).add(c_right);
+	r.z_exit            = r.zone(hover_mouse).add(r_exit);
 
 	r.o_left_to_right.starts(r.l_right).starts(r.z_right_to_left).starts(r.z_right_to_middle);
 	r.o_right_to_left.starts(r.l_left).starts(r.z_left_to_right).starts(r.z_left_to_middle);
@@ -47,17 +49,18 @@ r.on_load = () => {
 	r.o_right_to_middle.starts(r.l_middle).starts(r.z_middle_to_left).starts(r.z_middle_to_right);
 	r.o_middle_to_right.starts(r.l_right).starts(r.z_right_to_left).starts(r.z_right_to_middle);
 
-	r.z_left_to_right.stops(r.l_left).starts(r.o_left_to_right);
-	r.z_right_to_left.stops(r.l_right).starts(r.o_right_to_left);
-	r.z_left_to_middle.stops(r.l_left).starts(r.o_left_to_middle);
-	r.z_middle_to_left.stops(r.l_middle).starts(r.o_middle_to_left);
-	r.z_right_to_middle.stops(r.l_right).starts(r.o_right_to_middle);
-	r.z_middle_to_right.stops(r.l_middle).starts(r.o_middle_to_right);
-}
+	r.z_left_to_right.stops(r.l_left).starts(r.z_exit).starts(r.o_left_to_right);
+	r.z_right_to_left.stops(r.l_right).starts(r.z_exit).starts(r.o_right_to_left);
+	r.z_left_to_middle.stops(r.l_left).starts(r.z_exit).starts(r.o_left_to_middle);
+	r.z_middle_to_left.stops(r.l_middle).starts(r.z_exit).starts(r.o_middle_to_left);
+	r.z_right_to_middle.stops(r.l_right).starts(r.z_exit).starts(r.o_right_to_middle);
+	r.z_middle_to_right.stops(r.l_middle).starts(r.z_exit).starts(r.o_middle_to_right);
+};
 
 r.on_start = () => {
 	r.l_clouds.start();
 	r.l_left.start();
 	r.z_left_to_right.start();
 	r.z_left_to_middle.start();
-}
+	r.z_exit.start();
+};

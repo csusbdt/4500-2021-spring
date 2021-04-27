@@ -27,7 +27,7 @@ c_room.prototype.rect = function(left, top, right, bottom) {
 };
 
 c_rect.prototype.inside = function(p) {
-	return p.x >= left && p.x < right && p.y >= top && p.y < bottom;
+	return p.x >= this.left && p.x < this.right && p.y >= this.top && p.y < this.bottom;
 };
 
 // circle
