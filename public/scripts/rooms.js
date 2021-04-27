@@ -8,7 +8,10 @@ export function c_room(name) {
 	this.updatables   = [];
 	this.sounds       = [];
 	this.spritesheets = [];
+	this.mouse        = null;
 }
+
+let hover_zone = null;
 
 // rect
 
@@ -45,8 +48,9 @@ c_circle.prototype.inside = function(p) {
 
 // zone
 
-function c_zone(room, order) {
+function c_zone(room, mouse, order) {
 	this.room        = room;
+	this.mouse       = mouse;
 	this.order       = order;
 	this.clear_zones = true;
 	this.shapes      = [];
@@ -54,8 +58,8 @@ function c_zone(room, order) {
 	this.stop_set    = [];
 }
 
-c_room.prototype.zone = function(order = 10) {
-	return new c_zone(this, order);
+c_room.prototype.zone = function(mouse, order = 10) {
+	return new c_zone(this, mouse, order);
 };
 
 c_zone.prototype.start = function() {
@@ -92,7 +96,7 @@ c_zone.prototype.contains = function(p) {
 	return false;
 };
 
-c_zone.prototype.consume_touch = function(p) {
+c_zone.prototype.consume = function(p) {
 	if (this.contains(p)) {
 		if (this.clear_zones) this.room.zones.clear();
 		this.stop_set.forEach(o => o.stop());
@@ -104,14 +108,16 @@ c_zone.prototype.consume_touch = function(p) {
 
 // loop
 
-function c_loop(room, order, seq) {
+function c_loop(room, order, seq, offset_x, offset_y) {
 	this.room       = room;
 	this.order      = order;
 	this.seq        = seq;
+	this.offset_x   = offset_x;
+	this.offset_y   = offset_y;
 }
 
-c_room.prototype.loop = function(ss, seq_name, order = 10) {
-	return new c_loop(this, order, ss.seq(seq_name));
+c_room.prototype.loop = function(ss, seq_name, order = 10, offset_x = 0, offset_y = 0) {
+	return new c_loop(this, order, ss.seq(seq_name), offset_x, offset_y);
 };
 
 c_loop.prototype.start = function() {
@@ -130,7 +136,7 @@ c_loop.prototype.update = function(dt) {
 };
 
 c_loop.prototype.draw = function(ctx) {
-	this.seq.draw(ctx);
+	this.seq.draw(ctx, this.offset_x, this.offset_y);
 };
 
 // once
@@ -229,7 +235,7 @@ c_room.prototype.load = function() {
 	}
 };
 
-// start room
+// next room
 
 function c_next_room(room, next_room) {
 	this.room = room;
@@ -253,8 +259,6 @@ c_next_room.prototype.start = function() {
 	this.room.updatables.push(this);
 };
 
-// other
-
 c_next_room.prototype.update = function(dt) {
 	if (this.next_room.load_status === 'loaded') {
 		this.room.stop();
@@ -272,28 +276,50 @@ c_room.prototype.start = function() {
 	}
 };
 
+// update 
+
 c_room.prototype.update = function(dt) {
-	this.updatables.slice().forEach(o => o.update(dt));
 	if (g.game.touch_point) {
-		let found = false;
 		for (let i = this.zones.size() - 1; i >= 0; --i) {
-			if (this.zones.get(i).consume_touch(g.game.touch_point)) {
+			if (this.zones.get(i).consume(g.game.touch_point)) {
 				if (this.hit) this.hit.fast_play();
-				found = true;
+				g.game.touch_point = null;
 				break;
 			}
 		}
-		if (!found) {
+		if (g.game.touch_point !== null) {
 			if (this.miss) this.miss.fast_play();
 		}
+	} else if (g.game.mousedown_point) {
+		for (let i = this.zones.size() - 1; i >= 0; --i) {
+			if (this.zones.get(i).consume(g.game.mousedown_point)) {
+				if (this.hit) this.hit.fast_play();
+				g.game.mousedown_point = null;
+				break;
+			}
+		}
+		if (g.game.mousedown_point !== null) {
+			if (this.miss) this.miss.fast_play();
+			g.game.mousedown_point = null;
+		}
 	}
-	if (g.game.mouse_point && g.game.mouse) {
-		let hover_zone = null;
+	this.updatables.slice().forEach(o => o.update(dt));
+	this.hover_zone = null;
+	if (this.mouse && g.game.mousemove_point) {
 		for (let i = this.zones.size() - 1; i >= 0; --i) {
 			const zone = this.zones.get(i);
-			if (zone.contains(g.game.mouse_point)) {
-				
+			if (zone.contains(g.game.mousemove_point)) {
+				this.hover_zone = zone;
+				if (this.hover_zone.mouse) {
+					zone.mouse.offset_x = g.game.mousemove_point.x;
+					zone.mouse.offset_y = g.game.mousemove_point.y;
+				}
+				break;
 			}
+		}
+		if (this.hover_zone === null) {
+			this.mouse.offset_x = g.game.mousemove_point.x;
+			this.mouse.offset_y = g.game.mousemove_point.y;
 		}
 	}
 };
@@ -302,18 +328,41 @@ c_room.prototype.draw = function(ctx) {
 	for (let i = 0; i < this.drawables.size(); ++i) {
 		this.drawables.get(i).draw(ctx);
 	}
+	if (this.mouse && g.game.mousemove_point) {
+		if (this.hover_zone && this.hover_zone.mouse) {
+			this.hover_zone.mouse.draw(ctx);
+		} else {
+			this.mouse.draw(ctx);
+		}
+	}
 };
 
-const c_hover_mouse = function(room, l_out, l_in) {
-	this.room  = room;
-	this.l_out = l_out;
-	this.l_in  = l_in;
-};
+// const c_mouse = function(room, l_out, l_in) {
+// 	this.room      = room;
+// 	this.l_out     = l_out;
+// 	this.l_in      = l_in;
+// 	this.hovering  = false;
+// 	this.point     = null;
+// };
 
-c_room.prototype.hover_mouse = function(l_out, l_in) {
-	return new c_hover_mouse(this, l_out, l_in);
-};
+// c_room.prototype.mouse = function(l_out, l_in) {
+// 	return new c_mouse(this, l_out, l_in);
+// };
 
-c_hover_mouse.prototype.update = function(dt) {
-	return new c_hover_mouse(this, l_out, l_in);
-};
+// c_mouse.prototype.update = function(dt) {
+// 	if (this.hovering) {
+// 		this.l_in.offset = this.point;
+// 		this.l_in.update(dt);
+// 	} else {
+// 		this.l_out.offset = this.point;
+// 		this.l_out.update(dt);
+// 	}
+// };
+
+// c_mouse.prototype.draw = function(ctx) {
+// 	if (this.hovering) {
+// 		this.l_in.draw(ctx);
+// 	} else {
+// 		this.l_out.draw(ctx);
+// 	}
+// };

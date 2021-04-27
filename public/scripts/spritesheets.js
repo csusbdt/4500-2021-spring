@@ -25,16 +25,16 @@ c_spritesheet.prototype.load = function() {
 	});
 };
 
-c_spritesheet.prototype.draw = function(ctx, frame_name) {
+c_spritesheet.prototype.draw = function(ctx, frame_name, offset_x = 0, offset_y = 0) {
 	ctx.drawImage(
 		this.image, 
 		this.frames[frame_name].sx, 
 		this.frames[frame_name].sy, 
-		this.frames[frame_name].w , 
-		this.frames[frame_name].h , 
-		this.frames[frame_name].dx, 
-		this.frames[frame_name].dy, 
-		this.frames[frame_name].w , 
+		this.frames[frame_name].w, 
+		this.frames[frame_name].h, 
+		this.frames[frame_name].dx + offset_x,
+		this.frames[frame_name].dy + offset_y,
+		this.frames[frame_name].w, 
 		this.frames[frame_name].h
 	);
 };
@@ -47,8 +47,8 @@ function c_frame(ss, frame_name, duration = default_duration) {
 	this.d          = duration;
 }
 
-c_frame.prototype.draw = function(ctx) {
-	this.ss.draw(ctx, this.frame_name);
+c_frame.prototype.draw = function(ctx, offset_x = 0, offset_y = 0) {
+	this.ss.draw(ctx, this.frame_name, offset_x, offset_y);
 };
 
 c_spritesheet.prototype.frame = function(frame_name, duration = default_duration) {
@@ -79,8 +79,8 @@ c_frame_sequence.prototype.update = function(dt) {
 	}
 };
 
-c_frame_sequence.prototype.draw = function(ctx) {
-	this.frames[this.frame_index].draw(ctx);
+c_frame_sequence.prototype.draw = function(ctx, offset_x = 0, offset_y = 0) {
+	this.frames[this.frame_index].draw(ctx, offset_x, offset_y);
 };
 
 c_spritesheet.prototype.seq = function(seq_name) {
