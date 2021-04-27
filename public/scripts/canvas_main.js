@@ -75,12 +75,20 @@ const canvas_coords = e => {
 	};
 };
 
+const mousemove = e => {
+	e.preventDefault();
+	e.stopImmediatePropagation();
+	if (g.canvas.on_mousemove) {
+		g.canvas.on_mousemove(canvas_coords(e));
+	}
+};
+
 const mousedown = e => {
 	get_audio_context();
 	e.preventDefault();
 	e.stopImmediatePropagation();
-	if (g.canvas.on_touch) {
-		g.canvas.on_touch(canvas_coords(e));
+	if (g.canvas.on_mousedown) {
+		g.canvas.on_mousedown(canvas_coords(e));
 	}
 };
 
@@ -143,6 +151,11 @@ g.app.start = () => {
 
 	requestAnimationFrame(animation_loop);
 
+	g.canvas.fg_canvas.addEventListener(
+		'mousemove', 
+		mousemove, 
+		{ capture: true, once: false }
+	);
 	g.canvas.fg_canvas.addEventListener(
 		'mousedown', 
 		mousedown, 

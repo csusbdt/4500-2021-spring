@@ -280,10 +280,26 @@ c_room.prototype.update = function(dt) {
 			if (this.miss) this.miss.fast_play();
 		}
 	}
+	let hover_zone = null;
+
 };
 
 c_room.prototype.draw = function(ctx) {
 	for (let i = 0; i < this.drawables.size(); ++i) {
 		this.drawables.get(i).draw(ctx);
 	}
+};
+
+const c_hover_mouse = function(room, l_out, l_in) {
+	this.room  = room;
+	this.l_out = l_out;
+	this.l_in  = l_in;
+};
+
+c_room.prototype.hover_mouse = function(l_out, l_in) {
+	return new c_hover_mouse(this, l_out, l_in);
+};
+
+c_hover_mouse.prototype.update = function(dt) {
+	return new c_hover_mouse(this, l_out, l_in);
 };

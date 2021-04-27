@@ -5,6 +5,7 @@ let bg   = null;
 
 g.game = {
 	touch_point: null,
+	mouse_point: null,
 	start: null
 };
 
@@ -22,7 +23,16 @@ g.game.set_bg = _bg => {
 	g.canvas.fg_dirty = true;
 };
 
+g.canvas.on_mousemove = p => {
+	g.game.mouse_point = p;
+};
+
+g.canvas.on_mousedown = p => {
+	g.game.touch_point = p;
+};
+
 g.canvas.on_touch = p => {
+	g.game.mouse_point = null;
 	g.game.touch_point = p;
 };
 
