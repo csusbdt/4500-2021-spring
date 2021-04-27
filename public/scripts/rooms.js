@@ -76,7 +76,7 @@ c_zone.prototype.add = function(shape) {
 };
 
 c_zone.prototype.starts = function(o) {
-	if (!o.start) throw new Error("missing start");
+	if (!o.start && typeof(o) !== 'function') throw new Error("missing start");
 	this.start_set.push(o);
 	return this;
 };
@@ -100,7 +100,13 @@ c_zone.prototype.consume = function(p) {
 	if (this.contains(p)) {
 		if (this.clear_zones) this.room.zones.clear();
 		this.stop_set.forEach(o => o.stop());
-		this.start_set.forEach(o => o.start());
+		this.start_set.forEach(o => {
+			if (typeof(o) === 'function') {
+				o();
+			} else {
+				o.start();
+			}
+		});
 		return true;
 	}
 	return false;
@@ -114,10 +120,18 @@ function c_loop(room, order, seq, offset_x, offset_y) {
 	this.seq        = seq;
 	this.offset_x   = offset_x;
 	this.offset_y   = offset_y;
+	this.adjust_x   = 0;
+	this.adjust_y   = 0;
 }
 
 c_room.prototype.loop = function(ss, seq_name, order = 10, offset_x = 0, offset_y = 0) {
 	return new c_loop(this, order, ss.seq(seq_name), offset_x, offset_y);
+};
+
+c_loop.prototype.adjust = function(adjust_x, adjust_y) {
+	this.adjust_x = adjust_x;
+	this.adjust_y = adjust_y;
+	return this;
 };
 
 c_loop.prototype.start = function() {
@@ -136,7 +150,7 @@ c_loop.prototype.update = function(dt) {
 };
 
 c_loop.prototype.draw = function(ctx) {
-	this.seq.draw(ctx, this.offset_x, this.offset_y);
+	this.seq.draw(ctx, this.offset_x + this.adjust_x, this.offset_y + this.adjust_y);
 };
 
 // once

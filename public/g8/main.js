@@ -40,7 +40,8 @@ r.on_load = () => {
 	r.z_middle_to_left  = r.zone(hover_mouse).add(c_left);
 	r.z_right_to_middle = r.zone(hover_mouse).add(c_middle);
 	r.z_middle_to_right = r.zone(hover_mouse).add(c_right);
-	r.z_exit            = r.zone(hover_mouse).add(r_exit);
+	const exit_mouse    = r.loop(r.ss, 'exit_mouse').adjust(-100, -50);
+	r.z_exit            = r.zone(exit_mouse).add(r_exit);
 
 	r.o_left_to_right.starts(r.l_right).starts(r.z_right_to_left).starts(r.z_right_to_middle);
 	r.o_right_to_left.starts(r.l_left).starts(r.z_left_to_right).starts(r.z_left_to_middle);
@@ -55,6 +56,7 @@ r.on_load = () => {
 	r.z_middle_to_left.stops(r.l_middle).starts(r.z_exit).starts(r.o_middle_to_left);
 	r.z_right_to_middle.stops(r.l_right).starts(r.z_exit).starts(r.o_right_to_middle);
 	r.z_middle_to_right.stops(r.l_middle).starts(r.z_exit).starts(r.o_middle_to_right);
+	r.z_exit.starts(function() { window.location.href = '/'; });
 };
 
 r.on_start = () => {
